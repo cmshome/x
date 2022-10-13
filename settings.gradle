@@ -1,4 +1,4 @@
-rootProject.name = 'JavaNote'
+rootProject.name = 'x'
 include 'bean'
 include 'designPattern'
 include 'elasticSearch'

@@ -229,7 +229,7 @@ Java 基本类型的包装类的大部分都实现了常量池技术，即 Byte,
 - [link 2 csdn][1]
 
 *******************
-[0]: https://github.com/cmshome/JavaNote/tree/master/md
+[0]: https://github.com/cmshome/x/tree/master/md
 [1]: https://blog.csdn.net/qq_27093465
 [2]: https://img-blog.csdnimg.cn/20210421181213494.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3MDkzNDY1,size_16,color_FFFFFF,t_70
 [3]: https://img-blog.csdnimg.cn/20210421181539645.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3MDkzNDY1,size_16,color_FFFFFF,t_70

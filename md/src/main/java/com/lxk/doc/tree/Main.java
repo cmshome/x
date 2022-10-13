@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Main {
     public static void main(String[] args) {
-        String path = "/Users/fang/Documents/intelliJ/lixuekai/JavaNote";
+        String path = "/Users/fang/Documents/intelliJ/lixuekai/x";
         path = "/Users/fang/Downloads/lxk";
         List<String> exceptDir = Lists.newArrayList("target", "out", "test", "package", "gradle", "resources", "build");
         final File generateFile = new File(path);

@@ -205,5 +205,5 @@ ReentrantReadWriteLock的特性
 - [link 2 csdn][1]
 
 *******************
-[0]: https://github.com/cmshome/JavaNote/tree/master/md
+[0]: https://github.com/cmshome/x/tree/master/md
 [1]: https://blog.csdn.net/qq_27093465

@@ -115,6 +115,6 @@ java编译器会在生成指令系列时在适当的位置会插入内存屏障�
 - [link 2 csdn][1]
 
 *******************
-[0]: https://github.com/cmshome/JavaNote/tree/master/md
+[0]: https://github.com/cmshome/x/tree/master/md
 [1]: https://blog.csdn.net/qq_27093465
 [2]: https://blog.csdn.net/qq_27093465/article/details/108225865

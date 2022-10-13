@@ -114,6 +114,6 @@
 - [link 2 csdn][1]
 
 *******************
-[0]: https://github.com/cmshome/JavaNote/blob/master/md/src/main/java/com/lxk/md/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.md
+[0]: https://github.com/cmshome/x/blob/master/md/src/main/java/com/lxk/md/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.md
 [1]: https://lixuekai.blog.csdn.net/article/details/112243730
 [2]: https://lixuekai.blog.csdn.net/article/details/105044501
