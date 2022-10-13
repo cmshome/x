@@ -1,0 +1,39 @@
+group 'com.lxk.note'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+//做全局配置
+allprojects {
+    apply plugin: 'idea'
+    apply plugin: 'maven'
+    apply plugin: 'java'
+
+    tasks.withType(JavaCompile){
+        options.encoding = "UTF-8"
+    }
+
+    repositories {
+        mavenLocal()
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        mavenCentral()
+    }
+}
+
+
+ext {
+    vertxVersion = '3.3.2'
+    guavaVersion = '31.1-jre'
+    lombokVersion = '1.18.8'
+    junitVersion = '4.13.2'
+    log4jVersion = '2.8.2'
+
+    fastjsonVersion = '1.2.75'
+    gsonVersion = '2.9.0'
+    jacksonVersion = '2.13.3'
+}
+
+
+

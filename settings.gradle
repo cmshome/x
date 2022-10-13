@@ -1,0 +1,10 @@
+rootProject.name = 'JavaNote'
+include 'bean'
+include 'designPattern'
+include 'elasticSearch'
+include 'jdk'
+include 'md'
+include 'sorting'
+include 'storm'
+include 'tool'
+

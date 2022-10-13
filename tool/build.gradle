@@ -1,0 +1,49 @@
+group 'com.lxk.note'
+version '1.0-SNAPSHOT'
+
+ext {
+    dslJsonVersion = '1.9.3'
+}
+
+dependencies {
+    //common tools jar dependencies
+    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.5'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+    compile group: 'com.google.guava', name: 'guava', version: "${guavaVersion}"
+    compile 'org.projectlombok:lombok:1.18.14'
+    compile group: 'com.alibaba', name: 'fastjson', version: "${fastjsonVersion}"
+
+
+    compile group: 'dom4j', name: 'dom4j', version: '1.6.1'
+    compile group: 'org.apache.poi', name: 'poi', version: '3.11'
+
+    // gson
+    compile group: 'com.google.code.gson', name: 'gson', version: "${gsonVersion}"
+
+    // Jackson
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: "${jacksonVersion}"
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-afterburner', version: "${jacksonVersion}"
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: "${jacksonVersion}"
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: "${jacksonVersion}"
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: "${jacksonVersion}"
+
+    //dsljson
+    compile group: 'com.dslplatform', name: 'dsl-json-java8', version:  "${dslJsonVersion}"
+    // tapestry
+    compile group: 'org.apache.tapestry', name: 'tapestry-json', version: '5.4.4'
+    // underscore-java
+    compile group: 'com.github.javadev', name: 'underscore', version: '1.37'
+    // minimal-json
+    compile group: 'com.eclipsesource.minimal-json', name: 'minimal-json', version: '0.9.5'
+
+    // gson
+    compile group: 'com.google.code.gson', name: 'gson', version: "${gsonVersion}"
+
+    // https://mvnrepository.com/artifact/org.json/json
+    compile group: 'org.json', name: 'json', version: '20180813'
+
+    // jodd
+    compile group: 'org.jodd', name: 'jodd-json', version: '4.3.0'
+
+    compile group: 'junit', name: 'junit', version: "${junitVersion}"
+}
