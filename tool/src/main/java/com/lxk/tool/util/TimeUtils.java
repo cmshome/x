@@ -22,6 +22,21 @@ public final class TimeUtils {
      */
     private static final int OFFSET = 8 * 60 * 60;
 
+
+    /**
+     * turn 字符串 to LocalDateTime
+     *
+     * @param text 形如：2022-11-10 20:00:00
+     * @return LocalDateTime
+     */
+    public static LocalDateTime parse(String text) {
+        try {
+            return LocalDateTime.parse(text, DATE_TIME_FORMATTER);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     /**
      * 获取格式化后的时间：年月日时分秒
      *

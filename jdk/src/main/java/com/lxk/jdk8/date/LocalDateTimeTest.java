@@ -17,7 +17,19 @@ import java.time.temporal.TemporalAdjusters;
  * @author LiXuekai on 2019/9/10
  */
 public class LocalDateTimeTest {
+    /**
+     * 返回今年的双11零点的时间
+     */
+    private static final LocalDateTime currentDual11 = LocalDateTime.now().withMonth(11).withDayOfMonth(11).withHour(0).withMinute(0).withSecond(0);
+    /**
+     * 返回去年的双11零点的时间
+     */
+    private static final LocalDateTime lastDual11 = currentDual11.minusYears(1);
 
+    @Test
+    public void x() {
+
+    }
     @Test
     public void format() {
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -180,6 +192,49 @@ public class LocalDateTimeTest {
         LocalDateTime localDateTime = LocalDateTime.of(2021, 9, 3, 16, 26, 0);
         long l = TimeUtils.toS(localDateTime);
         System.out.println(l);
+    }
+
+
+    @Test
+    public void instance() {
+        // 这毫秒的设置怎么不管用
+        DateTimeFormatter sf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
+        LocalDateTime localDateTime = LocalDateTime.now().withMonth(11).withDayOfMonth(11).withHour(0).withMinute(0).withSecond(0).withNano(777);
+        System.out.println(localDateTime.format(sf));
+
+        LocalDateTime last = localDateTime.minusYears(1);
+        System.out.println(last.format(sf));
+
+
+        System.out.println(currentDual11.format(sf));
+        System.out.println(lastDual11.format(sf));
+
+    }
+
+    @Test
+    public void dual() {
+        String s="11-10 20:00:00";
+        int year = LocalDateTime.now().getYear();
+        System.out.println(year);
+        s = year + "-" + s;
+        System.out.println(s);
+
+        DateTimeFormatter sf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime parse = LocalDateTime.parse(s, sf);
+        System.out.println(TimeUtils.toS(parse));
+
+    }
+
+    @Test
+    public void parse2() {
+        String text = "2022-11-10 20:00:00";
+        LocalDateTime parse = TimeUtils.parse(text);
+        if (parse == null) {
+            return;
+        }
+        long s = TimeUtils.toS(parse);
+        System.out.println(s);
     }
 
 
