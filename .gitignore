@@ -1,2 +1,10 @@
 # Project exclude paths
 /.gradle/
+.DS_Store
+/.idea/
+/bean/build/
+/jdk/build/
+/md/build/
+/sorting/build/
+/storm/build/
+/tool/build/
