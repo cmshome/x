@@ -36,6 +36,7 @@ public class ApplePayRecordTest {
      */
     private List<ApplePayRecord> wangZheRongYao() {
         List<ApplePayRecord> list = Lists.newArrayList();
+        list.add(new ApplePayRecord(LocalDate.of(2022, 6, 24), 6));
         list.add(new ApplePayRecord(LocalDate.of(2022, 5, 24), 37));
         list.add(new ApplePayRecord(LocalDate.of(2022, 4, 17), 46));
         list.add(new ApplePayRecord(LocalDate.of(2021, 12, 8), 12));
