@@ -68,7 +68,7 @@ public class KafkaConsumerTest {
                     String topic = record.topic();
                     long offset = record.offset();
                     String value = record.value();
-                    System.out.println(value);
+                    System.out.println(key + "    "   +  value);
                 }
             }
         } catch (Exception e) {

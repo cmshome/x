@@ -83,18 +83,18 @@ public class StringSplitTest {
      */
     @Test
     public void split() {
-        String s = "0|probeName_lxk|188.188.8.118|xxx";
+        String s = "0|xxx|188.188.8.118|xxx";
         String[] split = s.split("\\|");
-        // [0, probeName_lxk, 188.188.8.118, xxx]
+        // [0, xxx, 188.188.8.118, xxx]
         System.out.println(Arrays.toString(split));
 
-        s = "0|probeName_lxk|188.188.8.118|";
+        s = "0|xxx|188.188.8.118|";
         split = s.split("\\|");
-        // [0, probeName_lxk, 188.188.8.118]
+        // [0, xxx, 188.188.8.118]
         System.out.println(Arrays.toString(split));
 
         split = s.split("\\|", 4);
-        // [0, probeName_lxk, 188.188.8.118, ]
+        // [0, xxx, 188.188.8.118, ]
         System.out.println(Arrays.toString(split));
 
         s = "trans_ref.amount";
