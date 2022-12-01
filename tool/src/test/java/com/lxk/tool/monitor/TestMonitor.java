@@ -28,7 +28,7 @@ public class TestMonitor {
         for (int i = 0; i < 100; i++) {
             MonitorThread monitorThread = new MonitorThread("name" + i);
             monitorThread.getAndIncrement(String.valueOf(i));
-            MonitorService.getMonitorExecutor().scheduleWithFixedDelay(monitorThread, 5, 5, TimeUnit.SECONDS);
+            ScheduleUtil.scheduleWith(monitorThread, 5, 5, TimeUnit.SECONDS);
         }
 
         TimeUnit.MINUTES.sleep(5);
@@ -42,7 +42,7 @@ public class TestMonitor {
      */
     @Test
     public void with() throws InterruptedException {
-        MonitorService.getMonitorExecutor().scheduleWithFixedDelay(() -> {
+        ScheduleUtil.scheduleWith(() -> {
             try {
                 System.out.println("线程 run 了。。。。。。" + TimeUtils.nowS());
                 TimeUnit.SECONDS.sleep(5);
@@ -66,7 +66,7 @@ public class TestMonitor {
      */
     @Test
     public void at() throws InterruptedException {
-        MonitorService.getMonitorExecutor().scheduleAtFixedRate(() -> {
+        ScheduleUtil.scheduleAt(() -> {
             try {
                 System.out.println("线程 run 了。。。。。。" + TimeUtils.nowS());
                 TimeUnit.SECONDS.sleep(5);

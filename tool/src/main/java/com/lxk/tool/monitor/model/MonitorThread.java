@@ -3,6 +3,8 @@ package com.lxk.tool.monitor.model;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.lxk.tool.util.JsonUtils;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 
 import java.util.Map;
@@ -14,7 +16,12 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class MonitorThread implements Runnable {
     private final Map<String, AtomicLong> map = Maps.newConcurrentMap();
+    @Getter
+    @Setter
     private String name;
+    @Getter
+    @Setter
+    private boolean stop = false;
 
 
     public MonitorThread() {
@@ -39,6 +46,11 @@ public class MonitorThread implements Runnable {
     @SneakyThrows
     @Override
     public void run() {
+        if (stop) {
+            System.out.println("i will stop right now.");
+            throw new Exception("xxxxx");
+        }
+
         mapLog();
         clearMap();
     }

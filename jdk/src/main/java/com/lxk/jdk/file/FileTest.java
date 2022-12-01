@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -134,6 +135,29 @@ public class FileTest {
             TimeUnit.SECONDS.sleep(10);
         }
 
+    }
+
+
+    @Test
+    public void a() {
+        int max = 100;
+        String path = "/Users/fang/Downloads/test/b.txt";
+        List<String> data = FileIOUtil.readFileByLine(path, false);
+        System.out.println(data.size());
+        for (int i = 0; i < max; i++) {
+            String s = oneFromCache(i, data);
+            System.out.println(s);
+        }
+    }
+
+    private String oneFromCache(int index, List<String> tempDataList) {
+        if (tempDataList == null || tempDataList.isEmpty()) {
+            return null;
+        }
+        int size = tempDataList.size();
+        int i = index % size;
+        System.out.println(i);
+        return tempDataList.get(i);
     }
 
 
