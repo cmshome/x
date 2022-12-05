@@ -16,6 +16,13 @@ public class JsonTest {
     public void testNull() {
         String s= "{\"abc\": false, \"ddd\": null}";
         Map map = JsonUtils.parseJsonToObj(s, Map.class);
+        if (map == null) {
+            return;
+        }
+        // 2
         System.out.println(map.size());
+
+        // value == null 的在序列化的时候，直接无了。运行结果：{"abc":false}
+        System.out.println(JsonUtils.parseObjToJson(map));
     }
 }
