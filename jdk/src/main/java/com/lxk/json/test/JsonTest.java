@@ -14,7 +14,7 @@ public class JsonTest {
 
     @Test
     public void testNull() {
-        String s= "{\"abc\": false, \"ddd\": null}";
+        String s= "{\"abc\": false, \"ddd\": null, null:null}";
         Map map = JsonUtils.parseJsonToObj(s, Map.class);
         if (map == null) {
             return;
@@ -23,6 +23,7 @@ public class JsonTest {
         System.out.println(map.size());
 
         // value == null 的在序列化的时候，直接无了。运行结果：{"abc":false}
+        // key == null 运行结果：key的null给干成 字符串的null，因value也是null，所以也不展示。
         System.out.println(JsonUtils.parseObjToJson(map));
     }
 }
