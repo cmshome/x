@@ -7,8 +7,6 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -127,18 +125,5 @@ public class TimeTest {
 
     }
 
-    @Test
-    public void date() {
-        LocalDate start = LocalDate.of(2022, 11, 28);
-        LocalDate localDate = start.plusDays(45);
-        System.out.println(TimeUtils.format(localDate));
-    }
-
-    @Test
-    public void time() {
-        LocalTime localTime = LocalTime.of(22, 30, 50);
-        System.out.println(TimeUtils.format(localTime));
-        System.out.println(TimeUtils.formatS(localTime));
-    }
 
 }
