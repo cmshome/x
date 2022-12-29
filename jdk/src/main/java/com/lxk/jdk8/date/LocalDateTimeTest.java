@@ -26,10 +26,14 @@ public class LocalDateTimeTest {
      */
     private static final LocalDateTime lastDual11 = currentDual11.minusYears(1);
 
+
     @Test
     public void x() {
-
+        LocalDateTime localDateTime = LocalDateTime.now().withSecond(0);
+        String format = TimeUtils.format(localDateTime);
+        System.out.println(format);
     }
+
     @Test
     public void format() {
         LocalDateTime localDateTime = LocalDateTime.now();

@@ -13,6 +13,9 @@ import java.util.Date;
 public final class TimeUtils {
     private static final DateTimeFormatter DATE_TIME_FORMATTER_SSS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter TIME_S_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
     private static final ZoneId ZONE_ID = ZoneOffset.systemDefault();
     private static final String EMPTY = "";
     private static final int ZERO = 0;
@@ -72,6 +75,36 @@ public final class TimeUtils {
      */
     public static String format(LocalDateTime localDateTime) {
         return DATE_TIME_FORMATTER.format(localDateTime);
+    }
+
+    /**
+     * 默认格式化时间格式为：yyyy-MM-dd
+     *
+     * @param localDate localDate
+     * @return yyyy-MM-dd
+     */
+    public static String format(LocalDate localDate) {
+        return DATE_FORMATTER.format(localDate);
+    }
+
+    /**
+     * 默认格式化时间格式为：HH:mm
+     *
+     * @param localTime localDate
+     * @return HH:mm
+     */
+    public static String format(LocalTime localTime) {
+        return TIME_FORMATTER.format(localTime);
+    }
+
+    /**
+     * 默认格式化时间格式为：HH:mm:ss
+     *
+     * @param localTime localDate
+     * @return HH:mm:ss
+     */
+    public static String formatS(LocalTime localTime) {
+        return TIME_S_FORMATTER.format(localTime);
     }
 
     /**
