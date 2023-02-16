@@ -11,12 +11,9 @@ import java.util.Map;
  * @author lxk on 2017/4/11
  */
 public class HashMapTest {
-    public static void main(String[] args) {
-        //testIterator();
-        putAllEmpty();
-    }
 
-    private static void putAllEmpty() {
+    @Test
+    public void putAllEmpty() {
         Map<String, String> map = Maps.newHashMap();
         HashMap<String, String> maps = Maps.newHashMap();
 
@@ -28,7 +25,8 @@ public class HashMapTest {
     /**
      * 测试Iterator迭代器
      */
-    private static void testIterator() {
+    @Test
+    public void testIterator() {
         HashMap<String, String> map = Maps.newHashMap();
         map.put("a", "one");
         map.put("b", "two");

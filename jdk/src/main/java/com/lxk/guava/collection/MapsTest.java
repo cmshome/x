@@ -2,6 +2,7 @@ package com.lxk.guava.collection;
 
 import com.google.common.collect.*;
 import com.lxk.tool.util.CollectionUtil;
+import org.junit.Test;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -13,18 +14,11 @@ import java.util.Map;
  * @author lxk on 2016/11/14
  */
 public class MapsTest {
-    public static void main(String[] args) {
-        //testMaps();
-        //mapRemoveTest();
-        //mapCompare();
-        //multiMapTest();
-        biMapTest();
-    }
-
     /**
      * 双向map的使用
      */
-    private static void biMapTest() {
+    @Test
+    public void biMapTest() {
         BiMap<Integer, String> biMap = HashBiMap.create();
         biMap.put(1,"a.log");
         biMap.put(2,"b.log");
@@ -33,14 +27,16 @@ public class MapsTest {
         System.out.println(biMap.inverse());
     }
 
-    private static void multiMapTest() {
+    @Test
+    public void multiMapTest() {
         Multimap<String, String> multimap = ArrayListMultimap.create();
     }
 
     /**
      * 比较2个map的交集，并集，差集等等的操作。
      */
-    private static void mapCompare() {
+    @Test
+    public void mapCompare() {
         Map<String, String> mapA = CollectionUtil.getMap(3);
         mapA.put("-1","-1");
         mapA.put("9","99");
@@ -71,7 +67,8 @@ public class MapsTest {
     /**
      * 当remove一个hashMap里面未put的key时，一切正常。
      */
-    private static void mapRemoveTest() {
+    @Test
+    public void mapRemoveTest() {
         Map<String, String> map = Maps.newHashMap();
         map.put("1", "1");
         map.remove("");
@@ -83,7 +80,8 @@ public class MapsTest {
     /**
      * 测试 guava Maps
      */
-    private static void testMaps() {
+    @Test
+    public void testMaps() {
         Map<Integer, Integer> map0 = Maps.newHashMap();
         for (int i = 0; i < 10; i++) {
             map0.put(i, i);
@@ -119,7 +117,8 @@ public class MapsTest {
     /**
      * 遍历Map的四种方法
      */
-    private static void outMapKeyValue(Map<Integer, Integer> map3) {
+    @Test
+    public void outMapKeyValue(Map<Integer, Integer> map3) {
 
         //1.通过Map.entrySet遍历key和value
         for (Map.Entry<Integer, Integer> integerEntry : map3.entrySet()) {

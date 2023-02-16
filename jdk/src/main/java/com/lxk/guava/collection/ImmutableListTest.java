@@ -1,12 +1,17 @@
 package com.lxk.guava.collection;
 
+import org.junit.Test;
+
 /**
  * guava ImmutableMap 测试实例
  *
  * @author lxk on 2017/11/7
  */
 public class ImmutableListTest {
-    public static void main(String[] args) {
+
+
+    @Test
+    public void abc() {
         String string = "最大值";
         if (ConstantList.CONSTANT_LIST.contains(string)) {
             System.out.println("常量list集合包含此 String");

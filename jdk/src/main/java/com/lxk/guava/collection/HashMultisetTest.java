@@ -3,6 +3,7 @@ package com.lxk.guava.collection;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Lists;
 import com.lxk.tool.util.PrintUtil;
+import org.junit.Test;
 
 import java.util.Set;
 
@@ -13,7 +14,10 @@ import java.util.Set;
  * @author LiXuekai on 2019/3/6
  */
 public class HashMultisetTest {
-    public static void main(String[] args) {
+
+
+    @Test
+    public void abc() {
         HashMultiset<String> hashMultiset = HashMultiset.create(Lists.newArrayList("0","1","2","3","4"));
         hashMultiset.add("0");
         hashMultiset.add("1");

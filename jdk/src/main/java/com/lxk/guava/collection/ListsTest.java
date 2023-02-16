@@ -7,6 +7,8 @@ import com.google.common.collect.Sets;
 import com.lxk.bean.model.Car;
 import com.lxk.bean.model.Dog;
 import com.lxk.tool.util.CollectionUtil;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.*;
 
@@ -16,41 +18,35 @@ import java.util.*;
  * @author lxk on 2016/11/7
  */
 public class ListsTest {
+    private final List<Car> list = Lists.newArrayList();
 
-    public static void main(String[] args) {
-        //emptyListToArray();
-        //objectListToString();
-        //simpleListToString();
-        //testLists();
-        //listCompare();
-        //addIndexTest();
-        //concurrentModificationException();
-        //testStringList();
-        List<Car> list = Lists.newArrayList();
+    @Before
+    public void init() {
         list.add(new Car("x", 11, Lists.newArrayList(new Dog())));
         list.add(new Car("xy", 12));
         list.add(new Car("xyz", 13));
-        System.out.println(list.toString());
-        modifyList(list);
-        System.out.println(list.toString());
     }
 
     /**
      * 虽然list当参数是地址传递，但是，list里面的对象的字符串属性的修改是值传递，要改的话，还的set一下。
      */
-    private static void modifyList(List<Car> list) {
+    @Test
+    public void modifyList() {
+        System.out.println(list);
         for (Car s : list) {
             if (s.getMyDog() != null) {
                 Dog dog = s.getMyDog().get(0);
                 dog.setName("wawdawda");
             }
         }
+        System.out.println(list);
     }
 
     /**
      * 修改字符串list里面的值，是值传递。
      */
-    private static void testStringList() {
+    @Test
+    public void testStringList() {
         List<String> list = CollectionUtil.getArrayList(5);
         System.out.println(list.toString());
         for (String o : list) {
@@ -59,14 +55,16 @@ public class ListsTest {
         System.out.println(list);
 
         for (int i = 0; i < list.size(); i++) {
-            list.set(i,list.get(i)+ "aaaa");
+            list.set(i, list.get(i) + "aaaa");
         }
         System.out.println(list);
     }
 
     /**
+     *
      */
-    private static void concurrentModificationException() {
+    @Test
+    public void concurrentModificationException() {
 
     }
 
@@ -74,7 +72,8 @@ public class ListsTest {
      * add(int index, E element);
      * 这个方法竟然不是替换掉index位置的元素，而是让index位置的元素向后靠，还在list里面。
      */
-    private static void addIndexTest() {
+    @Test
+    public void addIndexTest() {
         List<String> list = Lists.newArrayList();
 
         //bug ,,  IndexOutOfBoundsException
@@ -108,10 +107,12 @@ public class ListsTest {
     /**
      * 把list转成set去比较交并补集
      */
-    private static void listCompare() {
+    @Test
+    public void listCompare() {
     }
 
-    private static void simpleListToString() {
+    @Test
+    public void simpleListToString() {
         List<String> list = Lists.newArrayList();
         System.out.println(list.toString());
         //跳过null
@@ -124,7 +125,7 @@ public class ListsTest {
 
         List<String> ss = Lists.newArrayList("1", "2", "3", "4", "5");
         System.out.println(ss.toString());
-        ss = ss.subList(1,5);
+        ss = ss.subList(1, 5);
         System.out.println(ss.toString());
         ss.add("2333");
         System.out.println(ss.toString());
@@ -135,7 +136,8 @@ public class ListsTest {
     /**
      * list.toString()
      */
-    private static void objectListToString() {
+    @Test
+    public void objectListToString() {
         List<String> s = Lists.newArrayList();
         List<String> ss = Lists.newArrayList();
         List<Car> list1 = Lists.newArrayList();
@@ -158,7 +160,8 @@ public class ListsTest {
         System.out.println(list1.toString().equals(list2.toString()));
     }
 
-    private static void emptyListToArray() {
+    @Test
+    public void emptyListToArray() {
         List<String> list = Lists.newArrayList();
         String[] array = list.toArray(new String[list.size()]);
         System.out.println(Arrays.toString(array));
@@ -167,8 +170,8 @@ public class ListsTest {
     /**
      * 测试 guava Lists
      */
-    private static void testLists() {
-
+    @Test
+    public void testLists() {
         List<String> list1 = Lists.newArrayList();
         for (int i = 0; i < 10; i++) {
             list1.add(i + "");

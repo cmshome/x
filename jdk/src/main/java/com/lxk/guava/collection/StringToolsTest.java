@@ -1,7 +1,6 @@
 package com.lxk.guava.collection;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import org.junit.Test;
@@ -14,15 +13,13 @@ import java.util.Random;
 /**
  * 测试 String处理相关的几个工具
  * <p>
+ *
  * @author lxk on 2016/11/18
  */
 public class StringToolsTest {
-    public static void main(String[] args) {
-        String targetString = getTargetString();
-        commonNullOrEmpty(targetString);
-        toolsNullOrEmpty(targetString);
-        System.out.println(toolJoinerTest());
 
+    @Test
+    public void x() {
         int count = 800;
         int eachLength = 8;
         List<String> randomStringList = getRandomStringList(count, eachLength);
@@ -87,41 +84,13 @@ public class StringToolsTest {
         Collections.sort(characters);
         return characters;
     }
-    /**
-     * 获得要判断的目标字符串
-     */
-    private static String getTargetString() {
-        return "sss";
-    }
-
-    /**
-     * 一般判断字符串null或empty
-     */
-    private static void commonNullOrEmpty(String targetString) {
-        if (targetString == null || targetString.length() == 0) {
-            System.out.println("targetString is null or empty.");
-        } else {
-            System.out.println("targetString is not null or empty.");
-        }
-    }
-
-    /**
-     * guava 工具判断字符串null或empty
-     * (其实内部实现就是上面的一般判断方法，有工具不用，干嘛每次都自己啰嗦一遍)
-     */
-    private static void toolsNullOrEmpty(String targetString) {
-        if (Strings.isNullOrEmpty(targetString)) {
-            System.out.println("targetString is null or empty.");
-        } else {
-            System.out.println("targetString is not null or empty.");
-        }
-    }
 
     /**
      * guava 工具用分隔符把字符串序列连接起来
      * (处理字符串序列中有null)
      */
-    private static String toolJoinerTest() {
+    @Test
+    public void toolJoinerTest() {
         //跳过null
         Joiner joiner = Joiner.on("-").skipNulls();
         //可以传集合类型参数
@@ -129,10 +98,11 @@ public class StringToolsTest {
         System.out.println(join);
         //替换null为*
         Joiner useForNull = Joiner.on("-").useForNull("*");
-        int[] numbers = { 1, 2, 3, 4, 5 };
+        int[] numbers = {1, 2, 3, 4, 5};
         String numbersAsString = Joiner.on(";").join(Ints.asList(numbers));
         System.out.println(numbersAsString);
-        return useForNull.join("大", null, "师", null, "胸", null, "！");
+        String s = useForNull.join("大", null, "师", null, "胸", null, "！");
+        System.out.println(s);
     }
 
 }

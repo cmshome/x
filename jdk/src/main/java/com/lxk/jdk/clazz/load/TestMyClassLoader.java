@@ -1,11 +1,14 @@
 package com.lxk.jdk.clazz.load;
 
+import org.junit.Test;
+
 /**
  * @author lxk on 2018/3/15
  */
-public class Main {
-    public static void main(String[] args) {
+public class TestMyClassLoader {
 
+    @Test
+    public void load() {
         MyClassLoader classLoader = new MyClassLoader();
         classLoader.setRoot("d:Student.class");
 
