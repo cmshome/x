@@ -42,6 +42,15 @@ public class MathTest {
     }
 
     /**
+     * 向上取整
+     */
+    @Test
+    public void x() {
+        int c = (int) Math.ceil((double) 51 / 10);
+        System.out.println(c);
+    }
+
+    /**
      * 开方，注意，返回是double。
      */
     @Test
@@ -84,7 +93,6 @@ public class MathTest {
         System.out.println("aa:" + aa);
         System.out.println("aa:" + b);
     }
-
 
 
 }
