@@ -13,15 +13,8 @@ public class SwitchCaseTest {
 
 
     @Test
-    public void main() {
+    public void testCaseEnum() {
         SeasonEnum seasonEnum = SeasonEnum.SPRING;
-        testCaseEnum(seasonEnum);
-    }
-
-    /**
-     * case可以使用枚举
-     */
-    private static void testCaseEnum(SeasonEnum seasonEnum) {
         switch (seasonEnum) {
             case SPRING:
                 System.out.println("case可以使用枚举。春");
