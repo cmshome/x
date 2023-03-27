@@ -41,6 +41,15 @@ public class StringCommonTest {
         System.out.println(s.replace("lxk",""));
     }
 
+    /**
+     * 在replace的时候，点符号不需要转义。
+     */
+    @Test
+    public void replaceTest2() {
+        String s = "a.b.c.d.e.f";
+        System.out.println(s.replace(".","_"));
+    }
+
     @Test
     public void subStringTest(){
         String s = "12345678qwweqwrqqtqtqt";
