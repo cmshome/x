@@ -92,9 +92,10 @@ public class GetBetweenDaysTest {
     @Test
     public void test() {
         // 边界测试
-        start = LocalDate.of(2020, 2, 29);
-        end = LocalDate.of(2020, 3, 1);
+        start = LocalDate.of(2023, 2, 22);
+        end = LocalDate.of(2023, 3, 30);
         System.out.println(TimeUtils.between(start, end));
+        System.out.println(TimeUtils.betweenDay(start, end));
     }
 
 }
