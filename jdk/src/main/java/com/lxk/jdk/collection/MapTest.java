@@ -2,6 +2,7 @@ package com.lxk.jdk.collection;
 
 import com.google.common.collect.Maps;
 import com.lxk.tool.util.CollectionUtil;
+import com.lxk.tool.util.JsonUtils;
 import org.junit.Test;
 
 import java.util.Iterator;
@@ -14,6 +15,25 @@ import java.util.Optional;
  * @author LiXuekai on 2020/1/4
  */
 public class MapTest {
+
+
+    /**
+     * 测试 replace 点
+     */
+    @Test
+    public void replace() {
+        Map<String, String> map = Maps.newHashMap();
+        map.put("s.s", "yy");
+        map.put("a.a", "yy");
+        map.put("b.b", "yy");
+        map.put("c.c", "yy");
+
+        Map<String, String> map2 = Maps.newHashMap();
+        for (String key : map.keySet()) {
+            map2.put(key.replace(".", "_"), map.get(key));
+        }
+        System.out.println(JsonUtils.parseObjToJson(map2));
+    }
 
     /**
      * put return old value
@@ -112,7 +132,7 @@ public class MapTest {
         Iterator<String> iterator = map1.keySet().iterator();
         while (iterator.hasNext()) {
             for (String s : map2.keySet()) {
-                if (iterator.next().equals(s)){
+                if (iterator.next().equals(s)) {
                     iterator.remove();
                 }
             }

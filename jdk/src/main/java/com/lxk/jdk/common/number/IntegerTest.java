@@ -12,6 +12,17 @@ import java.util.UUID;
  */
 public class IntegerTest {
 
+
+    /**
+     * int类型的时间戳最大只能表示到下面这个时间点
+     * int max 的值当秒，转成时间只能到
+     * 2147483647  ->  2038-01-19 11:14:07
+     */
+    @Test
+    public void max() {
+        System.out.println(Integer.MAX_VALUE);
+    }
+
     /**
      * 测试一个int数字一直加，会变成负数
      */
