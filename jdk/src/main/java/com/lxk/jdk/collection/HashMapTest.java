@@ -41,7 +41,7 @@ public class HashMapTest {
      * 测试remove一个不存在的key，会发生什么情况。结果：正常运行，无异常。
      */
     @Test
-    public void removeTest(){
+    public void removeTest() {
         HashMap<String, String> map = Maps.newHashMap();
         map.put("a", "one");
         map.put("b", "two");
