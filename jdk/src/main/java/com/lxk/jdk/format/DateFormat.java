@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -155,6 +155,33 @@ public class DateFormat {
         LocalTime localTime = LocalTime.now();
         // 14:16:41.484
         System.out.println(localTime);
+    }
+
+
+
+    @Test
+    public void tTime() {
+         int OFFSET = 8 * 60 * 60;
+         final ZoneId ZONE_ID = ZoneOffset.systemDefault();
+         // 这种数据存es的type是date类型
+         DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+        String string = "2023-04-24T00:00:08";
+        LocalDateTime localDateTime = LocalDateTime.parse(string, FORMATTER);
+        long s = localDateTime.atZone(ZONE_ID).toEpochSecond();
+        long ms = localDateTime.toInstant(ZoneOffset.ofTotalSeconds(OFFSET)).toEpochMilli();
+
+        // 1682265608    2023-04-24 00:00:08
+        System.out.println(s);
+        // 1682265608.867
+        System.out.println(ms);
+
+
+        LocalDateTime l = TimeUtils.s2LocalDateTime(1682265608);
+        String format = FORMATTER.format(l);
+        System.out.println(format);
+
+
     }
 
 }
