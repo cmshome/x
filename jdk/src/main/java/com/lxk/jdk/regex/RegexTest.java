@@ -1,5 +1,6 @@
 package com.lxk.jdk.regex;
 
+import com.google.common.base.Strings;
 import org.junit.Test;
 
 import java.util.regex.Matcher;
@@ -92,4 +93,23 @@ public class RegexTest {
         // 运行结果是：false。打开replace注释，就是true了。
         System.out.println(matches);
     }
+
+
+    @Test
+    public void chinese() {
+        String address = "北京市朝阳区阜通东大街6号";
+        String lonAndLat = "";
+        Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+        if (!Strings.isNullOrEmpty(address)) {
+            Matcher m = p.matcher(address);
+            if(m.find()) {
+                // m.find()判断为true，表示字符串中含有中文
+                lonAndLat = address;
+                address = "被替代";
+                System.out.println("address = " + address + "      lonAndLat = " + lonAndLat);
+            }
+        }
+    }
+
+
 }
