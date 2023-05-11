@@ -96,7 +96,7 @@ public class RegexTest {
 
     @Test
     public void chinese() {
-        String s = "asd无fghjkl";
+        String s = "";
         Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
         Matcher m = p.matcher(s);
         if (m.find()) {
@@ -106,5 +106,24 @@ public class RegexTest {
         }
     }
 
+    @Test
+    public void ip() {
+        String ip = "192.1.1.11";
+        boolean validIPAddress = isValidIPAddress(ip);
+        System.out.println(validIPAddress);
+    }
+
+    public static boolean isValidIPAddress(String ipAddress) {
+        if ((ipAddress != null) && (!ipAddress.isEmpty())) {
+            return Pattern.matches("^([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}$", ipAddress);
+        }
+        return false;
+    }
+
+    @Test
+    public void contains() {
+        String s = "1.1";
+        System.out.println(s.contains("."));
+    }
 
 }
