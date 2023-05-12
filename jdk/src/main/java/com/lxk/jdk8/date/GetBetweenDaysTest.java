@@ -58,7 +58,7 @@ public class GetBetweenDaysTest {
 
     @Test
     public void myMacPro() {
-        from = LocalDate.of(2018, 6, 10);
+        from = LocalDate.of(2018, 6, 22);
         System.out.println("mac用了多久：" + TimeUtils.between(from, to));
     }
 
