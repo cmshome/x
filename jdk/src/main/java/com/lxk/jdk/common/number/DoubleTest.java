@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -226,4 +227,25 @@ public class DoubleTest {
         System.out.println("123.3 / 100 = " + DoubleUtil.divide(123.3, 100d, 3));
         System.out.println(DoubleUtil.round(4.025d, 2));
     }
+
+
+    @Test
+    public void clean() {
+        // 李涵涵看中的那个 152w   62.7/82.7 = 0.76
+        String s = "5.1,1.5,3.3,25,4.8,12.9,10.1";
+        String total = "82.7";
+
+         //167.2W     85.0 / 112.87 =  0.75
+        s = "7.7,7.4,4.2,13.8,30.8,4.4,10.5,6.2";
+        total = "112.87";
+
+        String[] split = s.split(",");
+        List<String> list = Lists.newArrayList(split);
+        Double sum = 0.0D;
+        for (String s1 : list) {
+            sum = DoubleUtil.add(Double.parseDouble(s1), sum);
+        }
+        System.out.println(sum + "   " + DoubleUtil.divide(sum, Double.parseDouble(total)));
+    }
+
 }
