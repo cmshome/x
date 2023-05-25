@@ -1,7 +1,9 @@
 package com.lxk.json.jackson;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Maps;
 import com.lxk.json.model.Cup;
 import com.lxk.tool.util.JsonUtils;
 import org.junit.Before;
@@ -42,6 +44,30 @@ public class JacksonTest {
     }
 
     @Test
+    public void emptyKey() throws JsonProcessingException {
+        String s = "{\"\":\"asd\",\"aa\":\"\"}";
+        Map jsonObj = mapper.readValue(s, Map.class);
+        System.out.println(jsonObj);
+    }
+
+    /**
+     * com.fasterxml.jackson.databind.JsonMappingException:
+     * Null key for a Map not allowed in JSON (use a converting NullKeySerializer?)
+     * (through reference chain: java.util.HashMap["null"])
+     */
+    @Test
+    public void castToJson() throws JsonProcessingException {
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("aaa", 134);
+        map.put("", 567);
+        map.put(null, "adsad");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString = objectMapper.writeValueAsString(map);
+        System.out.println(jsonString);
+    }
+
+    @Test
     public void test() throws IOException {
         String s = "";
         Map map = mapper.readValue(s, HashMap.class);
@@ -51,14 +77,19 @@ public class JacksonTest {
 
     @Test
     public void parseArray() throws IOException {
-        List<Cup> list = mapper.readValue(json, new TypeReference<List<Cup>>() { });
-        list.forEach(cup -> {System.out.println(cup.toString());});
+        List<Cup> list = mapper.readValue(json, new TypeReference<List<Cup>>() {
+        });
+        list.forEach(cup -> {
+            System.out.println(cup.toString());
+        });
     }
 
     @Test
     public void parseArray2() {
         List<Cup> list = JsonUtils.parseJsonToArrayObj(json, Cup.class);
-        list.forEach(cup -> {System.out.println(cup.toString());});
+        list.forEach(cup -> {
+            System.out.println(cup.toString());
+        });
     }
 
 }
