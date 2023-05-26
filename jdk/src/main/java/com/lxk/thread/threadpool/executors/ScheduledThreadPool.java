@@ -1,6 +1,7 @@
 package com.lxk.thread.threadpool.executors;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import org.junit.Test;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +19,27 @@ public class ScheduledThreadPool {
 
     private static final int CORE_SIZE = 5;
     private static final int MAX = 1;
+
+    @Test
+    public void util() {
+    }
+
+
+    /**
+     * 在延迟后执行一次
+     */
+    @Test
+    public void delay() throws InterruptedException {
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.schedule(() -> {
+            System.out.println("aaaaaa");
+        }, 10, TimeUnit.SECONDS);
+
+        TimeUnit.MINUTES.sleep(5);
+    }
+
+
+
 
     public static void main(String[] args) {
         //ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
