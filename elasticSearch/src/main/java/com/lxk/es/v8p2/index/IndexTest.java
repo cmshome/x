@@ -21,6 +21,14 @@ public class IndexTest extends Common {
     private final String indexName = "test_index";
 
 
+    @Test
+    public void getAllIndices() throws IOException {
+        GetIndexRequest of = GetIndexRequest.of(g -> g.index("*"));
+        GetIndexResponse response = client.indices().get(of);
+        Set<String> strings = response.result().keySet();
+        System.out.println(strings);
+    }
+
     /**
      * * 查所有索引名称
      * xxx_* 前缀

@@ -27,9 +27,9 @@ public class QueryTest extends Common {
     @Test
     public void terms2() throws IOException {
         List<FieldValue> list = Lists.newArrayList();
-        list.add(new FieldValue.Builder().stringValue("999").build());
+        list.add(new FieldValue.Builder().stringValue("test").build());
         Query query = TermsQuery.of(t -> t
-                .field("id")
+                .field("type")
                 .terms(terms -> terms.value(list))
         )._toQuery();
         show(query);

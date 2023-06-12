@@ -1,19 +1,25 @@
 package com.lxk.es.v8p2.agg;
 
 import co.elastic.clients.elasticsearch._types.SortOrder;
-import co.elastic.clients.elasticsearch._types.aggregations.*;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.AggregationBuilders;
+import co.elastic.clients.elasticsearch._types.aggregations.StatsAggregation;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.TrackHits;
 import co.elastic.clients.json.JsonData;
+import com.google.common.collect.Maps;
 import com.lxk.es.v8p2.base.Common;
 import com.lxk.es.v8p2.model.Product;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Map;
 
 
 /**
@@ -31,7 +37,8 @@ public class AggTest extends Common {
         SearchResponse<Product> response = client.search(s -> s
                         .index(getIndexName())
                         .aggregations("stats", age)
-                        .size(10000),
+                        .trackTotalHits(TrackHits.of(t->t.enabled(true)))
+                        .size(0),
                 Product.class
         );
         showAgg(response);
@@ -187,13 +194,35 @@ public class AggTest extends Common {
 
 
     @Test
-    public void searchRequest() {
+    public void searchRequest() throws IOException {
+        Aggregation max = AggregationBuilders.max().field("age").build()._toAggregation();
+        Aggregation min = AggregationBuilders.min().field("age").build()._toAggregation();
+        Aggregation sum = AggregationBuilders.sum().field("age").build()._toAggregation();
+        Aggregation avg = AggregationBuilders.avg().field("age").build()._toAggregation();
+
+        Map<String, Aggregation> map = Maps.newHashMap();
+        map.put("max", max);
+        map.put("min", min);
+        map.put("sum", sum);
+        map.put("avg", avg);
+
         SearchRequest.Builder builder = new SearchRequest.Builder();
         Query query = QueryBuilders.matchAll().build()._toQuery();
-
         builder.index(getIndexName());
         builder.query(query);
+        builder.aggregations(map);
 
+        SearchResponse<Product> response = client.search(builder.build(), Product.class);
+        Map<String, Aggregate> aggregations = response.aggregations();
+        Aggregate max1 = aggregations.get("max");
+        Aggregate min1 = aggregations.get("min");
+        Aggregate sum1 = aggregations.get("sum");
+        Aggregate avg1 = aggregations.get("avg");
+
+        System.out.println(max1.max().value());
+        System.out.println(min1.min().value());
+        System.out.println(sum1.sum().value());
+        System.out.println(avg1.avg().value());
 
     }
 

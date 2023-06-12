@@ -17,6 +17,7 @@ public class Product {
     private Integer age;
     private List<String> streams;
     private A a;
+    private String type = "test";
 
     @Data
     @NoArgsConstructor

@@ -11,6 +11,7 @@ import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
+import co.elastic.clients.elasticsearch.core.search.TrackHits;
 import co.elastic.clients.json.JsonData;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
@@ -91,11 +92,14 @@ public class Common {
         try {
             SearchResponse<Product> response = client.search(s -> s
                             .index(getIndexName())
+                            .trackTotalHits(TrackHits.of(t -> t.enabled(true)))
                             .size(10000)
                     ,
                     Product.class
             );
 
+            // 总的个数，也许比下面返回的hits总数大
+            System.out.println("response.hits().total().value() = " + response.hits().total().value());
             List<Hit<Product>> hits = response.hits().hits();
             hits.forEach(hit -> {
                 Product product = hit.source();
@@ -108,8 +112,7 @@ public class Common {
     }
 
 
-
-    public void close(){
+    public void close() {
         try {
             client._transport().close();
         } catch (IOException e) {
@@ -135,8 +138,6 @@ public class Common {
     }
 
 
-
-
     public void show(Query query) throws IOException {
         // Combine name and price queries to search the product index
         SearchResponse<Product> response = client.search(s -> s
@@ -146,6 +147,8 @@ public class Common {
                                         .must(query)
                                 )
                         )
+                        // 查询所有，最终的 total().value()的值能大于1w，但是，详情还是最大1w
+                        .trackTotalHits(TrackHits.of(t -> t.enabled(true)))
                         .size(10000),
                 Product.class
         );
@@ -168,8 +171,6 @@ public class Common {
             System.out.println("Found product " + product.toString() + ", score " + hit.score() + "  " + highlight);
         }
     }
-
-
 
 
     public void showAgg(SearchResponse<Product> response) {

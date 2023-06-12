@@ -55,7 +55,9 @@ public class SearchAfterTest extends Common {
         );
         SortOptions sortOptions2 = SortOptions.of(s -> s.field(f -> f.field("id").order(SortOrder.Desc)));
         builderAfter.sort(sortOptions2);
-        builderAfter.size(3);
+        // 一次查多少个，最多不能超过1w。
+        int pageSize = 1000;
+        builderAfter.size(pageSize);
         return builderAfter;
     }
 
