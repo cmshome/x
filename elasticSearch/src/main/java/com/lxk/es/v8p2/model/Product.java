@@ -1,4 +1,4 @@
-package com.lxk.es.v8p2;
+package com.lxk.es.v8p2.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

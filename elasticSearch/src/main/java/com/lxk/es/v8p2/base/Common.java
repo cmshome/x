@@ -1,4 +1,4 @@
-package com.lxk.es.v8p2;
+package com.lxk.es.v8p2.base;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.FieldSort;
@@ -7,6 +7,7 @@ import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.TopHitsAggregate;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
@@ -15,6 +16,7 @@ import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
 import com.google.common.collect.Lists;
+import com.lxk.es.v8p2.model.Product;
 import com.lxk.tool.util.FileIOUtil;
 import lombok.Getter;
 import org.apache.http.HttpHost;
@@ -116,6 +118,13 @@ public class Common {
     }
 
 
+    public void add(List<Product> all, List<Hit<Product>> hits1) {
+        for (Hit<Product> hit : hits1) {
+            all.add(hit.source());
+        }
+    }
+
+
     public SortOptions sort(String field, SortOrder sortOrder) {
         return SortOptions.of(s -> s
                 .field(FieldSort.of(f -> f
@@ -144,11 +153,15 @@ public class Common {
     }
 
 
-
+    public void show(SearchRequest.Builder builder) throws IOException {
+        SearchResponse<Product> response = client.search(builder.build(), Product.class);
+        show(response);
+    }
 
     public void show(SearchResponse<Product> response) {
-        List<Hit<Product>> hits = response.hits().hits();
-        System.out.println(hits.size());
+        HitsMetadata<Product> hits1 = response.hits();
+        List<Hit<Product>> hits = hits1.hits();
+        System.out.println("total count = " + hits1.total().value());
         for (Hit<Product> hit : hits) {
             Product product = hit.source();
             Map<String, List<String>> highlight = hit.highlight();

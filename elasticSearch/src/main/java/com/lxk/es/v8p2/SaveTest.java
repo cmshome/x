@@ -1,9 +1,12 @@
 package com.lxk.es.v8p2;
 
+import co.elastic.clients.elasticsearch._types.Result;
 import co.elastic.clients.elasticsearch.core.*;
 import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
 import co.elastic.clients.elasticsearch.indices.RefreshResponse;
 import com.google.common.collect.Lists;
+import com.lxk.es.v8p2.base.Common;
+import com.lxk.es.v8p2.model.Product;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -16,9 +19,12 @@ import java.util.List;
  */
 public class SaveTest extends Common {
 
+    /**
+     * 不明显的设置id，那下面的这个返回结果一直是Created，id属性相同，但是_id的值是不同的
+     */
     @Test
     public void createByJson() throws IOException {
-        String json = "{\"id\":\"1234567\",\"name\":\"aaa\",\"age\":123}";
+        String json = "{\"id\":\"1122\",\"name\":\"aaa\",\"age\":123}";
         Reader queryJson = new StringReader(json);
         IndexRequest<Product> request = IndexRequest.of(i -> i
                 .index(getIndexName())
@@ -27,7 +33,8 @@ public class SaveTest extends Common {
 
         IndexResponse indexResponse = client.index(request);
 
-        String s = indexResponse.result().jsonValue();
+        Result result = indexResponse.result();
+        String s = result.jsonValue();
         System.out.println(s);
 
         refreshIndex();
@@ -115,9 +122,9 @@ public class SaveTest extends Common {
 
     private List<Product> fetchProducts() {
         List<Product> list = Lists.newArrayList();
-        for (int i = 20; i < 40; i++) {
+        for (int i = 100; i < 150; i++) {
             Product product = new Product();
-            product.setName("c");
+            product.setName("d");
             product.setAge(i);
             product.setId(i + "");
             list.add(product);

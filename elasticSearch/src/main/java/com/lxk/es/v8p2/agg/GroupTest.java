@@ -1,9 +1,11 @@
-package com.lxk.es.v8p2;
+package com.lxk.es.v8p2.agg;
 
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.StringTermsAggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
+import com.lxk.es.v8p2.base.Common;
+import com.lxk.es.v8p2.model.Product;
 import org.junit.Test;
 
 import java.io.IOException;

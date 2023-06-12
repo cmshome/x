@@ -1,8 +1,11 @@
-package com.lxk.es.v8p2;
+package com.lxk.es.v8p2.index;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.indices.*;
+import co.elastic.clients.elasticsearch.indices.stats.IndicesStats;
+import co.elastic.clients.transport.endpoints.BooleanResponse;
 import com.google.common.collect.Lists;
+import com.lxk.es.v8p2.base.Common;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -32,9 +35,22 @@ public class IndexTest extends Common {
     @Test
     public void stats() throws IOException {
         IndicesStatsResponse stats = client.indices().stats(s-> s.index("*"));
-        System.out.println(stats);
+        Map<String, IndicesStats> indices = stats.indices();
+        IndicesStats all = stats.all();
+        long count = all.total().docs().count();
+        System.out.println(count);
+        for (String key : indices.keySet()) {
+            IndicesStats indicesStats = indices.get(key);
+            System.out.println(key + "  " + indicesStats);
+        }
     }
 
+    @Test
+    public void exists() throws IOException {
+        ExistsRequest existsRequest = ExistsRequest.of(e -> e.index(getIndexName()));
+        BooleanResponse exists = client.indices().exists(existsRequest);
+        System.out.println(exists.value());
+    }
 
 
     @Test
@@ -50,7 +66,15 @@ public class IndexTest extends Common {
 
     @Test
     public void create() throws IOException {
-        CreateIndexResponse createIndexResponse = client.indices().create(c -> c.index(indexName));
+        CreateIndexResponse createIndexResponse = client.indices().create(c -> c
+                .index("aaa_test2")
+                .settings(s -> s
+                        .index(i -> i
+                                .numberOfShards("3")
+                                .numberOfReplicas("0")
+                        )
+                )
+        );
         boolean acknowledged = createIndexResponse.acknowledged();
         System.out.println("acknowledged = " + acknowledged);
     }

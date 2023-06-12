@@ -1,9 +1,10 @@
-package com.lxk.es.v8p2;
+package com.lxk.es.v8p2.agg;
 
 import co.elastic.clients.elasticsearch._types.aggregations.HistogramBucket;
 import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
+import com.lxk.es.v8p2.base.Common;
 import org.junit.Test;
 
 import java.io.IOException;

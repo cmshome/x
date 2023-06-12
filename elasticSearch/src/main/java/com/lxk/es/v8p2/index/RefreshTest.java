@@ -1,6 +1,7 @@
-package com.lxk.es.v8p2;
+package com.lxk.es.v8p2.index;
 
 import co.elastic.clients.elasticsearch.indices.RefreshResponse;
+import com.lxk.es.v8p2.base.Common;
 import org.junit.Test;
 
 import java.io.IOException;

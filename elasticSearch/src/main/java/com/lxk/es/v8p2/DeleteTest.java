@@ -6,6 +6,8 @@ import co.elastic.clients.elasticsearch.core.DeleteRequest;
 import co.elastic.clients.elasticsearch.core.DeleteResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
 import com.google.common.collect.Lists;
+import com.lxk.es.v8p2.base.Common;
+import com.lxk.es.v8p2.model.Product;
 import org.junit.Test;
 
 import java.io.IOException;

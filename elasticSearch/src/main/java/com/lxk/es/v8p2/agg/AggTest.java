@@ -1,12 +1,16 @@
-package com.lxk.es.v8p2;
+package com.lxk.es.v8p2.agg;
 
 import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.aggregations.*;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.json.JsonData;
+import com.lxk.es.v8p2.base.Common;
+import com.lxk.es.v8p2.model.Product;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -179,6 +183,18 @@ public class AggTest extends Common {
                 Product.class
         );
         showAgg(response);
+    }
+
+
+    @Test
+    public void searchRequest() {
+        SearchRequest.Builder builder = new SearchRequest.Builder();
+        Query query = QueryBuilders.matchAll().build()._toQuery();
+
+        builder.index(getIndexName());
+        builder.query(query);
+
+
     }
 
 

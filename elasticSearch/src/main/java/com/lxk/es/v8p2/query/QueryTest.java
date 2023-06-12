@@ -1,20 +1,23 @@
-package com.lxk.es.v8p2;
+package com.lxk.es.v8p2.query;
 
-import co.elastic.clients.elasticsearch._types.*;
+import co.elastic.clients.elasticsearch._types.FieldSort;
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.SortOptions;
+import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
-import co.elastic.clients.elasticsearch.core.SearchRequest;
-import co.elastic.clients.elasticsearch.core.SearchResponse;
-import co.elastic.clients.elasticsearch.core.search.*;
+import co.elastic.clients.elasticsearch.core.*;
+import co.elastic.clients.elasticsearch.core.mget.MultiGetResponseItem;
+import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.elasticsearch.core.search.TotalHits;
+import co.elastic.clients.elasticsearch.core.search.TotalHitsRelation;
 import co.elastic.clients.json.JsonData;
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.lxk.es.v8p2.base.Common;
+import com.lxk.es.v8p2.model.Product;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author LiXuekai on 2023/5/25
@@ -164,124 +167,6 @@ public class QueryTest extends Common {
         show(response);
     }
 
-    @Test
-    public void searchAfter() throws IOException {
-        List<Product> all = Lists.newArrayList();
-
-        SearchResponse<Product> response = client.search(getSearchBuilder().build(), Product.class);
-        List<Hit<Product>> hits1 = response.hits().hits();
-        while (hits1.size() > 0) {
-            add(all, hits1);
-            List<Hit<Product>> hits = response.hits().hits();
-            Hit<Product> hit = hits.get(hits.size() - 1);
-            String id = hit.id();
-            SearchRequest.Builder builder = getSearchBuilder().searchAfter(id);
-            response = client.search(builder.build(), Product.class);
-            hits1 = response.hits().hits();
-        }
-
-        System.out.println(all.size());
-        for (Product product : all) {
-            System.out.println(product);
-        }
-    }
-
-    private SearchRequest.Builder getSearchBuilder() {
-        SearchRequest.Builder builderAfter = new SearchRequest.Builder();
-        builderAfter.index(getIndexName());
-        builderAfter.query(q -> q
-                .matchAll(m -> m)
-        );
-        SortOptions sortOptions2 = SortOptions.of(s -> s.field(f -> f.field("id").order(SortOrder.Desc)));
-        builderAfter.sort(sortOptions2);
-        builderAfter.size(3);
-        return builderAfter;
-    }
-
-    private void add(List<Product> all, List<Hit<Product>> hits1) {
-        for (Hit<Product> hit : hits1) {
-            all.add(hit.source());
-        }
-    }
-
-
-    /**
-     * 1w条数据以后的分页
-     *
-     * @param key
-     * @param page
-     * @param limit
-     * @param lastId   上一页最后一条数据唯一id
-     * @param lastTime 上一页最后一条数据时间
-     * @return
-     * @throws IOException
-     */
-    public List<Product> searchAfter(String key, Integer page, Integer limit, String lastId, long lastTime) throws IOException {
-        SearchRequest.Builder builderAfter = new SearchRequest.Builder();
-        builderAfter.index(getIndexName());
-        BoolQuery.Builder boolQuery = new BoolQuery.Builder();
-        //设置查询条件
-        if (!Strings.isNullOrEmpty(key)) {
-            boolQuery.should(q -> q.matchPhrasePrefix(m -> m
-                    .query(key)
-                    .field("title")
-            ));
-            boolQuery.should(q -> q.matchPhrasePrefix(m -> m.query(key).field("content")));
-        }
-        //时间范围查询 paramMap startTime endTime
-        //boolQuery.must(q->q.range(r->r.field("createTime").gte(JsonData.of(param.get("startTime"))).lte(JsonData.of(param.get("endTime")))));
-        builderAfter.query(q -> q.bool(boolQuery.build()));
-        //设置排序
-        List<SortOptions> sorts = new ArrayList<>();
-        SortOptions sortOptions2 = SortOptions.of(s -> s.field(f -> f.field("id.keyword").order(SortOrder.Desc)));
-        SortOptions sortOptions = SortOptions.of(s -> s.field(f -> f.field("createTime").order(SortOrder.Desc)));
-        //注意先后顺序
-        sorts.add(sortOptions);
-        sorts.add(sortOptions2);
-        builderAfter.sort(sorts);
-        builderAfter.size(limit);
-        //第一页不需要设置，当第二页时需要带排序字段
-        if (page > 0) {
-            builderAfter.searchAfter(
-                    String.valueOf(lastTime),
-                    lastId
-            );
-        }
-        //设置所有字段匹配高亮。注：高亮标签可根据前端需求自定义
-        if (!Strings.isNullOrEmpty(key)) {
-            Highlight.Builder highlightBuilder = new Highlight.Builder();
-            highlightBuilder.fields("*", new HighlightField.Builder().build()).preTags("<span style=\"color:red\">").postTags("</span>").requireFieldMatch(false);
-            builderAfter.highlight(highlightBuilder.build());
-        }
-        //发送查询
-        SearchResponse response = client.search(builderAfter.build(), Product.class);
-        List<Product> list = new ArrayList<>();
-        List<Hit<Product>> hits = response.hits().hits();
-        for (Hit<Product> hit : hits) {
-            Product esMess = hit.source();
-            //获取高亮数据添加到实体类中返回
-            Map<String, List<String>> highlightMap = hit.highlight();
-            if (highlightMap != null && !highlightMap.isEmpty()) {
-                highlightMap.keySet().forEach(k -> {
-                    try {
-                        if (k.contains("keyword")) {
-                            k = k.replace(".keyword", "");
-                        }
-                        Field field = esMess.getClass().getDeclaredField(k);
-                        field.setAccessible(true);
-                        field.set(esMess, highlightMap.get(k).get(0));
-                    } catch (NoSuchFieldException e) {
-                        throw new RuntimeException(e);
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-            }
-            list.add(esMess);
-        }
-        return list;
-    }
-
 
     @Test
     public void queryBuilders() throws IOException {
@@ -306,10 +191,6 @@ public class QueryTest extends Common {
         show(builder);
     }
 
-    private void show(SearchRequest.Builder builder) throws IOException {
-        SearchResponse<Product> response = client.search(builder.build(), Product.class);
-        show(response);
-    }
 
     private Query termQuery(String field, String value) {
         return TermQuery.of(t -> t
@@ -402,16 +283,6 @@ public class QueryTest extends Common {
         show(query);
     }
 
-
-    @Test
-    public void searchRequest() throws IOException {
-        SortOptions sort = SortOptionsBuilders.field(f->f.field("name").order(SortOrder.Desc));
-        SearchRequest.Builder builder = new SearchRequest.Builder().query(q -> q.matchAll(m -> m))
-                .sort(sort);
-        show(builder);
-    }
-
-
     @Test
     public void wildcardQuery() throws IOException {
         Query query = WildcardQuery.of(w -> w
@@ -466,7 +337,6 @@ public class QueryTest extends Common {
         builder.source(s -> s.filter(f -> f
                 .excludes(excludes)
                 .includes(includes)
-
         ));
 
         show(builder);
@@ -503,26 +373,30 @@ public class QueryTest extends Common {
 
 
     @Test
-    public void highlight() throws IOException {
-        Highlight.Builder high = new Highlight.Builder();
-        high.fields("name", HighlightField.of(f->f
-                        .preTags("<font color='yellow'>")
-                        .postTags("</font>")
-                        .requireFieldMatch(false)
-                        .highlightQuery(q->q.term(t->t.field("name").value("a")))
-                )
-        );
-
-        Query matchAll = QueryBuilders.matchAll().build()._toQuery();
-        SearchResponse<Product> response = client.search(s -> s
+    public void get() throws IOException {
+        GetResponse<Product> response = client.get(GetRequest.of(g -> g
                         .index(getIndexName())
-                        .query(matchAll)
-                        .highlight(high.build())
-                        .size(10000),
+                        .id("5")
+                ),
                 Product.class
         );
-        show(response);
+        Product source = response.source();
+        System.out.println(source);
     }
 
+    @Test
+    public void mGet() throws IOException {
+        MgetResponse<Object> mgetResponse = client.mget(MgetRequest.of(mg -> mg
+                        .index(getIndexName())
+                        .ids(Lists.newArrayList("4","5"))
+                ),
+                Object.class
+        );
+        List<MultiGetResponseItem<Object>> docs = mgetResponse.docs();
+        for (MultiGetResponseItem<Object> doc : docs) {
+            Object source = doc.result().source();
+            System.out.println(source);
+        }
+    }
 
 }
