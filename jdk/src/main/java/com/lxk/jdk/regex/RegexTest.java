@@ -106,6 +106,23 @@ public class RegexTest {
         }
     }
 
+    /**
+     * 匹配中文标点的正则
+     * 可以匹配以下中文标点符号（顺序是一一对应的）
+     * 。 ？ ！ ， 、 ； ： “ ” ‘ ' （ ） 《 》 【 】 ~
+     */
+    @Test
+    public void chinese2() {
+        String s= ".?!,;:()[]<>";
+        Pattern p = Pattern.compile("\u3002|\uff1f|\uff01|\uff0c|\u3001|\uff1b|\uff1a|\u201c|\u201d|\u2018|\u2019|\uff08|\uff09|\u300a|\u300b|\u3010|\u3011|\u007e");
+        Matcher m = p.matcher(s);
+        if (m.find()) {
+            System.out.println("m.find()判断为true，表示字符串中含有中文标点符号");
+        } else {
+            System.out.println("无中文标点符号");
+        }
+    }
+
     @Test
     public void ip() {
         String ip = "192.1.1.11";
