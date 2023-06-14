@@ -1,0 +1,100 @@
+package com.lxk.es.v8p2.util;
+
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.SortOptions;
+import co.elastic.clients.elasticsearch._types.SortOptionsBuilders;
+import co.elastic.clients.elasticsearch._types.SortOrder;
+import co.elastic.clients.elasticsearch._types.query_dsl.*;
+import co.elastic.clients.elasticsearch.core.search.TrackHits;
+import co.elastic.clients.json.JsonData;
+import com.google.common.collect.Lists;
+
+import java.util.List;
+
+/**
+ * @author LiXuekai on 2023/6/2
+ */
+public class QueryUtil {
+
+    public static Query termQuery(String field, Object value) {
+        FieldValue fieldValue;
+        if (value instanceof Long) {
+            fieldValue = FieldValue.of((Long) value);
+        } else if (value instanceof Double) {
+            fieldValue = FieldValue.of((Double) value);
+        } else if (value instanceof Boolean) {
+            fieldValue = FieldValue.of((Boolean) value);
+        } else {
+            fieldValue = FieldValue.of((String) value);
+        }
+        return TermQuery.of(t -> t
+                .field(field)
+                .value(fieldValue)
+        )._toQuery();
+    }
+
+    public static Query termsQuery(String field, List<String> value) {
+        List<FieldValue> list = Lists.newArrayList();
+        for (String s : value) {
+            list.add(new FieldValue.Builder().stringValue(s).build());
+        }
+        return TermsQuery.of(ts -> ts
+                .field(field)
+                .terms(terms -> terms.value(list))
+        )._toQuery();
+    }
+
+    /**
+     * wildcardQuery 通配符查询
+     */
+    public static Query wildcardQuery(String field, String value) {
+        return WildcardQuery.of(w -> w
+                .field(field)
+                .wildcard(value)
+        )._toQuery();
+    }
+
+    public static Query existsQuery(String field) {
+        return ExistsQuery.of(e -> e
+                .field(field))._toQuery();
+    }
+
+    public static Query rangeQuery(String field, Long from, Long to) {
+        return RangeQuery.of(r -> r
+                .field(field)
+                .gte(JsonData.of(from))
+                .lt(JsonData.of(to))
+        )._toQuery();
+    }
+
+    public static Query idsQuery(List<String> ids) {
+        return IdsQuery.of(i -> i
+                .values(ids)
+        )._toQuery();
+    }
+
+    public static Query prefixQuery(String field, String value) {
+        return QueryBuilders.prefix().field(field).value(value).build()._toQuery();
+    }
+
+    public static Query queryStringQuery(String queryString) {
+        return queryStringQuery(queryString, null);
+    }
+
+    public static Query queryStringQuery(String queryString, String defaultQueryField) {
+        return QueryStringQuery.of(q -> q
+                .query(queryString)
+                .allowLeadingWildcard(true)
+                .defaultField(defaultQueryField)
+        )._toQuery();
+    }
+
+    public static SortOptions sortOptions(String field, SortOrder sortOrder) {
+        return SortOptionsBuilders.field(f -> f.field(field).order(sortOrder));
+    }
+
+    public static TrackHits trackHits(boolean enable) {
+        return TrackHits.of(t -> t.enabled(enable));
+    }
+
+}

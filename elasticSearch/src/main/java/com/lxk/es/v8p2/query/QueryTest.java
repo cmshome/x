@@ -334,6 +334,7 @@ public class QueryTest extends Common {
         SearchRequest.Builder builder = new SearchRequest.Builder();
         builder.index(getIndexName());
         builder.query(q -> q.matchAll(m -> m));
+        builder.trackTotalHits(trackHits());
         builder.source(s -> s.filter(f -> f
                 .excludes(excludes)
                 .includes(includes)

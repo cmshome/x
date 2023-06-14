@@ -18,6 +18,7 @@ import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
 import com.google.common.collect.Lists;
 import com.lxk.es.v8p2.model.Product;
+import com.lxk.es.v8p2.util.QueryUtil;
 import com.lxk.tool.util.FileIOUtil;
 import lombok.Getter;
 import org.apache.http.HttpHost;
@@ -92,7 +93,7 @@ public class Common {
         try {
             SearchResponse<Product> response = client.search(s -> s
                             .index(getIndexName())
-                            .trackTotalHits(TrackHits.of(t -> t.enabled(true)))
+                            .trackTotalHits(trackHits())
                             .size(10000)
                     ,
                     Product.class
@@ -148,7 +149,7 @@ public class Common {
                                 )
                         )
                         // 查询所有，最终的 total().value()的值能大于1w，但是，详情还是最大1w
-                        .trackTotalHits(TrackHits.of(t -> t.enabled(true)))
+                        .trackTotalHits(trackHits())
                         .size(10000),
                 Product.class
         );
@@ -217,6 +218,10 @@ public class Common {
             JsonData source = jsonDataHit.source();
             System.out.println(source);
         }
+    }
+
+    public TrackHits trackHits() {
+        return QueryUtil.trackHits(true);
     }
 
 }

@@ -11,7 +11,6 @@ import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
-import co.elastic.clients.elasticsearch.core.search.TrackHits;
 import co.elastic.clients.json.JsonData;
 import com.google.common.collect.Maps;
 import com.lxk.es.v8p2.base.Common;
@@ -37,7 +36,7 @@ public class AggTest extends Common {
         SearchResponse<Product> response = client.search(s -> s
                         .index(getIndexName())
                         .aggregations("stats", age)
-                        .trackTotalHits(TrackHits.of(t->t.enabled(true)))
+                        .trackTotalHits(trackHits())
                         .size(0),
                 Product.class
         );
