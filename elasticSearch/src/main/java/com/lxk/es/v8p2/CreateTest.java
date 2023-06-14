@@ -1,4 +1,4 @@
-package com.lxk.es.v8p2.create;
+package com.lxk.es.v8p2;
 
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;

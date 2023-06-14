@@ -1,4 +1,4 @@
-package com.lxk.es.v8p2;
+package com.lxk.es.v8p2.create;
 
 import co.elastic.clients.elasticsearch._types.Result;
 import co.elastic.clients.elasticsearch.core.*;
