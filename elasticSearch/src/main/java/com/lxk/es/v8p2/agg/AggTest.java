@@ -10,6 +10,7 @@ import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.json.JsonData;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.lxk.es.v8p2.base.Common;
 import com.lxk.es.v8p2.model.Product;
@@ -110,10 +111,10 @@ public class AggTest extends Common {
     }
 
     @Test
-    public void filter0() throws IOException {
-        Aggregation filter = AggregationBuilders.filter().bool(QueryBuilders.bool().must(QueryUtil.termQuery("name", "b")).build()).build()._toAggregation();
+    public void filters() throws IOException {
+        Aggregation filters = AggregationBuilders.filters().filters(b -> b.array(Lists.newArrayList(QueryUtil.termQuery("name", "a"), QueryUtil.termQuery("name", "b")))).build()._toAggregation();
         Map<String, Aggregation> map = new ImmutableMap.Builder<String, Aggregation>()
-        .put("f", filter)
+                .put("filters", filters)
                 .build();
         agg(map);
     }
@@ -124,7 +125,9 @@ public class AggTest extends Common {
         builder.index(getIndexName());
         builder.query(query);
         builder.aggregations(map);
-        SearchResponse<Product> response = client.search(builder.build(), Product.class);
+        SearchRequest request = builder.build();
+        System.out.println(request);
+        SearchResponse<Product> response = client.search(request, Product.class);
         showAgg(response);
     }
 
@@ -154,6 +157,20 @@ public class AggTest extends Common {
                         )
                 , Product.class);
         showAgg(response);
+    }
+
+    @Test
+    public void filter3() throws IOException {
+        Aggregation valueCount = AggregationBuilders.valueCount().field("age").build()._toAggregation();
+        Aggregation.Builder builder = new Aggregation.Builder();
+        Aggregation aggregation = builder
+                .filter(QueryBuilders.bool().must(QueryUtil.termQuery("name", "a")).build()._toQuery())
+                .aggregations("subAgg", valueCount).build();
+
+        Map<String, Aggregation> map = new ImmutableMap.Builder<String, Aggregation>()
+                .put("agg", aggregation)
+                .build();
+        agg(map);
     }
 
 

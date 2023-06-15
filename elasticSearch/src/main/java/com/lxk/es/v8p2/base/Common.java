@@ -127,6 +127,10 @@ public class Common {
         }
     }
 
+    public TrackHits trackHits() {
+        return QueryUtil.trackHits(true);
+    }
+
 
     public SortOptions sort(String field, SortOrder sortOrder) {
         return SortOptions.of(s -> s
@@ -165,6 +169,10 @@ public class Common {
         HitsMetadata<Product> hits1 = response.hits();
         List<Hit<Product>> hits = hits1.hits();
         System.out.println("total count = " + hits1.total().value());
+        showHis(hits);
+    }
+
+    public void showHis(List<Hit<Product>> hits) {
         for (Hit<Product> hit : hits) {
             Product product = hit.source();
             Map<String, List<String>> highlight = hit.highlight();
@@ -172,60 +180,79 @@ public class Common {
         }
     }
 
-
     public void showAgg(SearchResponse<Product> response) {
         for (Map.Entry<String, Aggregate> entry : response.aggregations().entrySet()) {
+            String key = entry.getKey();
+            System.out.print(" key = " + key + "   ");
             Aggregate value = entry.getValue();
-            Aggregate.Kind kind = value._kind();
-            switch (kind) {
-                case Min:
-                    System.out.println(kind + "   " + value.min().value());
-                    break;
-                case Max:
-                    System.out.println(kind + "   " + value.max().value());
-                    break;
-                case Sum:
-                    System.out.println(kind + "   " + value.sum().value());
-                    break;
-                case Avg:
-                    System.out.println(kind + "   " + value.avg().value());
-                    break;
-                case ValueCount:
-                    System.out.println(kind + "   " + value.valueCount().value());
-                    break;
-                case Stats:
-                    System.out.println(kind + "   " + value.stats());
-                    break;
-                case Filter:
-                    System.out.println(kind + "   " + value.filter());
-                    break;
-                case TopHits:
-                    System.out.println(kind);
-                    showTopHits(value);
-                    break;
-                case Cardinality:
-                    System.out.println(kind + "   " + value.cardinality().value());
-                    break;
-                case Sterms:
-                    System.out.println(kind);
-                    List<StringTermsBucket> array = value.sterms().buckets().array();
-                    for (StringTermsBucket stringTermsBucket : array) {
-                        System.out.println(stringTermsBucket.key() + "  " + stringTermsBucket.docCount());
-                    }
-                    break;
-                case Range:
-                    System.out.println(kind);
-                    List<RangeBucket> bucketList = value.range().buckets().array();
-                    for (RangeBucket rangeBucket : bucketList) {
-                        System.out.println(rangeBucket.key() + "   " + rangeBucket);
-                    }
-                    break;
-                default:
-                    System.out.println(kind + "   default...");
-            }
+            showAgg(value);
         }
     }
 
+    public void showAgg(Aggregate value) {
+        Aggregate.Kind kind = value._kind();
+        switch (kind) {
+            case Min:
+                System.out.println(kind + "   " + value.min().value());
+                break;
+            case Max:
+                System.out.println(kind + "   " + value.max().value());
+                break;
+            case Sum:
+                System.out.println(kind + "   " + value.sum().value());
+                break;
+            case Avg:
+                System.out.println(kind + "   " + value.avg().value());
+                break;
+            case ValueCount:
+                System.out.println(kind + "   " + value.valueCount().value());
+                break;
+            case Stats:
+                System.out.println(kind + "   " + value.stats());
+                break;
+            case Filter:
+                System.out.println(kind + "   " + value.filter());
+                FilterAggregate filter = value.filter();
+                Map<String, Aggregate> aggregations = filter.aggregations();
+                System.out.println("aaaaaaa " + value.filter().aggregations().get("subAgg").valueCount().value());
+                for (Map.Entry<String, Aggregate> entry : aggregations.entrySet()) {
+                    showAgg(entry.getValue());
+                }
+                break;
+            case Filters:
+                System.out.println(kind);
+                FiltersAggregate filters = value.filters();
+                Buckets<FiltersBucket> buckets = filters.buckets();
+                List<FiltersBucket> list = buckets.array();
+                for (FiltersBucket filtersBucket : list) {
+                    System.out.println(filtersBucket);
+                }
+                break;
+            case TopHits:
+                System.out.println(kind);
+                showTopHits(value);
+                break;
+            case Cardinality:
+                System.out.println(kind + "   " + value.cardinality().value());
+                break;
+            case Sterms:
+                System.out.println(kind);
+                List<StringTermsBucket> array = value.sterms().buckets().array();
+                for (StringTermsBucket stringTermsBucket : array) {
+                    System.out.println(stringTermsBucket.key() + "  " + stringTermsBucket.docCount());
+                }
+                break;
+            case Range:
+                System.out.println(kind);
+                List<RangeBucket> bucketList = value.range().buckets().array();
+                for (RangeBucket rangeBucket : bucketList) {
+                    System.out.println(rangeBucket.key() + "   " + rangeBucket);
+                }
+                break;
+            default:
+                System.out.println(kind + "   default...");
+        }
+    }
 
     public void showTopHits(Aggregate aggregate) {
         TopHitsAggregate topHits = aggregate.topHits();
@@ -237,8 +264,5 @@ public class Common {
         }
     }
 
-    public TrackHits trackHits() {
-        return QueryUtil.trackHits(true);
-    }
 
 }
