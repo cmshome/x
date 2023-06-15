@@ -29,6 +29,11 @@ public class DoubleTest {
         Double dd = 123.2D;
         long longValue = dd.longValue();
         System.out.println(longValue);
+
+        int a = 1;
+
+        Double value = Integer.valueOf(a).doubleValue();
+        System.out.println(value);
     }
 
     @Test

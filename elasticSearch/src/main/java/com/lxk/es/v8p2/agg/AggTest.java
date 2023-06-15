@@ -1,10 +1,7 @@
 package com.lxk.es.v8p2.agg;
 
 import co.elastic.clients.elasticsearch._types.SortOrder;
-import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
-import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
-import co.elastic.clients.elasticsearch._types.aggregations.AggregationBuilders;
-import co.elastic.clients.elasticsearch._types.aggregations.StatsAggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.*;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
@@ -12,9 +9,11 @@ import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.json.JsonData;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.lxk.es.v8p2.base.Common;
 import com.lxk.es.v8p2.model.Product;
+import com.lxk.es.v8p2.util.QueryUtil;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -110,40 +109,24 @@ public class AggTest extends Common {
         showAgg(response);
     }
 
-
-    /**
-     *
-     */
     @Test
-    public void together() throws IOException {
-        Aggregation sum = AggregationBuilders.sum().field("age").build()._toAggregation();
-        Aggregation avg = AggregationBuilders.avg().field("age").build()._toAggregation();
-        Aggregation max = AggregationBuilders.max().field("age").build()._toAggregation();
-        Aggregation min = AggregationBuilders.min().field("age").build()._toAggregation();
-        Aggregation valueCount = AggregationBuilders.valueCount().field("age").build()._toAggregation();
-
-        // The stats that are returned consist of: min, max, sum, count and avg.
-        Aggregation stats = AggregationBuilders.stats().field("age").build()._toAggregation();
-
-        Aggregation filter = AggregationBuilders.filter().term(t -> t.field("name").value("a")).build()._toAggregation();
-
-        Aggregation topHits = AggregationBuilders.topHits().docvalueFields("age").sort(sort("age", SortOrder.Desc)).size(5).build()._toAggregation();
-
-        SearchResponse<Product> response = client.search(e -> e
-                        .index(getIndexName())
-                        .aggregations("min", min)
-                        .aggregations("max", max)
-                        .aggregations("sum", sum)
-                        .aggregations("avg", avg)
-                        .aggregations("valueCount", valueCount)
-                        .aggregations("stats", stats)
-                        .aggregations("topHits", topHits)
-                        .aggregations("filter", filter)
-                , Product.class);
-
-        showAgg(response);
+    public void filter0() throws IOException {
+        Aggregation filter = AggregationBuilders.filter().bool(QueryBuilders.bool().must(QueryUtil.termQuery("name", "b")).build()).build()._toAggregation();
+        Map<String, Aggregation> map = new ImmutableMap.Builder<String, Aggregation>()
+        .put("f", filter)
+                .build();
+        agg(map);
     }
 
+    private void agg(Map<String, Aggregation> map) throws IOException {
+        SearchRequest.Builder builder = new SearchRequest.Builder();
+        Query query = QueryBuilders.matchAll().build()._toQuery();
+        builder.index(getIndexName());
+        builder.query(query);
+        builder.aggregations(map);
+        SearchResponse<Product> response = client.search(builder.build(), Product.class);
+        showAgg(response);
+    }
 
     @Test
     public void filter() throws IOException {
@@ -195,13 +178,17 @@ public class AggTest extends Common {
     @Test
     public void searchRequest() throws IOException {
         Aggregation max = AggregationBuilders.max().field("age").build()._toAggregation();
+        Map<String, Aggregation> map1 = Maps.newHashMap();
+        map1.put("max", max);
+
         Aggregation min = AggregationBuilders.min().field("age").build()._toAggregation();
+        Map<String, Aggregation> map2 = Maps.newHashMap();
+        map2.put("min", min);
+
         Aggregation sum = AggregationBuilders.sum().field("age").build()._toAggregation();
         Aggregation avg = AggregationBuilders.avg().field("age").build()._toAggregation();
 
         Map<String, Aggregation> map = Maps.newHashMap();
-        map.put("max", max);
-        map.put("min", min);
         map.put("sum", sum);
         map.put("avg", avg);
 
@@ -209,6 +196,8 @@ public class AggTest extends Common {
         Query query = QueryBuilders.matchAll().build()._toQuery();
         builder.index(getIndexName());
         builder.query(query);
+        builder.aggregations(map1);
+        builder.aggregations(map2);
         builder.aggregations(map);
 
         SearchResponse<Product> response = client.search(builder.build(), Product.class);
@@ -225,5 +214,48 @@ public class AggTest extends Common {
 
     }
 
+    /**
+     *
+     */
+    @Test
+    public void together() throws IOException {
+        Aggregation sum = AggregationBuilders.sum().field("age").build()._toAggregation();
+        Aggregation avg = AggregationBuilders.avg().field("age").build()._toAggregation();
+        Aggregation max = AggregationBuilders.max().field("age").build()._toAggregation();
+        Aggregation min = AggregationBuilders.min().field("age").build()._toAggregation();
+        Aggregation valueCount = AggregationBuilders.valueCount().field("age").build()._toAggregation();
+
+        // The stats that are returned consist of: min, max, sum, count and avg.
+        Aggregation stats = AggregationBuilders.stats().field("age").build()._toAggregation();
+
+        Aggregation filter = AggregationBuilders.filter().term(t -> t.field("name").value("a")).build()._toAggregation();
+
+        Aggregation topHits = AggregationBuilders.topHits().docvalueFields("age").sort(sort("age", SortOrder.Desc)).size(5).build()._toAggregation();
+
+        Aggregation cardinality = AggregationBuilders.cardinality().field("name").precisionThreshold(40000).build()._toAggregation();
+
+        // 计算name维度的所有值，以及对应的count。
+        Aggregation terms = AggregationBuilders.terms().field("streams").build()._toAggregation();
+
+        Aggregation range = AggregationBuilders.range().field("age").ranges(r -> r.from(String.valueOf(100)).to(String.valueOf(109))).build()._toAggregation();
+
+
+        SearchResponse<Product> response = client.search(e -> e
+                        .index(getIndexName())
+                        .aggregations("sum", sum)
+                        .aggregations("avg", avg)
+                        .aggregations("max", max)
+                        .aggregations("min", min)
+                        .aggregations("valueCount", valueCount)
+                        .aggregations("stats", stats)
+                        .aggregations("filter", filter)
+                        .aggregations("topHits", topHits)
+                        .aggregations("cardinality", cardinality)
+                        .aggregations("terms", terms)
+                        .aggregations("range", range)
+                , Product.class);
+
+        showAgg(response);
+    }
 
 }

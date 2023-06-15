@@ -4,8 +4,7 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.FieldSort;
 import co.elastic.clients.elasticsearch._types.SortOptions;
 import co.elastic.clients.elasticsearch._types.SortOrder;
-import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
-import co.elastic.clients.elasticsearch._types.aggregations.TopHitsAggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.*;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
@@ -204,7 +203,25 @@ public class Common {
                     System.out.println(kind);
                     showTopHits(value);
                     break;
+                case Cardinality:
+                    System.out.println(kind + "   " + value.cardinality().value());
+                    break;
+                case Sterms:
+                    System.out.println(kind);
+                    List<StringTermsBucket> array = value.sterms().buckets().array();
+                    for (StringTermsBucket stringTermsBucket : array) {
+                        System.out.println(stringTermsBucket.key() + "  " + stringTermsBucket.docCount());
+                    }
+                    break;
+                case Range:
+                    System.out.println(kind);
+                    List<RangeBucket> bucketList = value.range().buckets().array();
+                    for (RangeBucket rangeBucket : bucketList) {
+                        System.out.println(rangeBucket.key() + "   " + rangeBucket);
+                    }
+                    break;
                 default:
+                    System.out.println(kind + "   default...");
             }
         }
     }
