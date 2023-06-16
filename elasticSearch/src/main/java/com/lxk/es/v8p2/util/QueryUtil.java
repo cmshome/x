@@ -4,13 +4,16 @@ import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.SortOptions;
 import co.elastic.clients.elasticsearch._types.SortOptionsBuilders;
 import co.elastic.clients.elasticsearch._types.SortOrder;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import co.elastic.clients.elasticsearch.core.search.TrackHits;
 import co.elastic.clients.json.JsonData;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author LiXuekai on 2023/6/2
@@ -76,6 +79,12 @@ public class QueryUtil {
 
     public static TrackHits trackHits(boolean enable) {
         return TrackHits.of(t -> t.enabled(enable));
+    }
+
+    public static Map<String, Aggregation> aggregationMap(String name, Aggregation aggregation) {
+        Map<String, Aggregation> map = Maps.newHashMap();
+        map.put(name, aggregation);
+        return map;
     }
 
 }

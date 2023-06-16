@@ -133,11 +133,11 @@ public class AggTest extends Common {
 
     @Test
     public void filter() throws IOException {
-        StatsAggregation stats = AggregationBuilders.stats().field("age").build();
+        Aggregation stats = AggregationBuilders.stats().field("age").build()._toAggregation();
         SearchResponse<Product> response = client.search(e -> e
                         .index(getIndexName())
                         .query(q -> q.bool(b -> b.filter(f -> f.term(t -> t.field("name").value("a")))))
-                        .aggregations("stats", a -> a.stats(stats))
+                        .aggregations("stats", stats)
                 , Product.class);
         showAgg(response);
     }
@@ -161,11 +161,9 @@ public class AggTest extends Common {
 
     @Test
     public void filter3() throws IOException {
-        Aggregation valueCount = AggregationBuilders.valueCount().field("age").build()._toAggregation();
-        Aggregation.Builder builder = new Aggregation.Builder();
-        Aggregation aggregation = builder
+        Aggregation aggregation = new Aggregation.Builder()
                 .filter(QueryBuilders.bool().must(QueryUtil.termQuery("name", "a")).build()._toQuery())
-                .aggregations("subAgg", valueCount).build();
+                .aggregations("subAgg", AggregationBuilders.valueCount().field("age").build()._toAggregation()).build();
 
         Map<String, Aggregation> map = new ImmutableMap.Builder<String, Aggregation>()
                 .put("agg", aggregation)
@@ -256,6 +254,10 @@ public class AggTest extends Common {
 
         Aggregation range = AggregationBuilders.range().field("age").ranges(r -> r.from(String.valueOf(100)).to(String.valueOf(109))).build()._toAggregation();
 
+        Aggregation filterSubAgg = new Aggregation.Builder()
+                .filter(QueryBuilders.bool().must(QueryUtil.termQuery("name", "a")).build()._toQuery())
+                .aggregations("subAgg", AggregationBuilders.valueCount().field("age").build()._toAggregation()).build();
+
 
         SearchResponse<Product> response = client.search(e -> e
                         .index(getIndexName())
@@ -270,6 +272,7 @@ public class AggTest extends Common {
                         .aggregations("cardinality", cardinality)
                         .aggregations("terms", terms)
                         .aggregations("range", range)
+                        .aggregations("filterSubAgg", filterSubAgg)
                 , Product.class);
 
         showAgg(response);

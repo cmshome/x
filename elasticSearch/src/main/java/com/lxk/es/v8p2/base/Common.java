@@ -214,9 +214,10 @@ public class Common {
                 System.out.println(kind + "   " + value.filter());
                 FilterAggregate filter = value.filter();
                 Map<String, Aggregate> aggregations = filter.aggregations();
-                System.out.println("aaaaaaa " + value.filter().aggregations().get("subAgg").valueCount().value());
-                for (Map.Entry<String, Aggregate> entry : aggregations.entrySet()) {
-                    showAgg(entry.getValue());
+                if (aggregations != null && !aggregations.isEmpty()) {
+                    for (Map.Entry<String, Aggregate> entry : aggregations.entrySet()) {
+                        showAgg(entry.getValue());
+                    }
                 }
                 break;
             case Filters:
