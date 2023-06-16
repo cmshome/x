@@ -68,7 +68,7 @@ public class HighlightTest extends Common {
                 .query(termsQuery)
                 .size(1000);
 
-        SearchResponse<Product> response = client.search(builder.build(), Product.class);
+        SearchResponse<Product> response = search(builder.build());
 
         showHighlight(response);
 

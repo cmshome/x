@@ -23,7 +23,7 @@ public class GroupTest extends Common {
      */
     @Test
     public void group() throws IOException {
-        SearchResponse<Product> searchResponse = client.search(e -> e
+        SearchResponse<Product> response = client.search(e -> e
                         .index(getIndexName())
                         .size(200)
                         .aggregations("group", a -> a
@@ -39,7 +39,7 @@ public class GroupTest extends Common {
                         )
                 , Product.class);
 
-        Aggregate aggregate = searchResponse.aggregations().get("group");
+        Aggregate aggregate = response.aggregations().get("group");
         Object o = ((StringTermsAggregate) aggregate._get()).buckets()._get();
         for (StringTermsBucket bucket : (List<StringTermsBucket>) o) {
 

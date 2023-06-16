@@ -232,7 +232,7 @@ public class QueryTest extends Common {
     @Test
     public void shouldAll() throws IOException {
         List<Product> all = Lists.newArrayList();
-        SearchResponse<Product> response = client.search(shouldSearchBuild().build(), Product.class);
+        SearchResponse<Product> response = search(shouldSearchBuild().build());
         List<Hit<Product>> hits1 = response.hits().hits();
         while (hits1.size() > 0) {
             add(all, hits1);

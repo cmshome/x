@@ -127,7 +127,7 @@ public class AggTest extends Common {
         builder.aggregations(map);
         SearchRequest request = builder.build();
         System.out.println(request);
-        SearchResponse<Product> response = client.search(request, Product.class);
+        SearchResponse<Product> response = search(request);
         showAgg(response);
     }
 
@@ -215,7 +215,7 @@ public class AggTest extends Common {
         builder.aggregations(map2);
         builder.aggregations(map);
 
-        SearchResponse<Product> response = client.search(builder.build(), Product.class);
+        SearchResponse<Product> response = search(builder.build());
         Map<String, Aggregate> aggregations = response.aggregations();
         Aggregate max1 = aggregations.get("max");
         Aggregate min1 = aggregations.get("min");

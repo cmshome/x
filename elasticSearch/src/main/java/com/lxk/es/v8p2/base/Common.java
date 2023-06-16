@@ -120,6 +120,11 @@ public class Common {
         }
     }
 
+    public SearchResponse<Product> search(SearchRequest searchRequest) throws IOException {
+        System.out.println(searchRequest);
+        return client.search(searchRequest, Product.class);
+    }
+
 
     public void add(List<Product> all, List<Hit<Product>> hits1) {
         for (Hit<Product> hit : hits1) {
@@ -161,7 +166,7 @@ public class Common {
 
 
     public void show(SearchRequest.Builder builder) throws IOException {
-        SearchResponse<Product> response = client.search(builder.build(), Product.class);
+        SearchResponse<Product> response = search(builder.build());
         show(response);
     }
 
