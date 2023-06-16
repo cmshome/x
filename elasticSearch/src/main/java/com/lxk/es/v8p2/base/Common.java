@@ -111,6 +111,11 @@ public class Common {
         return all;
     }
 
+    public SearchRequest.Builder baseSearchRequest(){
+        SearchRequest.Builder builder = new SearchRequest.Builder();
+        builder.index(getIndexName());
+        return builder;
+    }
 
     public void close() {
         try {
@@ -187,37 +192,38 @@ public class Common {
 
     public void showAgg(SearchResponse<Product> response) {
         for (Map.Entry<String, Aggregate> entry : response.aggregations().entrySet()) {
-            String key = entry.getKey();
-            System.out.print(" key = " + key + "   ");
             Aggregate value = entry.getValue();
             showAgg(value);
         }
     }
 
-    public void showAgg(Aggregate value) {
-        Aggregate.Kind kind = value._kind();
+    public void showAgg(Aggregate aggregate) {
+        if (aggregate == null) {
+            return;
+        }
+        Aggregate.Kind kind = aggregate._kind();
         switch (kind) {
             case Min:
-                System.out.println(kind + "   " + value.min().value());
+                System.out.println(kind + "   " + aggregate.min().value());
                 break;
             case Max:
-                System.out.println(kind + "   " + value.max().value());
+                System.out.println(kind + "   " + aggregate.max().value());
                 break;
             case Sum:
-                System.out.println(kind + "   " + value.sum().value());
+                System.out.println(kind + "   " + aggregate.sum().value());
                 break;
             case Avg:
-                System.out.println(kind + "   " + value.avg().value());
+                System.out.println(kind + "   " + aggregate.avg().value());
                 break;
             case ValueCount:
-                System.out.println(kind + "   " + value.valueCount().value());
+                System.out.println(kind + "   " + aggregate.valueCount().value());
                 break;
             case Stats:
-                System.out.println(kind + "   " + value.stats());
+                System.out.println(kind + "   " + aggregate.stats());
                 break;
             case Filter:
-                System.out.println(kind + "   " + value.filter());
-                FilterAggregate filter = value.filter();
+                System.out.println(kind + "   " + aggregate.filter());
+                FilterAggregate filter = aggregate.filter();
                 Map<String, Aggregate> aggregations = filter.aggregations();
                 if (aggregations != null && !aggregations.isEmpty()) {
                     for (Map.Entry<String, Aggregate> entry : aggregations.entrySet()) {
@@ -227,7 +233,7 @@ public class Common {
                 break;
             case Filters:
                 System.out.println(kind);
-                FiltersAggregate filters = value.filters();
+                FiltersAggregate filters = aggregate.filters();
                 Buckets<FiltersBucket> buckets = filters.buckets();
                 List<FiltersBucket> list = buckets.array();
                 for (FiltersBucket filtersBucket : list) {
@@ -236,23 +242,31 @@ public class Common {
                 break;
             case TopHits:
                 System.out.println(kind);
-                showTopHits(value);
+                showTopHits(aggregate);
                 break;
             case Cardinality:
-                System.out.println(kind + "   " + value.cardinality().value());
+                System.out.println(kind + "   " + aggregate.cardinality().value());
                 break;
             case Sterms:
                 System.out.println(kind);
-                List<StringTermsBucket> array = value.sterms().buckets().array();
+                List<StringTermsBucket> array = aggregate.sterms().buckets().array();
                 for (StringTermsBucket stringTermsBucket : array) {
                     System.out.println(stringTermsBucket.key() + "  " + stringTermsBucket.docCount());
                 }
                 break;
             case Range:
                 System.out.println(kind);
-                List<RangeBucket> bucketList = value.range().buckets().array();
+                List<RangeBucket> bucketList = aggregate.range().buckets().array();
                 for (RangeBucket rangeBucket : bucketList) {
                     System.out.println(rangeBucket.key() + "   " + rangeBucket);
+                }
+                break;
+            case TdigestPercentiles:
+                System.out.println(kind);
+                Percentiles values = aggregate.tdigestPercentiles().values();
+                Map o = (Map)values._get();
+                for (Object o1 : o.keySet()) {
+                    System.out.println(o1 + "  " + o.get(o1));
                 }
                 break;
             default:
@@ -267,6 +281,26 @@ public class Common {
         for (Hit<JsonData> jsonDataHit : hitList) {
             JsonData source = jsonDataHit.source();
             System.out.println(source);
+        }
+    }
+
+    public void showHisBucket(SearchResponse<Product> response) {
+        Map<String, Aggregate> aggregateMap = response.aggregations();
+        for (Map.Entry<String, Aggregate> entry : aggregateMap.entrySet()) {
+            Aggregate aggregate = entry.getValue();
+            List<HistogramBucket> buckets = aggregate
+                    .histogram()
+                    .buckets()
+                    .array();
+            for (HistogramBucket bucket : buckets) {
+                System.out.println("bucket.key " + bucket.key() + "   bucket.docCount " + bucket.docCount());
+
+                Map<String, Aggregate> map = bucket.aggregations();
+                for (Map.Entry<String, Aggregate> subMap : map.entrySet()) {
+                    Aggregate subAgg = subMap.getValue();
+                    showAgg(subAgg);
+                }
+            }
         }
     }
 

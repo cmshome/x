@@ -2,10 +2,7 @@ package com.lxk.es.v8p2.agg;
 
 import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.aggregations.*;
-import co.elastic.clients.elasticsearch._types.query_dsl.Query;
-import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
-import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.json.JsonData;
@@ -25,6 +22,34 @@ import java.util.Map;
  * @author LiXuekai on 2023/5/25
  */
 public class AggTest extends Common {
+
+    @Test
+    public void terms() throws IOException {
+        Aggregation aggregation = AggregationBuilders.terms().field("name").shardSize(1000).size(100).build()._toAggregation();
+        agg(aggregation);
+    }
+
+    @Test
+    public void percentiles() throws IOException {
+        Aggregation aggregation = AggregationBuilders.percentiles().field("age").build()._toAggregation();
+        agg(aggregation);
+    }
+
+    @Test
+    public void percentileRanks() throws IOException {
+        Aggregation aggregation = AggregationBuilders.percentileRanks().field("age").build()._toAggregation();
+        agg(aggregation);
+    }
+
+    private void agg(Aggregation aggregation) throws IOException {
+        SearchRequest request = baseSearchRequest()
+                .aggregations("aggregation", aggregation)
+                .trackTotalHits(trackHits())
+                .size(0)
+                .build();
+        SearchResponse<Product> response = search(request);
+        showAgg(response);
+    }
 
 
     /**
@@ -126,7 +151,7 @@ public class AggTest extends Common {
         builder.query(query);
         builder.aggregations(map);
         SearchRequest request = builder.build();
-        System.out.println(request);
+
         SearchResponse<Product> response = search(request);
         showAgg(response);
     }
@@ -167,6 +192,26 @@ public class AggTest extends Common {
 
         Map<String, Aggregation> map = new ImmutableMap.Builder<String, Aggregation>()
                 .put("agg", aggregation)
+                .build();
+        agg(map);
+    }
+
+    /**
+     * 套娃
+     */
+    @Test
+    public void filterSubAgg() throws IOException {
+        Query query1 = QueryUtil.termQuery("type", "test");
+        Aggregation sub1 = AggregationBuilders.filter().term(t -> t.field("name").value("a")).build()._toAggregation();
+        Map<String, Aggregation> sub1Map = QueryUtil.aggregationMap("sub1", sub1);
+
+        Query query2 = QueryBuilders.matchAll().build()._toQuery();
+        Aggregation sub2 = QueryUtil.filterSubAgg(query1, sub1Map);
+        Map<String, Aggregation> sub2Map = QueryUtil.aggregationMap("sub2", sub2);
+
+        Aggregation aggregation = QueryUtil.filterSubAgg(query2, sub2Map);
+        Map<String, Aggregation> map = new ImmutableMap.Builder<String, Aggregation>()
+                .put("filterSubAgg", aggregation)
                 .build();
         agg(map);
     }

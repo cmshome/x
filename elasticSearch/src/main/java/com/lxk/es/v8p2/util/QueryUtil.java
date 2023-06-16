@@ -5,6 +5,7 @@ import co.elastic.clients.elasticsearch._types.SortOptions;
 import co.elastic.clients.elasticsearch._types.SortOptionsBuilders;
 import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.HistogramAggregation;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import co.elastic.clients.elasticsearch.core.search.TrackHits;
@@ -85,6 +86,36 @@ public class QueryUtil {
         Map<String, Aggregation> map = Maps.newHashMap();
         map.put(name, aggregation);
         return map;
+    }
+
+    public static Aggregation filterSubAgg(Query query, Map<String, Aggregation> subAggregation) {
+        Aggregation aggregation;
+        if (subAggregation == null || subAggregation.isEmpty()) {
+            aggregation = new Aggregation.Builder()
+                    .filter(query)
+                    .build();
+        } else {
+            aggregation = new Aggregation.Builder()
+                    .filter(query)
+                    .aggregations(subAggregation)
+                    .build();
+        }
+        return aggregation;
+    }
+
+    public static Aggregation hisSubAgg(HistogramAggregation.Builder histogramBuilder, Map<String, Aggregation> subAggregation) {
+        Aggregation aggregation;
+        if (subAggregation == null || subAggregation.isEmpty()) {
+            aggregation = new Aggregation.Builder()
+                    .histogram(histogramBuilder.build())
+                    .build();
+        } else {
+            aggregation = new Aggregation.Builder()
+                    .histogram(histogramBuilder.build())
+                    .aggregations(subAggregation)
+                    .build();
+        }
+        return aggregation;
     }
 
 }
