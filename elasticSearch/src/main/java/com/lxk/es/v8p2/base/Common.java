@@ -16,6 +16,7 @@ import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.lxk.es.v8p2.model.Product;
 import com.lxk.es.v8p2.util.QueryUtil;
 import com.lxk.tool.util.FileIOUtil;
@@ -32,6 +33,7 @@ import org.junit.Before;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author SHEN on 2018/8/13
@@ -264,13 +266,24 @@ public class Common {
             case TdigestPercentiles:
                 System.out.println(kind);
                 Percentiles values = aggregate.tdigestPercentiles().values();
-                Map o = (Map)values._get();
-                for (Object o1 : o.keySet()) {
-                    System.out.println(o1 + "  " + o.get(o1));
-                }
+                show(values);
+                break;
+            case TdigestPercentileRanks:
+                System.out.println(kind);
+                Percentiles percentiles = aggregate.tdigestPercentileRanks().values();
+                show(percentiles);
                 break;
             default:
                 System.out.println(kind + "   default...");
+        }
+    }
+
+    private void show(Percentiles values) {
+        Map<String, String> keyed = values.keyed();
+        TreeMap<String, String> tree = Maps.newTreeMap();
+        tree.putAll(keyed);
+        for (Map.Entry<String, String> entry : tree.entrySet()) {
+            System.out.println(entry.getKey() + "   "  + entry.getValue());
         }
     }
 

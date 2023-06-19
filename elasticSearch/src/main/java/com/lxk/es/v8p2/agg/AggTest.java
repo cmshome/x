@@ -23,6 +23,16 @@ import java.util.Map;
  */
 public class AggTest extends Common {
 
+
+    @Test
+    public void allAggregateKind() {
+        Aggregate.Kind[] kinds = Aggregate.Kind.values();
+        System.out.println(kinds.length);
+        for (Aggregate.Kind value : kinds) {
+            System.out.println(value);
+        }
+    }
+
     @Test
     public void terms() throws IOException {
         Aggregation aggregation = AggregationBuilders.terms().field("name").shardSize(1000).size(100).build()._toAggregation();
@@ -37,7 +47,8 @@ public class AggTest extends Common {
 
     @Test
     public void percentileRanks() throws IOException {
-        Aggregation aggregation = AggregationBuilders.percentileRanks().field("age").build()._toAggregation();
+        // values 必须的
+        Aggregation aggregation = AggregationBuilders.percentileRanks().field("age").values(100d,200d,9000d, 10000d).build()._toAggregation();
         agg(aggregation);
     }
 
