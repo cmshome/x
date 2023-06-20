@@ -52,16 +52,6 @@ public class AggTest extends Common {
         agg(aggregation);
     }
 
-    private void agg(Aggregation aggregation) throws IOException {
-        SearchRequest request = baseSearchRequest()
-                .aggregations("aggregation", aggregation)
-                .trackTotalHits(trackHits())
-                .size(0)
-                .build();
-        SearchResponse<Product> response = search(request);
-        showAgg(response);
-    }
-
 
     /**
      * The stats that are returned consist of: min, max, sum, count and avg.

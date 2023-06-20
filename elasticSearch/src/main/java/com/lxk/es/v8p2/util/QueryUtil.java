@@ -22,24 +22,51 @@ import java.util.Map;
 public class QueryUtil {
 
     public static Query termQuery(String field, Object value) {
-        FieldValue fieldValue;
+        FieldValue fieldValue = fieldValue(value);
+        return QueryBuilders.term().field(field).value(fieldValue).build()._toQuery();
+    }
+
+    public static List<FieldValue> fieldValueList(Object value) {
+        List<FieldValue> list = Lists.newArrayList();
+        if (value instanceof Object[]) {
+            for (Object o : (Object[]) value) {
+                FieldValue fieldValue = fieldValue(o);
+                if (fieldValue == null) {
+                    continue;
+                }
+                list.add(fieldValue);
+            }
+        } else if (value instanceof List) {
+            for (Object o : (List<Object>) value) {
+                FieldValue fieldValue = fieldValue(o);
+                if (fieldValue == null) {
+                    continue;
+                }
+                list.add(fieldValue);
+            }
+        }
+        return list;
+    }
+
+    public static FieldValue fieldValue(Object value) {
+        if (value == null) {
+            return null;
+        }
+        FieldValue fieldValue = null;
         if (value instanceof Long) {
             fieldValue = FieldValue.of((Long) value);
         } else if (value instanceof Double) {
             fieldValue = FieldValue.of((Double) value);
         } else if (value instanceof Boolean) {
             fieldValue = FieldValue.of((Boolean) value);
-        } else {
+        } else if (value instanceof String) {
             fieldValue = FieldValue.of((String) value);
         }
-        return QueryBuilders.term().field(field).value(fieldValue).build()._toQuery();
+        return fieldValue;
     }
 
     public static Query termsQuery(String field, List<String> value) {
-        List<FieldValue> list = Lists.newArrayList();
-        for (String s : value) {
-            list.add(new FieldValue.Builder().stringValue(s).build());
-        }
+        List<FieldValue> list = fieldValueList(value);
         return QueryBuilders.terms().field(field).terms(tf -> tf.value(list)).build()._toQuery();
     }
 

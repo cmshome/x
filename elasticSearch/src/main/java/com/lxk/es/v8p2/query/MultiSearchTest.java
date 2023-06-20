@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * @author LiXuekai on 2023/6/9
  */
-public class TestMultiSearch extends Common {
+public class MultiSearchTest extends Common {
 
     @Test
     public void mSearch() throws IOException {

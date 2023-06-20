@@ -192,6 +192,16 @@ public class Common {
         }
     }
 
+    public void agg(Aggregation aggregation) throws IOException {
+        SearchRequest request = baseSearchRequest()
+                .aggregations("aggregation", aggregation)
+                .trackTotalHits(trackHits())
+                .size(0)
+                .build();
+        SearchResponse<Product> response = search(request);
+        showAgg(response);
+    }
+
     public void showAgg(SearchResponse<Product> response) {
         for (Map.Entry<String, Aggregate> entry : response.aggregations().entrySet()) {
             Aggregate value = entry.getValue();
@@ -254,6 +264,15 @@ public class Common {
                 List<StringTermsBucket> array = aggregate.sterms().buckets().array();
                 for (StringTermsBucket stringTermsBucket : array) {
                     System.out.println(stringTermsBucket.key() + "  " + stringTermsBucket.docCount());
+                    Map<String, Aggregate> map = stringTermsBucket.aggregations();
+                    if (map != null && !map.isEmpty()) {
+                        for (Map.Entry<String, Aggregate> entry : map.entrySet()) {
+                            String key = entry.getKey();
+                            System.out.println(key);
+                            Aggregate value = entry.getValue();
+                            showAgg(value);
+                        }
+                    }
                 }
                 break;
             case Range:

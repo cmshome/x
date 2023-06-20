@@ -68,28 +68,6 @@ public class SaveTest extends Common {
     }
 
 
-    /**
-     * 要更新的数据必须得存在，才能走updaye请求，不然，抛异常。
-     * [es/update] failed: [document_missing_exception] [56789765]: document missing
-     */
-    @Test
-    public void update() throws IOException {
-        Product product = new Product();
-        product.setId("56789765");
-        product.setName("ddd-");
-        product.setAge(999);
-        product.setStreams(Lists.newArrayList("111","222","333"));
-        UpdateResponse<Object> userUpdateResponse = client
-                .update(x -> x
-                        .index(getIndexName())
-                        .id("56789765")
-                        .doc(product), Object.class);
-        String s = userUpdateResponse.result().jsonValue();
-        long version = userUpdateResponse.version();
-        System.out.println(s);
-        System.out.println(version);
-    }
-
 
     @Test
     public void bulk() throws IOException {
@@ -166,22 +144,5 @@ public class SaveTest extends Common {
 
 
 
-    @Test
-    public void upsert() throws IOException {
-        Product product = new Product();
-        product.setId("987789");
-        product.setName("a9qq7-");
-        product.setAge(987789);
-        product.setStreams(Lists.newArrayList("1111","2222","3333"));
-        UpdateResponse<Object> userUpdateResponse = client
-                .update(x -> x
-                        .index(getIndexName())
-                        .id("987789")
-                        .upsert(product)
-                        .doc(product), Object.class);
-        String s = userUpdateResponse.result().jsonValue();
-        long version = userUpdateResponse.version();
-        System.out.println(s);
-        System.out.println(version);
-    }
+
 }
