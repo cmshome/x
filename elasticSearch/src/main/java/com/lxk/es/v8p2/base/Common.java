@@ -194,7 +194,7 @@ public class Common {
 
     public void agg(Aggregation aggregation) throws IOException {
         SearchRequest request = baseSearchRequest()
-                .aggregations("resellers", aggregation)
+                .aggregations("aggs", aggregation)
                 .trackTotalHits(trackHits())
                 .query(q -> q.matchAll(m -> m))
                 .size(0)

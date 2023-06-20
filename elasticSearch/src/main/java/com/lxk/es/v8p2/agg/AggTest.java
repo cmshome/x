@@ -25,12 +25,21 @@ public class AggTest extends Common {
 
 
     @Test
-    public void allAggregateKind() {
-        Aggregate.Kind[] kinds = Aggregate.Kind.values();
-        System.out.println(kinds.length);
-        for (Aggregate.Kind value : kinds) {
-            System.out.println(value);
-        }
+    public void count() throws IOException {
+        Aggregation valueCount = AggregationBuilders.valueCount().field("age").build()._toAggregation();
+        agg(valueCount);
+    }
+
+    @Test
+    public void cardinality() throws IOException {
+        Aggregation cardinality = AggregationBuilders.cardinality().field("name").precisionThreshold(40000).build()._toAggregation();
+        agg(cardinality);
+    }
+
+    @Test
+    public void range() throws IOException {
+        Aggregation range = AggregationBuilders.range().field("age").ranges(r -> r.from(String.valueOf(100)).to(String.valueOf(109))).build()._toAggregation();
+        agg(range);
     }
 
     @Test
@@ -60,6 +69,13 @@ public class AggTest extends Common {
     }
 
     @Test
+    public void terms2() throws IOException {
+        // 计算name维度的所有值，以及对应的count。
+        Aggregation terms = AggregationBuilders.terms().field("streams").build()._toAggregation();
+        agg(terms);
+    }
+
+    @Test
     public void percentiles() throws IOException {
         Aggregation aggregation = AggregationBuilders.percentiles().field("age").build()._toAggregation();
         agg(aggregation);
@@ -68,7 +84,7 @@ public class AggTest extends Common {
     @Test
     public void percentileRanks() throws IOException {
         // values 必须的
-        Aggregation aggregation = AggregationBuilders.percentileRanks().field("age").values(100d,200d,9000d, 10000d).build()._toAggregation();
+        Aggregation aggregation = AggregationBuilders.percentileRanks().field("age").values(100d, 200d, 9000d, 10000d).build()._toAggregation();
         agg(aggregation);
     }
 
@@ -90,12 +106,25 @@ public class AggTest extends Common {
     }
 
     @Test
+    public void stats2() throws IOException {
+        // The stats that are returned consist of: min, max, sum, count and avg.
+        Aggregation stats = AggregationBuilders.stats().field("age").build()._toAggregation();
+        agg(stats);
+    }
+
+    @Test
     public void max() throws IOException {
         SearchResponse<Product> response = client.search(e -> e
                         .index(getIndexName())
                         .aggregations("age", a -> a.max(m -> m.field("age")))
                 , Product.class);
         showAgg(response);
+    }
+
+    @Test
+    public void max2() throws IOException {
+        Aggregation max = AggregationBuilders.max().field("age").build()._toAggregation();
+        agg(max);
     }
 
     @Test
@@ -108,12 +137,24 @@ public class AggTest extends Common {
     }
 
     @Test
+    public void min2() throws IOException {
+        Aggregation min = AggregationBuilders.min().field("age").build()._toAggregation();
+        agg(min);
+    }
+
+    @Test
     public void avg() throws IOException {
         SearchResponse<Product> response = client.search(e -> e
                         .index(getIndexName())
                         .aggregations("age", a -> a.avg(m -> m.field("age")))
                 , Product.class);
         showAgg(response);
+    }
+
+    @Test
+    public void avg2() throws IOException {
+        Aggregation avg = AggregationBuilders.avg().field("age").build()._toAggregation();
+        agg(avg);
     }
 
     @Test
@@ -142,6 +183,12 @@ public class AggTest extends Common {
     }
 
     @Test
+    public void sum2() throws IOException {
+        Aggregation sum = AggregationBuilders.sum().field("age").build()._toAggregation();
+        agg(sum);
+    }
+
+    @Test
     public void topHits() throws IOException {
         SearchResponse<Product> response = client.search(e -> e
                         .index(getIndexName())
@@ -157,6 +204,12 @@ public class AggTest extends Common {
     }
 
     @Test
+    public void topHits2() throws IOException {
+        Aggregation topHits = AggregationBuilders.topHits().docvalueFields("age").sort(sort("age", SortOrder.Desc)).size(5).build()._toAggregation();
+        agg(topHits);
+    }
+
+    @Test
     public void filters() throws IOException {
         Aggregation filters = AggregationBuilders.filters().filters(b -> b.array(Lists.newArrayList(QueryUtil.termQuery("name", "a"), QueryUtil.termQuery("name", "b")))).build()._toAggregation();
         Map<String, Aggregation> map = new ImmutableMap.Builder<String, Aggregation>()
@@ -165,18 +218,9 @@ public class AggTest extends Common {
         agg(map);
     }
 
-    private void agg(Map<String, Aggregation> map) throws IOException {
-        SearchRequest.Builder builder = new SearchRequest.Builder();
-        Query query = QueryBuilders.matchAll().build()._toQuery();
-        builder.index(getIndexName());
-        builder.query(query);
-        builder.aggregations(map);
-        SearchRequest request = builder.build();
-
-        SearchResponse<Product> response = search(request);
-        showAgg(response);
-    }
-
+    /**
+     * 假的，不是filter
+     */
     @Test
     public void filter() throws IOException {
         Aggregation stats = AggregationBuilders.stats().field("age").build()._toAggregation();
@@ -188,12 +232,24 @@ public class AggTest extends Common {
         showAgg(response);
     }
 
+    @Test
+    public void filter0() throws IOException {
+        Aggregation filter = AggregationBuilders.filter().term(t -> t.field("name").value("a")).build()._toAggregation();
+        agg(filter);
+    }
+
+    @Test
+    public void filter1() throws IOException {
+        Aggregation aggregation = AggregationBuilders.filter().bool(b -> b.must(QueryUtil.termQuery("name", "a"))).build()._toAggregation();
+        agg(aggregation);
+    }
 
     /**
+     * sub filter
      * 这个是在一个聚合里面先filer聚合之后，再对过滤的数据进行二次聚合
      */
     @Test
-    public void filter2() throws IOException {
+    public void filterSubAgg1() throws IOException {
         Aggregation age = AggregationBuilders.stats().field("age").build()._toAggregation();
         SearchResponse<Product> response = client.search(e -> e
                         .index(getIndexName())
@@ -205,8 +261,12 @@ public class AggTest extends Common {
         showAgg(response);
     }
 
+    /**
+     * sub filter
+     * 不同的写法
+     */
     @Test
-    public void filter3() throws IOException {
+    public void filterSubAgg3() throws IOException {
         Aggregation aggregation = new Aggregation.Builder()
                 .filter(QueryBuilders.bool().must(QueryUtil.termQuery("name", "a")).build()._toQuery())
                 .aggregations("subAgg", AggregationBuilders.valueCount().field("age").build()._toAggregation()).build();
@@ -217,22 +277,30 @@ public class AggTest extends Common {
         agg(map);
     }
 
+    @Test
+    public void filterSubAgg() throws IOException {
+        Aggregation filterSubAgg = new Aggregation.Builder()
+                .filter(QueryBuilders.bool().must(QueryUtil.termQuery("name", "a")).build()._toQuery())
+                .aggregations("subAgg", AggregationBuilders.valueCount().field("age").build()._toAggregation()).build();
+        agg(filterSubAgg);
+    }
+
     /**
      * 套娃
      */
     @Test
-    public void filterSubAgg() throws IOException {
+    public void filterSubAgg2() throws IOException {
         Query query1 = QueryUtil.termQuery("type", "test");
         Aggregation sub1 = AggregationBuilders.filter().term(t -> t.field("name").value("a")).build()._toAggregation();
-        Map<String, Aggregation> sub1Map = QueryUtil.aggregationMap("sub1", sub1);
+        Map<String, Aggregation> sub1Map = QueryUtil.aggregationMap("agg3", sub1);
 
         Query query2 = QueryBuilders.matchAll().build()._toQuery();
         Aggregation sub2 = QueryUtil.filterSubAgg(query1, sub1Map);
-        Map<String, Aggregation> sub2Map = QueryUtil.aggregationMap("sub2", sub2);
+        Map<String, Aggregation> sub2Map = QueryUtil.aggregationMap("agg2", sub2);
 
         Aggregation aggregation = QueryUtil.filterSubAgg(query2, sub2Map);
         Map<String, Aggregation> map = new ImmutableMap.Builder<String, Aggregation>()
-                .put("filterSubAgg", aggregation)
+                .put("agg1", aggregation)
                 .build();
         agg(map);
     }
@@ -255,6 +323,26 @@ public class AggTest extends Common {
         showAgg(response);
     }
 
+    private void agg(Map<String, Aggregation> map) throws IOException {
+        SearchRequest.Builder builder = new SearchRequest.Builder();
+        Query query = QueryBuilders.matchAll().build()._toQuery();
+        builder.index(getIndexName());
+        builder.query(query);
+        builder.aggregations(map);
+        SearchRequest request = builder.build();
+
+        SearchResponse<Product> response = search(request);
+        showAgg(response);
+    }
+
+    @Test
+    public void allAggregateKind() {
+        Aggregate.Kind[] kinds = Aggregate.Kind.values();
+        System.out.println(kinds.length);
+        for (Aggregate.Kind value : kinds) {
+            System.out.println(value);
+        }
+    }
 
     @Test
     public void searchRequest() throws IOException {
@@ -293,55 +381,6 @@ public class AggTest extends Common {
         System.out.println(sum1.sum().value());
         System.out.println(avg1.avg().value());
 
-    }
-
-    /**
-     *
-     */
-    @Test
-    public void together() throws IOException {
-        Aggregation sum = AggregationBuilders.sum().field("age").build()._toAggregation();
-        Aggregation avg = AggregationBuilders.avg().field("age").build()._toAggregation();
-        Aggregation max = AggregationBuilders.max().field("age").build()._toAggregation();
-        Aggregation min = AggregationBuilders.min().field("age").build()._toAggregation();
-        Aggregation valueCount = AggregationBuilders.valueCount().field("age").build()._toAggregation();
-
-        // The stats that are returned consist of: min, max, sum, count and avg.
-        Aggregation stats = AggregationBuilders.stats().field("age").build()._toAggregation();
-
-        Aggregation filter = AggregationBuilders.filter().term(t -> t.field("name").value("a")).build()._toAggregation();
-
-        Aggregation topHits = AggregationBuilders.topHits().docvalueFields("age").sort(sort("age", SortOrder.Desc)).size(5).build()._toAggregation();
-
-        Aggregation cardinality = AggregationBuilders.cardinality().field("name").precisionThreshold(40000).build()._toAggregation();
-
-        // 计算name维度的所有值，以及对应的count。
-        Aggregation terms = AggregationBuilders.terms().field("streams").build()._toAggregation();
-
-        Aggregation range = AggregationBuilders.range().field("age").ranges(r -> r.from(String.valueOf(100)).to(String.valueOf(109))).build()._toAggregation();
-
-        Aggregation filterSubAgg = new Aggregation.Builder()
-                .filter(QueryBuilders.bool().must(QueryUtil.termQuery("name", "a")).build()._toQuery())
-                .aggregations("subAgg", AggregationBuilders.valueCount().field("age").build()._toAggregation()).build();
-
-
-        SearchResponse<Product> response = client.search(e -> e
-                        .index(getIndexName())
-                        .aggregations("sum", sum)
-                        .aggregations("avg", avg)
-                        .aggregations("max", max)
-                        .aggregations("min", min)
-                        .aggregations("valueCount", valueCount)
-                        .aggregations("stats", stats)
-                        .aggregations("filter", filter)
-                        .aggregations("topHits", topHits)
-                        .aggregations("cardinality", cardinality)
-                        .aggregations("terms", terms)
-                        .aggregations("range", range)
-                        .aggregations("filterSubAgg", filterSubAgg)
-                , Product.class);
-
-        showAgg(response);
     }
 
 }
