@@ -34,6 +34,26 @@ public class AggTest extends Common {
     }
 
     @Test
+    public void nested() throws IOException {
+        Aggregation aggregation = AggregationBuilders.nested().path("resellers").build()._toAggregation();
+        agg(aggregation);
+    }
+
+    /**
+     * 没成功获得想要的聚合结果
+     */
+    @Test
+    public void nested2() throws IOException {
+        NestedAggregation nestedAggregation = AggregationBuilders.nested().path("resellers").build();
+        Aggregation aggregation = new Aggregation.Builder()
+                .nested(nestedAggregation)
+                .aggregations("min_price", AggregationBuilders.max().field("resellers.price").build()._toAggregation())
+                .build();
+        agg(aggregation);
+    }
+
+
+    @Test
     public void terms() throws IOException {
         Aggregation aggregation = AggregationBuilders.terms().field("name").shardSize(1000).size(100).build()._toAggregation();
         agg(aggregation);

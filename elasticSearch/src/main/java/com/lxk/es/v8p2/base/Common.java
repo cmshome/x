@@ -194,8 +194,9 @@ public class Common {
 
     public void agg(Aggregation aggregation) throws IOException {
         SearchRequest request = baseSearchRequest()
-                .aggregations("aggregation", aggregation)
+                .aggregations("resellers", aggregation)
                 .trackTotalHits(trackHits())
+                .query(q -> q.matchAll(m -> m))
                 .size(0)
                 .build();
         SearchResponse<Product> response = search(request);
@@ -237,11 +238,7 @@ public class Common {
                 System.out.println(kind + "   " + aggregate.filter());
                 FilterAggregate filter = aggregate.filter();
                 Map<String, Aggregate> aggregations = filter.aggregations();
-                if (aggregations != null && !aggregations.isEmpty()) {
-                    for (Map.Entry<String, Aggregate> entry : aggregations.entrySet()) {
-                        showAgg(entry.getValue());
-                    }
-                }
+                subAgg(aggregations);
                 break;
             case Filters:
                 System.out.println(kind);
@@ -265,14 +262,7 @@ public class Common {
                 for (StringTermsBucket stringTermsBucket : array) {
                     System.out.println(stringTermsBucket.key() + "  " + stringTermsBucket.docCount());
                     Map<String, Aggregate> map = stringTermsBucket.aggregations();
-                    if (map != null && !map.isEmpty()) {
-                        for (Map.Entry<String, Aggregate> entry : map.entrySet()) {
-                            String key = entry.getKey();
-                            System.out.println(key);
-                            Aggregate value = entry.getValue();
-                            showAgg(value);
-                        }
-                    }
+                    subAgg(map);
                 }
                 break;
             case Range:
@@ -292,8 +282,22 @@ public class Common {
                 Percentiles percentiles = aggregate.tdigestPercentileRanks().values();
                 show(percentiles);
                 break;
+            case Nested:
+                System.out.println(kind + "   " + aggregate.nested());
+                NestedAggregate nested = aggregate.nested();
+                Map<String, Aggregate> subAgg = nested.aggregations();
+                subAgg(subAgg);
+                break;
             default:
                 System.out.println(kind + "   default...");
+        }
+    }
+
+    private void subAgg(Map<String, Aggregate> aggregations) {
+        if (aggregations != null && !aggregations.isEmpty()) {
+            for (Map.Entry<String, Aggregate> entry : aggregations.entrySet()) {
+                showAgg(entry.getValue());
+            }
         }
     }
 

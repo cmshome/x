@@ -49,12 +49,12 @@ public class SaveTest extends Common {
     @Test
     public void insert() throws IOException {
         Product product = new Product();
-        product.setId("10001");
-        product.setName("AAAA");
-        product.setAge(10001);
-        product.setStreams(Lists.newArrayList("111","222","333"));
-        product.setA(new Product.A("x","y", "z"));
-
+        product.setId("10002");
+        product.setName("k");
+        product.setAge(10002);
+        product.setStreams(Lists.newArrayList("11","22","33"));
+        product.setA(new Product.A("1","2", "3"));
+        product.setResellers(Lists.newArrayList(new Product.Reseller("XO", 1000), new Product.Reseller("LG", 2000), new Product.Reseller("Nike", 3000)));
         IndexRequest<Product> request = IndexRequest.of(i -> i
                 .index(getIndexName())
                 .id(product.getId())

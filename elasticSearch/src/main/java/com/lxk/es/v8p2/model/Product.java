@@ -18,6 +18,7 @@ public class Product {
     private List<String> streams;
     private A a;
     private String type = "test";
+    private List<Reseller> resellers;
 
     @Data
     @NoArgsConstructor
@@ -27,4 +28,16 @@ public class Product {
         private String y;
         private String z;
     }
+
+    /**
+     * 经销商
+     */
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Reseller {
+        private String reseller;
+        private Integer price;
+    }
+
 }
