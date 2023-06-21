@@ -15,6 +15,7 @@ import com.lxk.es.v8p2.util.QueryUtil;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 
@@ -36,9 +37,26 @@ public class AggTest extends Common {
         agg(cardinality);
     }
 
+    /**
+     * 注意，此聚合包括每个范围的from值，而不包括to值。
+     * 即：get lt
+     */
     @Test
     public void range() throws IOException {
         Aggregation range = AggregationBuilders.range().field("age").ranges(r -> r.from(String.valueOf(100)).to(String.valueOf(109))).build()._toAggregation();
+        agg(range);
+    }
+
+    @Test
+    public void range2() throws IOException {
+        List<AggregationRange> ranges = Lists.newArrayList();
+        // [100，200）
+        ranges.add(AggregationRange.of(r -> r.from("100").to("200")));
+        // [1001, ∞)
+        ranges.add(AggregationRange.of(r -> r.from("10001")));
+        // (∞, 10)
+        ranges.add(AggregationRange.of(r -> r.to("10")));
+        Aggregation range = AggregationBuilders.range().field("age").ranges(ranges).build()._toAggregation();
         agg(range);
     }
 

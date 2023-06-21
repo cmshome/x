@@ -49,9 +49,9 @@ public class SaveTest extends Common {
     @Test
     public void insert() throws IOException {
         Product product = new Product();
-        product.setId("10002");
-        product.setName("k");
-        product.setAge(10002);
+        product.setId("10001");
+        product.setName("防火系统第3套");
+        product.setAge(10001);
         product.setStreams(Lists.newArrayList("11","22","33"));
         product.setA(new Product.A("1","2", "3"));
         product.setResellers(Lists.newArrayList(new Product.Reseller("XO", 1000), new Product.Reseller("LG", 2000), new Product.Reseller("Nike", 3000)));

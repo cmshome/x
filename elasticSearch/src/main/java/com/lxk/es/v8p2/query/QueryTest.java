@@ -287,7 +287,7 @@ public class QueryTest extends Common {
     public void wildcardQuery() throws IOException {
         Query query = WildcardQuery.of(w -> w
                 .field("name")
-                .wildcard("a*")
+                .wildcard("防火系统*")
         )._toQuery();
         show(query);
     }
