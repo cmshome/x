@@ -7,6 +7,7 @@ import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.json.JsonData;
+import com.google.common.collect.Maps;
 import com.lxk.es.v8p2.base.Common;
 import com.lxk.es.v8p2.model.Product;
 import com.lxk.es.v8p2.util.QueryUtil;
@@ -90,9 +91,11 @@ public class HistogramTest extends Common {
 
     @Test
     public void subAgg() throws IOException {
+        Map<String, Aggregation> map = Maps.newHashMap();
+        map.put(SUB_AGG_1, AggregationBuilders.stats().field("age").build()._toAggregation());
+        map.put(SUB_AGG_2, AggregationBuilders.cardinality().field("name").build()._toAggregation());
+
         HistogramAggregation.Builder builder = AggregationBuilders.histogram().field("age").interval(100.).offset(0.);
-        Aggregation aggregation = AggregationBuilders.stats().field("age").build()._toAggregation();
-        Map<String, Aggregation> map = QueryUtil.aggregationMap(SUB_AGG_1, aggregation);
         Aggregation agg = QueryUtil.hisSubAgg(builder, map);
         Map<String, Aggregation> aggregationMap = QueryUtil.aggregationMap(AGG, agg);
         agg(aggregationMap);

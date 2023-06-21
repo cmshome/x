@@ -113,7 +113,7 @@ public class Common {
         return all;
     }
 
-    public SearchRequest.Builder baseSearchRequest(){
+    public SearchRequest.Builder baseSearchRequest() {
         SearchRequest.Builder builder = new SearchRequest.Builder();
         builder.index(getIndexName());
         return builder;
@@ -259,9 +259,27 @@ public class Common {
             case Sterms:
                 System.out.println(kind);
                 List<StringTermsBucket> array = aggregate.sterms().buckets().array();
-                for (StringTermsBucket stringTermsBucket : array) {
-                    System.out.println(stringTermsBucket.key() + "  " + stringTermsBucket.docCount());
-                    Map<String, Aggregate> map = stringTermsBucket.aggregations();
+                for (StringTermsBucket bucket : array) {
+                    System.out.println(bucket.key() + "  " + bucket.docCount());
+                    Map<String, Aggregate> map = bucket.aggregations();
+                    subAgg(map);
+                }
+                break;
+            case Lterms:
+                System.out.println(kind);
+                List<LongTermsBucket> array1 = aggregate.lterms().buckets().array();
+                for (LongTermsBucket bucket : array1) {
+                    System.out.println(bucket.key() + "  " + bucket.docCount());
+                    Map<String, Aggregate> map = bucket.aggregations();
+                    subAgg(map);
+                }
+                break;
+            case Dterms:
+                System.out.println(kind);
+                List<DoubleTermsBucket> array2 = aggregate.dterms().buckets().array();
+                for (DoubleTermsBucket bucket : array2) {
+                    System.out.println(bucket.key() + "  " + bucket.docCount());
+                    Map<String, Aggregate> map = bucket.aggregations();
                     subAgg(map);
                 }
                 break;
@@ -306,7 +324,7 @@ public class Common {
         TreeMap<String, String> tree = Maps.newTreeMap();
         tree.putAll(keyed);
         for (Map.Entry<String, String> entry : tree.entrySet()) {
-            System.out.println(entry.getKey() + "   "  + entry.getValue());
+            System.out.println(entry.getKey() + "   " + entry.getValue());
         }
     }
 

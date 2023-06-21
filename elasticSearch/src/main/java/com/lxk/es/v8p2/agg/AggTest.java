@@ -2,13 +2,15 @@ package com.lxk.es.v8p2.agg;
 
 import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.aggregations.*;
-import co.elastic.clients.elasticsearch._types.query_dsl.*;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
+import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.json.JsonData;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.lxk.es.v8p2.base.Common;
 import com.lxk.es.v8p2.model.Product;
 import com.lxk.es.v8p2.util.QueryUtil;
@@ -360,45 +362,6 @@ public class AggTest extends Common {
         for (Aggregate.Kind value : kinds) {
             System.out.println(value);
         }
-    }
-
-    @Test
-    public void searchRequest() throws IOException {
-        Aggregation max = AggregationBuilders.max().field("age").build()._toAggregation();
-        Map<String, Aggregation> map1 = Maps.newHashMap();
-        map1.put("max", max);
-
-        Aggregation min = AggregationBuilders.min().field("age").build()._toAggregation();
-        Map<String, Aggregation> map2 = Maps.newHashMap();
-        map2.put("min", min);
-
-        Aggregation sum = AggregationBuilders.sum().field("age").build()._toAggregation();
-        Aggregation avg = AggregationBuilders.avg().field("age").build()._toAggregation();
-
-        Map<String, Aggregation> map = Maps.newHashMap();
-        map.put("sum", sum);
-        map.put("avg", avg);
-
-        SearchRequest.Builder builder = new SearchRequest.Builder();
-        Query query = QueryBuilders.matchAll().build()._toQuery();
-        builder.index(getIndexName());
-        builder.query(query);
-        builder.aggregations(map1);
-        builder.aggregations(map2);
-        builder.aggregations(map);
-
-        SearchResponse<Product> response = search(builder.build());
-        Map<String, Aggregate> aggregations = response.aggregations();
-        Aggregate max1 = aggregations.get("max");
-        Aggregate min1 = aggregations.get("min");
-        Aggregate sum1 = aggregations.get("sum");
-        Aggregate avg1 = aggregations.get("avg");
-
-        System.out.println(max1.max().value());
-        System.out.println(min1.min().value());
-        System.out.println(sum1.sum().value());
-        System.out.println(avg1.avg().value());
-
     }
 
 }
