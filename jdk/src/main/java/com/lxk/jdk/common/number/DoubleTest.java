@@ -22,6 +22,18 @@ import java.util.Map;
 public class DoubleTest {
 
     /**
+     * 超过16位，就会丢失
+     * 1.234567898765432E16
+     */
+    @Test
+    public void cast() {
+        long l = 12345678987654321L;
+        System.out.println(Double.valueOf(l));
+        System.out.println(Double.valueOf(l + ""));
+        System.out.println(new BigDecimal(l + "").doubleValue());
+    }
+
+    /**
      * double 2 long
      */
     @Test

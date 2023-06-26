@@ -51,7 +51,7 @@ public class TermsAggTest extends Common {
     private void terms(List<String> strings) throws IOException {
         for (String string : strings) {
             System.out.println("---------------- terms   " + string);
-            Aggregation aggregation = AggregationBuilders.terms().field(string).shardSize(1000).size(100).build()._toAggregation();
+            Aggregation aggregation = AggregationBuilders.terms().field(string).shardSize(1000).size(2).build()._toAggregation();
             agg(aggregation);
         }
     }
@@ -70,7 +70,9 @@ public class TermsAggTest extends Common {
         subMap.put("sub1", AggregationBuilders.sum().field("age").build()._toAggregation());
         subMap.put("sub2", AggregationBuilders.max().field("age").build()._toAggregation());
         subMap.put("sub3", AggregationBuilders.min().field("age").build()._toAggregation());
-        subMap.put("sub4", AggregationBuilders.terms().field("streams").build()._toAggregation());
+        subMap.put("sub4", AggregationBuilders.avg().field("age").build()._toAggregation());
+        subMap.put("sub5", AggregationBuilders.avg().field("age").build()._toAggregation());
+        subMap.put("sub6", AggregationBuilders.terms().field("streams").build()._toAggregation());
 
         TermsAggregation.Builder builder = new TermsAggregation.Builder();
         builder.field("name");

@@ -45,7 +45,8 @@ public class AggTest extends Common {
      */
     @Test
     public void range() throws IOException {
-        Aggregation range = AggregationBuilders.range().field("age").ranges(r -> r.from(String.valueOf(100)).to(String.valueOf(109))).build()._toAggregation();
+        // key 不给值，就是from-to，比如 100.0-109.0  给值的话，返回的bucket key就是给的值，比如 aa
+        Aggregation range = AggregationBuilders.range().field("age").ranges(r -> r.key("aa").from(String.valueOf(100)).to(String.valueOf(109))).build()._toAggregation();
         agg(range);
     }
 
@@ -264,6 +265,14 @@ public class AggTest extends Common {
         agg(aggregation);
     }
 
+    @Test
+    public void filterSubAgg() throws IOException {
+        Aggregation filterSubAgg = new Aggregation.Builder()
+                .filter(QueryBuilders.bool().must(QueryUtil.termQuery("name", "a")).build()._toQuery())
+                .aggregations("subAgg", AggregationBuilders.valueCount().field("age").build()._toAggregation()).build();
+        agg(filterSubAgg);
+    }
+
     /**
      * sub filter
      * 这个是在一个聚合里面先filer聚合之后，再对过滤的数据进行二次聚合
@@ -279,30 +288,6 @@ public class AggTest extends Common {
                         )
                 , Product.class);
         showAgg(response);
-    }
-
-    /**
-     * sub filter
-     * 不同的写法
-     */
-    @Test
-    public void filterSubAgg3() throws IOException {
-        Aggregation aggregation = new Aggregation.Builder()
-                .filter(QueryBuilders.bool().must(QueryUtil.termQuery("name", "a")).build()._toQuery())
-                .aggregations("subAgg", AggregationBuilders.valueCount().field("age").build()._toAggregation()).build();
-
-        Map<String, Aggregation> map = new ImmutableMap.Builder<String, Aggregation>()
-                .put("agg", aggregation)
-                .build();
-        agg(map);
-    }
-
-    @Test
-    public void filterSubAgg() throws IOException {
-        Aggregation filterSubAgg = new Aggregation.Builder()
-                .filter(QueryBuilders.bool().must(QueryUtil.termQuery("name", "a")).build()._toQuery())
-                .aggregations("subAgg", AggregationBuilders.valueCount().field("age").build()._toAggregation()).build();
-        agg(filterSubAgg);
     }
 
     /**
@@ -325,6 +310,21 @@ public class AggTest extends Common {
         agg(map);
     }
 
+    /**
+     * sub filter
+     * 不同的写法
+     */
+    @Test
+    public void filterSubAgg3() throws IOException {
+        Aggregation aggregation = new Aggregation.Builder()
+                .filter(QueryBuilders.bool().must(QueryUtil.termQuery("name", "a")).build()._toQuery())
+                .aggregations("subAgg", AggregationBuilders.valueCount().field("age").build()._toAggregation()).build();
+
+        Map<String, Aggregation> map = new ImmutableMap.Builder<String, Aggregation>()
+                .put("agg", aggregation)
+                .build();
+        agg(map);
+    }
 
     /**
      * 没有嵌套，启到过滤数据的作用。

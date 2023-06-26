@@ -197,7 +197,7 @@ public class Common {
                 .aggregations("aggs", aggregation)
                 .trackTotalHits(trackHits())
                 .query(q -> q.matchAll(m -> m))
-                //.size(0)
+                .size(3)
                 .build();
         SearchResponse<Product> response = search(request);
         showAgg(response);
