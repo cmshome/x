@@ -1,9 +1,7 @@
 package com.lxk.es.v8p2.agg;
 
 import co.elastic.clients.elasticsearch._types.SortOrder;
-import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
-import co.elastic.clients.elasticsearch._types.aggregations.AggregationBuilders;
-import co.elastic.clients.elasticsearch._types.aggregations.TermsAggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.*;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.lxk.es.v8p2.base.Common;
@@ -57,21 +55,26 @@ public class TermsAggTest extends Common {
     }
 
     /**
-     * sort 的key 必须和 sub的key一致才行，不然要报错。
-     * 可以按照不同的sub agg 的名称去sort
-     * sub4 还不能排序，这个排序还是没弄明白怎么在这工作呢。
+     * sort order
+     * https://www.elastic.co/guide/en/elasticsearch/reference/8.2/search-aggregations-bucket-terms-aggregation.html#search-aggregations-bucket-terms-aggregation-order
      */
     @Test
     public void termsSubAgg() throws IOException {
         Map<String, SortOrder> sortMap = Maps.newHashMap();
+        // 按terms结果的count排序
+        sortMap.put("_count", SortOrder.Desc);
+        // 按terms的key排序
+        sortMap.put("_key", SortOrder.Desc);
         sortMap.put("sub1", SortOrder.Desc);
+        // 按照 sub5 子聚合的max排序
+        sortMap.put("sub5.max", SortOrder.Desc);
 
         Map<String, Aggregation> subMap = Maps.newHashMap();
         subMap.put("sub1", AggregationBuilders.sum().field("age").build()._toAggregation());
         subMap.put("sub2", AggregationBuilders.max().field("age").build()._toAggregation());
         subMap.put("sub3", AggregationBuilders.min().field("age").build()._toAggregation());
         subMap.put("sub4", AggregationBuilders.avg().field("age").build()._toAggregation());
-        subMap.put("sub5", AggregationBuilders.avg().field("age").build()._toAggregation());
+        subMap.put("sub5", AggregationBuilders.stats().field("age").build()._toAggregation());
         subMap.put("sub6", AggregationBuilders.terms().field("streams").build()._toAggregation());
 
         TermsAggregation.Builder builder = new TermsAggregation.Builder();
@@ -86,4 +89,35 @@ public class TermsAggTest extends Common {
 
         agg(aggregation);
     }
+
+    @Test
+    public void terms() throws IOException {
+        Aggregation aggregation = AggregationBuilders.terms().field("name").shardSize(1000).size(100).build()._toAggregation();
+        agg(aggregation);
+    }
+
+    @Test
+    public void termsInclude() throws IOException {
+        TermsInclude termsInclude = TermsInclude.of(t -> t.terms(Lists.newArrayList("a", "b", "j", "lxk")));
+        Aggregation aggregation = AggregationBuilders.terms().field("name").shardSize(1000).size(100).include(termsInclude).build()._toAggregation();
+        agg(aggregation);
+    }
+
+    @Test
+    public void termsExclude() throws IOException {
+        TermsExclude termsExclude = TermsExclude.of(t->t.terms(Lists.newArrayList("lxk")));
+        Aggregation aggregation = AggregationBuilders.terms().field("name").shardSize(1000).size(100).exclude(termsExclude).build()._toAggregation();
+        agg(aggregation);
+    }
+
+    @Test
+    public void termsNumber() throws IOException {
+        TermsInclude termsInclude = TermsInclude.of(t -> t.terms(Lists.newArrayList("101", "201", "301", "401")));
+        TermsExclude termsExclude = TermsExclude.of(t->t.terms(Lists.newArrayList("100", "200", "300", "400")));
+        Aggregation aggregation = AggregationBuilders.terms().field("age").shardSize(1000).size(100)
+                .include(termsInclude)
+                .exclude(termsExclude).build()._toAggregation();
+        agg(aggregation);
+    }
+
 }

@@ -20,6 +20,7 @@ import com.google.common.collect.Maps;
 import com.lxk.es.v8p2.model.Product;
 import com.lxk.es.v8p2.util.QueryUtil;
 import com.lxk.tool.util.FileIOUtil;
+import jakarta.json.JsonValue;
 import lombok.Getter;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -332,9 +333,16 @@ public class Common {
         TopHitsAggregate topHits = aggregate.topHits();
         HitsMetadata<JsonData> hits = topHits.hits();
         List<Hit<JsonData>> hitList = hits.hits();
-        for (Hit<JsonData> jsonDataHit : hitList) {
-            JsonData source = jsonDataHit.source();
+        for (Hit<JsonData> hit : hitList) {
+            JsonData source = hit.source();
             System.out.println(source);
+            Map<String, JsonData> fields = hit.fields();
+            for (Map.Entry<String, JsonData> entry : fields.entrySet()) {
+                String entryKey = entry.getKey();
+                JsonData value = entry.getValue();
+                JsonValue json = value.toJson();
+                System.out.println(entryKey + "  " + json);
+            }
         }
     }
 
