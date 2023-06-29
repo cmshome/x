@@ -7,6 +7,16 @@ import org.junit.Test;
  */
 public class JDKTest {
 
+
+    /**
+     * ulimit -a
+     *  /etc/security/limits.conf
+     */
+    @Test
+    public void limit() {
+
+    }
+
     /**
      * 获取jak的version
      */
