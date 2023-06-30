@@ -63,7 +63,7 @@ public class TermsAggTest extends Common {
         Map<String, SortOrder> sortMap = Maps.newHashMap();
         // 按terms结果的count排序
         sortMap.put("_count", SortOrder.Desc);
-        // 按terms的key排序
+        // 按terms结果的key排序
         sortMap.put("_key", SortOrder.Desc);
         sortMap.put("sub1", SortOrder.Desc);
         // 按照 sub5 子聚合的max排序
@@ -117,6 +117,12 @@ public class TermsAggTest extends Common {
         Aggregation aggregation = AggregationBuilders.terms().field("age").shardSize(1000).size(100)
                 .include(termsInclude)
                 .exclude(termsExclude).build()._toAggregation();
+        agg(aggregation);
+    }
+
+    @Test
+    public void testExecutionHint() throws IOException {
+        Aggregation aggregation = AggregationBuilders.terms().field("name").shardSize(1000).executionHint(TermsAggregationExecutionHint.Map).size(100).build()._toAggregation();
         agg(aggregation);
     }
 
