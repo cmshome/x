@@ -21,7 +21,7 @@ public final class CollectionUtil {
         size = (size == null || size <= 0) ? DEFAULT_SIZE : size;
         List<String> list = Lists.newArrayListWithExpectedSize(size);
         for (int i = 0; i < size; i++) {
-            list.add(i + "1234567890");
+            list.add(i + "");
         }
         return list;
     }
@@ -33,7 +33,7 @@ public final class CollectionUtil {
         size = (size == null || size <= 0) ? DEFAULT_SIZE : size;
         String[] array = new String[size];
         for (int i = 0; i < size; i++) {
-            array[i] = (i + "1234567890");
+            array[i] = (i + "");
         }
         return array;
     }
@@ -45,7 +45,7 @@ public final class CollectionUtil {
         size = (size == null || size <= 0) ? DEFAULT_SIZE : size;
         List<String> list = Lists.newLinkedList();
         for (int i = 0; i < size; i++) {
-            list.add(i + "1234567890");
+            list.add(i + "");
         }
         return list;
     }
