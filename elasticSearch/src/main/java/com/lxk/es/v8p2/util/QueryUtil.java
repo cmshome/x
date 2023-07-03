@@ -6,6 +6,7 @@ import co.elastic.clients.elasticsearch._types.SortOptionsBuilders;
 import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
 import co.elastic.clients.elasticsearch._types.aggregations.HistogramAggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.TermsAggregation;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import co.elastic.clients.elasticsearch.core.search.TrackHits;
@@ -145,4 +146,18 @@ public class QueryUtil {
         return aggregation;
     }
 
+    public static Aggregation termsSubAgg(TermsAggregation termsAggregation, Map<String, Aggregation> subAggregation) {
+        Aggregation aggregation;
+        if (subAggregation == null || subAggregation.isEmpty()) {
+            aggregation = new Aggregation.Builder()
+                    .terms(termsAggregation)
+                    .build();
+        } else {
+            aggregation = new Aggregation.Builder()
+                    .terms(termsAggregation)
+                    .aggregations(subAggregation)
+                    .build();
+        }
+        return aggregation;
+    }
 }

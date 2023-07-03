@@ -5,9 +5,12 @@ import co.elastic.clients.elasticsearch._types.aggregations.*;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.lxk.es.v8p2.base.Common;
+import com.lxk.es.v8p2.model.ZxTerms;
+import com.lxk.es.v8p2.util.QueryUtil;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -126,4 +129,51 @@ public class TermsAggTest extends Common {
         agg(aggregation);
     }
 
+
+    @Test
+    public void _5_subTerms() throws IOException {
+        List<ZxTerms> list = Lists.newArrayList();
+        list.add(new ZxTerms("1", AggregationBuilders.terms().field("b"), QueryUtil.aggregationMap("1", AggregationBuilders.max().field("b").build()._toAggregation())));
+        list.add(new ZxTerms("2", AggregationBuilders.terms().field("c"), QueryUtil.aggregationMap("2", AggregationBuilders.max().field("c").build()._toAggregation())));
+        list.add(new ZxTerms("3", AggregationBuilders.terms().field("d"), QueryUtil.aggregationMap("3", AggregationBuilders.max().field("d").build()._toAggregation())));
+        list.add(new ZxTerms("4", AggregationBuilders.terms().field("e"), QueryUtil.aggregationMap("4", AggregationBuilders.max().field("e").build()._toAggregation())));
+
+        Map<String, Aggregation> subAggs = null;
+
+
+        int builderSize = list.size();
+        Iterator<ZxTerms> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            //组合termsBuilder 子聚合语句，最多支持5层termsBuilder
+            switch (builderSize) {
+                case 1:
+                    subAggs = iterator.next().aggregations();
+                    break;
+                case 2:
+                    subAggs = iterator.next().subAggregation(iterator.next().aggregations()).aggregations();
+                    break;
+                case 3:
+                    subAggs = iterator.next().subAggregation(
+                            iterator.next().subAggregation(iterator.next().aggregations()).aggregations()
+                    ).aggregations();
+                    break;
+                case 4:
+                    subAggs = iterator.next().subAggregation(
+                            iterator.next().subAggregation(iterator.next().subAggregation(iterator.next().aggregations()).aggregations()).aggregations()
+                    ).aggregations();
+                    break;
+            }
+        }
+
+        TermsAggregation.Builder builder = new TermsAggregation.Builder();
+        builder.field("name");
+        builder.size(100);
+
+        Aggregation aggregation = new Aggregation.Builder()
+                .terms(builder.build())
+                .aggregations(subAggs)
+                .build();
+
+        agg(aggregation);
+    }
 }
