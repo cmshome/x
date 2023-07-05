@@ -1,6 +1,6 @@
 package com.lxk.jdk.ip;
 
-import com.lxk.tool.util.Tools;
+import com.lxk.tool.util.IPUtil;
 import org.junit.Test;
 
 import java.net.InetAddress;
@@ -16,7 +16,7 @@ public class IpTest {
     @Test
     public void ip2Long() {
         try {
-            long ipLong = Tools.getIpLong("0.0.0.1");
+            long ipLong = IPUtil.getIpLong("0.0.0.1");
             System.out.println(ipLong);
         } catch (UnknownHostException e) {
             e.printStackTrace();

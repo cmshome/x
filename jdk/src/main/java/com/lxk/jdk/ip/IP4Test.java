@@ -1,6 +1,6 @@
 package com.lxk.jdk.ip;
 
-import com.lxk.tool.util.Tools;
+import com.lxk.tool.util.IPUtil;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
@@ -13,10 +13,10 @@ public class IP4Test {
 
     @Test
     public void test() throws UnknownHostException {
-        long ipLong = Tools.getIpLong(ip);
+        long ipLong = IPUtil.getIpLong(ip);
         System.out.println(ipLong);
         System.out.println((Long.toBinaryString(ipLong)));
         //11111111 11111111 11111111 11111111
-        System.out.println(Tools.longToIP(ipLong));
+        System.out.println(IPUtil.longToIP(ipLong));
     }
 }
