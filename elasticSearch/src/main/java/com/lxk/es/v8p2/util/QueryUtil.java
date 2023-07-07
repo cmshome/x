@@ -49,19 +49,29 @@ public class QueryUtil {
         return list;
     }
 
+    /**
+     * 比如传进来的是5，他默认是int，但是FieldValue只认识Long类型的，直接返回null，
+     */
     public static FieldValue fieldValue(Object value) {
         if (value == null) {
             return null;
         }
-        FieldValue fieldValue = null;
+        FieldValue fieldValue;
         if (value instanceof Long) {
             fieldValue = FieldValue.of((Long) value);
+        } else if (value instanceof Integer) {
+            fieldValue = FieldValue.of((Integer)value);
+        } else if (value instanceof Float) {
+            fieldValue = FieldValue.of((Float) value);
         } else if (value instanceof Double) {
             fieldValue = FieldValue.of((Double) value);
         } else if (value instanceof Boolean) {
             fieldValue = FieldValue.of((Boolean) value);
         } else if (value instanceof String) {
             fieldValue = FieldValue.of((String) value);
+        } else {
+            // 不在上述类型范围的，一律给当字符串处理。
+            fieldValue = FieldValue.of(value + "");
         }
         return fieldValue;
     }

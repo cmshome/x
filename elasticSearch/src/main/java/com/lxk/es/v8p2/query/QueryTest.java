@@ -51,9 +51,10 @@ public class QueryTest extends Common {
 
     @Test
     public void term() throws IOException {
+        float s= 5.f;
         Query query = TermQuery.of(t -> t
-                .field("id")
-                .value("99")
+                .field("age")
+                .value(s)
         )._toQuery();
         show(query);
     }
