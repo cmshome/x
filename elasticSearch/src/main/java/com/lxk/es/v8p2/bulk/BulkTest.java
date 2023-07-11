@@ -7,6 +7,7 @@ import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
 import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
 import com.lxk.es.v8p2.base.Common;
 import com.lxk.es.v8p2.model.Product;
+import com.lxk.tool.util.JsonUtils;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -19,6 +20,26 @@ import java.util.List;
  * @author LiXuekai on 2023/7/10
  */
 public class BulkTest extends Common {
+
+
+    /**
+     * 直接传json数据，就报错如下：
+     * Compressor detection can only be called on some xcontent bytes or compressed xcontent bytes
+     */
+    @Test
+    public void bulkJson() throws IOException {
+        Product product = getOne();
+        product.setId("112233445566");
+        product.setName("abc");
+
+        String json = JsonUtils.parseObjToJson(product);
+        BulkOperation index = new BulkOperation.Builder().index(i -> i
+                .index(getIndexName())
+                .id(product.getId())
+                .document(json)
+        ).build();
+        bulk(index);
+    }
 
 
     @Test
@@ -95,7 +116,7 @@ public class BulkTest extends Common {
                 continue;
             }
             String reason = error.reason();
-            System.out.println(reason);
+            System.out.println(error);
         }
     }
 
