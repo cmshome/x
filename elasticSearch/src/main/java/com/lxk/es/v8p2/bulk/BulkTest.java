@@ -71,7 +71,7 @@ public class BulkTest extends Common {
     public void bulkDelete() throws IOException {
         BulkOperation upsert = new BulkOperation.Builder().delete(i -> i
                 .index(getIndexName())
-                .id("1")
+                .id("2")
         ).build();
 
         bulk(upsert);
@@ -88,16 +88,14 @@ public class BulkTest extends Common {
     private void showError(BulkResponse result) {
         boolean errors = result.errors();
         System.out.println("error = " + errors);
-        if (errors) {
-            List<BulkResponseItem> items = result.items();
-            for (BulkResponseItem item : items) {
-                ErrorCause error = item.error();
-                if (error == null) {
-                    continue;
-                }
-                String reason = error.reason();
-                System.out.println(reason);
+        List<BulkResponseItem> items = result.items();
+        for (BulkResponseItem item : items) {
+            ErrorCause error = item.error();
+            if (error == null) {
+                continue;
             }
+            String reason = error.reason();
+            System.out.println(reason);
         }
     }
 
