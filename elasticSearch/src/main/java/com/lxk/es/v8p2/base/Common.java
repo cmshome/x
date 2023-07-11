@@ -15,6 +15,8 @@ import co.elastic.clients.json.JsonData;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.lxk.es.v8p2.model.Product;
@@ -74,6 +76,10 @@ public class Common {
                 });
         // Create the low-level client
         RestClient restClient = builder.build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        // jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field xxx
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         // Create the transport with a Jackson mapper
         ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());

@@ -1,8 +1,8 @@
 package com.lxk.es.v8p2.create;
 
 import co.elastic.clients.elasticsearch._types.Result;
-import co.elastic.clients.elasticsearch.core.*;
-import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
+import co.elastic.clients.elasticsearch.core.IndexRequest;
+import co.elastic.clients.elasticsearch.core.IndexResponse;
 import co.elastic.clients.elasticsearch.indices.RefreshResponse;
 import com.google.common.collect.Lists;
 import com.lxk.es.v8p2.base.Common;
@@ -12,7 +12,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.List;
 
 /**
  * @author LiXuekai on 2023/5/25
@@ -67,50 +66,6 @@ public class SaveTest extends Common {
         String s = indexResponse.result().jsonValue();
         System.out.println(s);
     }
-
-
-
-    @Test
-    public void bulk() throws IOException {
-        List<Product> products = fetchProducts();
-
-        BulkRequest.Builder builder = new BulkRequest.Builder();
-
-        for (Product product : products) {
-            builder.operations(op -> op
-                    .index(idx -> idx
-                            .index(getIndexName())
-                            .id(product.getId())
-                            .document(product)
-                    )
-            );
-        }
-
-        BulkResponse result = client.bulk(builder.build());
-
-        if (result.errors()) {
-            System.out.println("Bulk had errors");
-            for (BulkResponseItem item : result.items()) {
-                String result1 = item.result();
-                if (item.error() != null) {
-                    System.out.println(item.error().reason());
-                }
-            }
-        }
-    }
-
-    private List<Product> fetchProducts() {
-        List<Product> list = Lists.newArrayList();
-        for (int i = 100; i < 150; i++) {
-            Product product = new Product();
-            product.setName("d");
-            product.setAge(i);
-            product.setId(i + "");
-            list.add(product);
-        }
-        return list;
-    }
-
 
     //@Test
     //public void json() throws FileNotFoundException {
