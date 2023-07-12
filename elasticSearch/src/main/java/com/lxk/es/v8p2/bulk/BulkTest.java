@@ -45,7 +45,11 @@ public class BulkTest extends Common {
     @Test
     public void bulkIndex() throws IOException {
         Product product = getOne();
-        BulkOperation index = new BulkOperation.Builder().index(i -> i.index(getIndexName()).id(product.getId()).document(product)).build();
+        BulkOperation index = new BulkOperation.Builder().index(i -> i
+                .index(getIndexName())
+                .id(product.getId())
+                .document(product)
+        ).build();
 
         bulk(index);
     }
