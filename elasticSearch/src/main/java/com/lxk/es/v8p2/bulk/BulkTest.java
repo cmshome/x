@@ -4,12 +4,18 @@ import co.elastic.clients.elasticsearch._types.ErrorCause;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
+import co.elastic.clients.elasticsearch.core.bulk.BulkOperationBuilders;
 import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
+import co.elastic.clients.elasticsearch.core.bulk.DeleteOperation;
+import co.elastic.clients.json.JsonData;
+import co.elastic.clients.json.JsonpMapper;
 import com.lxk.es.v8p2.base.Common;
 import com.lxk.es.v8p2.model.Product;
 import com.lxk.tool.util.JsonUtils;
+import jakarta.json.spi.JsonProvider;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,6 +26,12 @@ import java.util.List;
  * @author LiXuekai on 2023/7/10
  */
 public class BulkTest extends Common {
+
+
+    @Test
+    public void builder() {
+        DeleteOperation deleteOperation = BulkOperationBuilders.delete().id("2").index(getIndexName()).build();
+    }
 
 
     /**
@@ -37,6 +49,28 @@ public class BulkTest extends Common {
                 .index(getIndexName())
                 .id(product.getId())
                 .document(json)
+        ).build();
+        bulk(index);
+    }
+
+
+    /**
+     * 这么写就可以正常入es，但是，会不会oom、以及效率问题，有待确认。
+     */
+    @Test
+    public void bulkJsonData() throws IOException {
+        Product product = getOne();
+        product.setId("112233445566");
+        product.setName("abc");
+
+        String json = JsonUtils.parseObjToJson(product);
+        JsonpMapper jsonpMapper = client._transport().jsonpMapper();
+        JsonProvider jsonProvider = jsonpMapper.jsonProvider();
+        JsonData jsonData = JsonData.from(jsonProvider.createParser(new ByteArrayInputStream(json.getBytes())), jsonpMapper);
+        BulkOperation index = new BulkOperation.Builder().index(i -> i
+                .index(getIndexName())
+                .id(product.getId())
+                .document(jsonData)
         ).build();
         bulk(index);
     }
