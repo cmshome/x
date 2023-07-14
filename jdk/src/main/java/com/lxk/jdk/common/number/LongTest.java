@@ -20,6 +20,35 @@ public class LongTest {
     public void MaxAndMin() {
         outLongInfo(Long.MAX_VALUE);
         outLongInfo(Long.MIN_VALUE);
+
+        System.out.println(3092530332L);
+
+    }
+
+    /**
+     * int.max + 1 的变化：31个1，变成1和31个0
+     */
+    @Test
+    public void out() {
+        // 2147483647  ->  2038-01-19 11:14:07
+        String string = Integer.toBinaryString(Integer.MAX_VALUE);
+        System.out.println(string);
+        System.out.println(string.length());
+
+        System.out.println();
+
+        String sss = Long.toBinaryString(2147483648L);
+        System.out.println(sss);
+        System.out.println(sss.length());
+
+        System.out.println();
+
+        // int.max + 1 直接变成 int.min 了
+        int i = Integer.MAX_VALUE + 1;
+        System.out.println(i);
+        System.out.println(Integer.MIN_VALUE);
+        String zz = Integer.toBinaryString(i);
+        System.out.println(zz);
     }
 
     @Test
@@ -90,7 +119,7 @@ public class LongTest {
     @Test
     public void jay() throws InterruptedException {
         int span = 60;
-        while (true){
+        while (true) {
             long nowS = TimeUtils.nowS();
             long l = nowS / span * span;
             System.out.println(l + "  " + TimeUtils.formatS(l));
