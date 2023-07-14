@@ -248,16 +248,21 @@ public class DoubleTest {
 
     @Test
     public void clean() {
-        // 李涵涵看中的那个 152w   62.7/82.7 = 0.76
+        // 李涵涵看中的那个标150w，没办好户口呢，被别人捷足先登了,143W成交了。  62.7 / 82.7 = 0.76
         String s = "5.1,1.5,3.3,25,4.8,12.9,10.1";
         String total = "82.7";
 
-         //167.2W     85.0 / 112.87 =  0.75
+         // 167.2W     85.0 / 112.87 =  0.75   楼梯房，属实难受，楼梯间脏乱差，还楼层高，最主要的是还贵的很，接受不了。
         s = "7.7,7.4,4.2,13.8,30.8,4.4,10.5,6.2";
         total = "112.87";
 
+        // 媳妇儿看中的标147，最终142成交了。  63.2 / 91.85 = 0.69
+        s = "3.1,5.9,10.7,4.9,21.7,13.5,3.4";
+        total = "91.85";
+
         String[] split = s.split(",");
         List<String> list = Lists.newArrayList(split);
+
         Double sum = 0.0D;
         for (String s1 : list) {
             sum = DoubleUtil.add(Double.parseDouble(s1), sum);
