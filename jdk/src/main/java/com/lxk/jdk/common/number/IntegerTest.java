@@ -17,6 +17,9 @@ public class IntegerTest {
      * int类型的时间戳最大只能表示到下面这个时间点
      * int max 的值当秒，转成时间只能到
      * 2147483647  ->  2038-01-19 11:14:07
+     * 32位中31个1，首位是0，表示正数。
+     * 1Byte == 8bit
+     * 一个字节 == 8位
      */
     @Test
     public void max() {
