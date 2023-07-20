@@ -109,4 +109,14 @@ public class SetsTest {
         System.out.println(set.add("a"));
     }
 
+    @Test
+    public void remove() {
+        List<String> list = Lists.newArrayList();
+        Set<String> set = Sets.newHashSet(small);
+        System.out.println(set);
+        set.removeAll(list);
+        set.addAll(list);
+        System.out.println(set);
+    }
+
 }
