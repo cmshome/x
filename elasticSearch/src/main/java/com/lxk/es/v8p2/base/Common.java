@@ -62,6 +62,8 @@ public class Common {
         String ip = split[3];
         Integer port = Integer.parseInt(split[4]);
 
+        System.out.println("ip:port = " + ip + ":" + port);
+        System.out.println("user:pwd = " + user + ":" + pwd );
         System.out.println("index name is " + getIndexName());
 
         final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
