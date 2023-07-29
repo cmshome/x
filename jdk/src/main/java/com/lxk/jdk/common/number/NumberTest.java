@@ -1,5 +1,6 @@
 package com.lxk.jdk.common.number;
 
+import com.lxk.tool.util.StackTraceCollectUtil;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -28,5 +29,15 @@ public class NumberTest {
         double v = b1.subtract(b2).doubleValue();
         System.out.println(v >= 0);
 
+    }
+
+    @Test
+    public void of() {
+        try {
+            BigDecimal b1 = new BigDecimal("1.1.1.1");
+        } catch (Exception e) {
+            String s = StackTraceCollectUtil.collectStackTrace(e);
+            System.out.println(s);
+        }
     }
 }
