@@ -13,13 +13,13 @@ public class TestHouse {
 
     @Test
     public void y() {
-        Integer total = 295500;
-        Integer year = 25;
-        Integer day = year * 365;
-        Double divide = DoubleUtil.divide(total.doubleValue(), day.doubleValue());
+        int total = 295500;
+        int year = 25;
+        int day = year * 365;
+        Double divide = DoubleUtil.divide((double) total, (double) day);
         System.out.println("day:" + divide);
 
-        divide = DoubleUtil.divide(total.doubleValue(), year.doubleValue());
+        divide = DoubleUtil.divide((double) total, (double) year);
         System.out.println("year:" + divide);
     }
 
