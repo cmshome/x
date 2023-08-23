@@ -86,6 +86,12 @@ public class GetBetweenDaysTest {
         System.out.println("mac换键盘&电池多久： " + TimeUtils.between(from, to));
     }
 
+    @Test
+    public void work() {
+        from = LocalDate.of(2015, 8, 31);
+        System.out.println("stay at work ： " + TimeUtils.between(from, to));
+    }
+
     /**
      * 测试这个util方法OK不
      */
