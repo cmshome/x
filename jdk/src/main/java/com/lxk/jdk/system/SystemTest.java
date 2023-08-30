@@ -37,5 +37,11 @@ public class SystemTest {
     public void testSystemGetSpecialKey() {
         System.out.println(System.getProperty("user.dir"));
         System.out.println(System.getProperty("sun.cpu.isalist"));
+
+
+
+        // System.loadLibrary(xxx.so); 就是从下面的目录加载so文件的
+        System.out.println(System.getProperty("java.library.path"));
+
     }
 }
