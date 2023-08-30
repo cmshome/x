@@ -125,14 +125,15 @@ public class RegexTest {
 
     @Test
     public void ip() {
-        String ip = "192.1.1.11";
+        String ip = "0.0.0.0";
         boolean validIPAddress = isValidIPAddress(ip);
         System.out.println(validIPAddress);
     }
 
     public static boolean isValidIPAddress(String ipAddress) {
+        String s = "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[0-9])\\.((1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\.){2}(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$";
         if ((ipAddress != null) && (!ipAddress.isEmpty())) {
-            return Pattern.matches("^([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}$", ipAddress);
+            return Pattern.matches(s, ipAddress);
         }
         return false;
     }
