@@ -22,6 +22,13 @@ public class ListTest {
 
     }
 
+    @Test
+    public void contain() {
+        List<String> list = Lists.newArrayList("0", "1", "2", "3", "4", "5", "6");
+        boolean contains = list.contains("1");
+        System.out.println(contains);
+    }
+
     /**
      * 左闭右开
      */
