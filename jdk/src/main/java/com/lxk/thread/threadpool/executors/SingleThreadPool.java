@@ -2,6 +2,7 @@ package com.lxk.thread.threadpool.executors;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.lxk.tool.util.ThreadUtils;
+import org.junit.Test;
 
 import java.util.concurrent.*;
 
@@ -12,27 +13,21 @@ import java.util.concurrent.*;
  * @author lxk on 2018/10/8
  */
 public class SingleThreadPool {
-    private static final int MAX = 4;
+    private static final int MAX = 40;
 
-    public static void main(String[] args) {
+    @Test
+    public void single() throws InterruptedException {
         ExecutorService service = Executors.newSingleThreadExecutor();
-
-        //return new FinalizableDelegatedExecutorService
-        //        (new ThreadPoolExecutor(1, 1,
-        //                0L, TimeUnit.MILLISECONDS,
-        //                new LinkedBlockingQueue<Runnable>()));
-
-
         for (int i = 0; i < MAX; i++) {
             int index = i + 1;
             service.execute(() -> {
-                //每个线程至少执行10秒
-                ThreadUtils.sleep(10000);
+                ThreadUtils.sleep(100);
                 System.out.println("HeartBeat........................ index is " + index);
             });
-            ThreadUtils.sleep(1000);
         }
-        System.out.println("ok");
+
+        System.out.println("main thread run ");
+        TimeUnit.SECONDS.sleep(1000);
         service.shutdown();
     }
 

@@ -40,8 +40,8 @@ public class ScheduledThreadPool {
 
 
 
-
-    public static void main(String[] args) {
+    @Test
+    public void w() {
         //ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         ScheduledThreadPoolExecutor executor = (ScheduledThreadPoolExecutor) positive();
 

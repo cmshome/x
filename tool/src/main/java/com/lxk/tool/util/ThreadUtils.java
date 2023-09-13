@@ -1,7 +1,5 @@
 package com.lxk.tool.util;
 
-import com.lxk.tool.util.PrintUtil;
-
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
