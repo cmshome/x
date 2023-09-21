@@ -40,6 +40,16 @@ public class GsonTest {
         System.out.println(jsonObj);
     }
 
+    /**
+     * 转对象后，整数被改成小数点了
+     */
+    @Test
+    public void cast() {
+        String s= "{\"abc\": false, \"ddd\": null, \"fff\": 1234}";
+        Map map = GSON.fromJson(s, Map.class);
+        // {abc=false, ddd=null, fff=1234.0}
+        System.out.println(map);
+    }
 
     @Test
     public void test() {
