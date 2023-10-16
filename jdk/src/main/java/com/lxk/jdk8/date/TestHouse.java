@@ -52,5 +52,20 @@ public class TestHouse {
     }
 
 
+    @Test
+    public void glass() {
+        // 83宽 忠旺 1.8厚 隐形内开内倒 304 平开金刚网纱窗 3层真空玻璃 6扇窗户
+        double m = 11800D;
+        double s = 13D;
+        //907.69 每平方
+        System.out.println(DoubleUtil.divide(m, s));
+
+        // 72宽 实德 1.4厚 隐形内开内倒 304 平开金刚网纱窗 3层真空玻璃
+        m = 20610;
+        s = 24.5;
+        //841.22 每平方
+        System.out.println(DoubleUtil.divide(m, s));
+    }
+
 
 }
