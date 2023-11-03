@@ -97,7 +97,7 @@ public class StringSplitTest {
         // [0, xxx, 188.188.8.118, ]
         System.out.println(Arrays.toString(split));
 
-        s = "trans_ref.amount";
+        s = "s.amount";
         split = s.split("\\.");
         // [trans_ref, amount]
         System.out.println(Arrays.toString(split));
@@ -108,7 +108,7 @@ public class StringSplitTest {
      */
     @Test
     public void splitByPoint() {
-        String s = "trans_ref.amount";
+        String s = "s.amount";
         String[] split = s.split("\\.");
         System.out.println(Arrays.toString(split));
         System.out.println(s.contains("\\."));

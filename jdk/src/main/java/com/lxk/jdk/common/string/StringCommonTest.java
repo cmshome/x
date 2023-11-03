@@ -37,8 +37,9 @@ public class StringCommonTest {
      */
     @Test
     public void replaceTest(){
-        String s = "trans_ref.amount";
+        String s = "*a.amount";
         System.out.println(s.replace("lxk",""));
+        System.out.println(s.replace("*",""));
     }
 
     /**
@@ -272,7 +273,7 @@ public class StringCommonTest {
      */
     @Test
     public void index() {
-        String a = "trans_ref.ABC.A";
+        String a = "s.ABC.A";
         int i = a.indexOf(".");
 
         String pre = a.substring(0, i);
