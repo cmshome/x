@@ -12,8 +12,10 @@ import java.util.Date;
  */
 public final class TimeUtils {
     private static final DateTimeFormatter DATE_TIME_FORMATTER_SSS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER_SSS_ = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_FORMATTER_ = DateTimeFormatter.ofPattern("yyyy.MM.dd");
     private static final DateTimeFormatter TIME_S_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
     private static final ZoneId ZONE_ID = ZoneOffset.systemDefault();
@@ -24,6 +26,11 @@ public final class TimeUtils {
      * 8小时的秒数
      */
     private static final int OFFSET = 8 * 60 * 60;
+    /**
+     * 一天的秒数，
+     */
+    public static final int SECOND_IN_DAY = 60 * 60 * 24;
+
 
 
     /**
@@ -35,6 +42,34 @@ public final class TimeUtils {
     public static LocalDateTime parse(String text) {
         try {
             return LocalDateTime.parse(text, DATE_TIME_FORMATTER);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * turn 字符串 to LocalDateTime
+     *
+     * @param text 形如：2022-11-10 20:00:00:060
+     * @return LocalDateTime
+     */
+    public static LocalDateTime parseMs(String text) {
+        try {
+            return LocalDateTime.parse(text, DATE_TIME_FORMATTER_SSS);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * turn 字符串 to LocalDateTime
+     *
+     * @param text 形如：2022-11-10 20:00:00.060
+     * @return LocalDateTime
+     */
+    public static LocalDateTime parseMs_(String text) {
+        try {
+            return LocalDateTime.parse(text, DATE_TIME_FORMATTER_SSS_);
         } catch (Exception e) {
             return null;
         }
@@ -85,6 +120,16 @@ public final class TimeUtils {
      */
     public static String format(LocalDate localDate) {
         return DATE_FORMATTER.format(localDate);
+    }
+
+    /**
+     * 默认格式化时间格式为：yyyy.MM.dd
+     *
+     * @param localDate localDate
+     * @return yyyy-MM-dd
+     */
+    public static String format_(LocalDate localDate) {
+        return DATE_FORMATTER_.format(localDate);
     }
 
     /**
@@ -158,6 +203,16 @@ public final class TimeUtils {
     }
 
     /**
+     * 格式化 localDateTime
+     *
+     * @param localDateTime localDateTime
+     * @return yyyy-MM-dd HH:mm:ss.SSS
+     */
+    public static String formatMs_(LocalDateTime localDateTime) {
+        return DATE_TIME_FORMATTER_SSS_.format(localDateTime);
+    }
+
+    /**
      * 秒 -> LocalDateTime
      *
      * @param s 秒
@@ -219,13 +274,41 @@ public final class TimeUtils {
     }
 
     /**
+     * 当天0点的LocalDateTime
+     *
+     * @return 当前0点的LocalDateTime
+     */
+    public static LocalDateTime dayStart() {
+        return zero(LocalDateTime.now());
+    }
+
+    /**
+     * 当月的1号的0点的LocalDateTime
+     *
+     * @return 当前0点的LocalDateTime
+     */
+    public static LocalDateTime monthStart() {
+        return zero(LocalDateTime.now().withDayOfMonth(1));
+    }
+
+    /**
+     * 置传入时间为整0点时间戳秒
+     *
+     * @param localDateTime LocalDateTime
+     * @return 置传入时间为整0点时间的
+     */
+    public static LocalDateTime zero(LocalDateTime localDateTime) {
+        return localDateTime.withHour(ZERO).withMinute(ZERO).withSecond(ZERO).withNano(ZERO);
+    }
+
+    /**
      * 置传入时间为整0点时间戳秒
      *
      * @param localDateTime LocalDateTime
      * @return 传入时间置为整0点时间戳秒
      */
     public static Long dayStartSecond(LocalDateTime localDateTime) {
-        return localDateTime.withHour(ZERO).withMinute(ZERO).withSecond(ZERO).withNano(ZERO).atZone(ZONE_ID).toEpochSecond();
+        return zero(localDateTime).atZone(ZONE_ID).toEpochSecond();
     }
 
     /**
@@ -297,7 +380,27 @@ public final class TimeUtils {
      * @param day    天数
      * @return 时间戳
      */
-    static Long plusDays(Long second, int day) {
+    public static Long plusDays(Long second, int day) {
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(second), ZONE_ID).plusDays(day).atZone(ZONE_ID).toEpochSecond();
     }
+
+    /**
+     * 到0点还有多少秒
+     *
+     * @param now now
+     * @return 今天还剩下的秒数
+     */
+    public static long nowDayLeftSeconds(LocalDateTime now) {
+        Long dayStart = dayStartSecond(now);
+        Long nowS = toS(now);
+        return SECOND_IN_DAY - (nowS - dayStart);
+    }
+
+    /**
+     * 打印执行时间的统一方法
+     */
+    public static float tillNowS(long nowMs) {
+        return (System.currentTimeMillis() - nowMs) / 1000f;
+    }
+
 }
