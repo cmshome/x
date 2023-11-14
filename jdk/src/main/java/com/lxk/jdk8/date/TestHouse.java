@@ -12,7 +12,7 @@ import java.util.List;
 public class TestHouse {
 
     @Test
-    public void y() {
+    public void interest() {
         int total = 295500;
         int year = 25;
         int day = year * 365;
@@ -51,13 +51,12 @@ public class TestHouse {
         System.out.println(sum + " / " + total + " = " + DoubleUtil.divide(sum, Double.parseDouble(total)) + "%");
     }
 
-
     @Test
-    public void glass() {
+    public void window() {
         // 83宽 忠旺 1.8厚 隐形内开内倒 304 平开金刚网纱窗 3层真空玻璃 6扇窗户
-        double m = 11800D;
+        double m = 11600D;
         double s = 13D;
-        //907.69 每平方
+        //892.31 每平方
         System.out.println(DoubleUtil.divide(m, s));
 
         // 72宽 实德 1.4厚 隐形内开内倒 304 平开金刚网纱窗 3层真空玻璃
@@ -65,6 +64,33 @@ public class TestHouse {
         s = 24.5;
         //841.22 每平方
         System.out.println(DoubleUtil.divide(m, s));
+    }
+
+    @Test
+    public void door() {
+        int a = 800;
+        System.out.println(a*2 + 886);
+    }
+
+    @Test
+    public void tv() {
+        System.out.println(7705);
+    }
+
+    @Test
+    public void sofa() {
+        System.out.println();
+    }
+
+    @Test
+    public void train() {
+        Double oneDay = DoubleUtil.mul(54.5, 2.0);
+        System.out.println("one day：" + oneDay);
+        Double month = DoubleUtil.mul(oneDay, 20.0);
+        System.out.println("each day in every month：" + month);
+        Double week = DoubleUtil.mul(oneDay, 4.0);
+        System.out.println("each week in every month：" + week);
+        System.out.println(DoubleUtil.sub(month, week));
     }
 
 
