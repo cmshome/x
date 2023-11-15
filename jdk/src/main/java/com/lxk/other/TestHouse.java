@@ -74,7 +74,7 @@ public class TestHouse {
 
     @Test
     public void tv() {
-        System.out.println(7705);
+        System.out.println(7617);
     }
 
     @Test
