@@ -15,7 +15,7 @@ public class JsonTest {
 
     @Test
     public void testNull() {
-        String s= "{\"abc\": false, \"ddd\": null, null:null}";
+        String s = "{\"abc\": false, \"ddd\": null, null:null}";
         Map map = JsonUtils.parseJsonToObj(s, Map.class);
         if (map == null) {
             return;
@@ -30,16 +30,22 @@ public class JsonTest {
 
 
     @Test
-    public void x() {
-        String x = "[\n" +
-                "\"5563dc7af045ceb2c69808d0b955\"\n" +
-                ",\n" +
-                "\"5163dc7af045ceb2c69808d0cb51\"\n" +
-                "]";
-
-
-        System.out.println(x);
-        List<String> strings = JsonUtils.parseJsonToArrayObj(x, String.class);
-        System.out.println(strings.size());
+    public void list() {
+        String json = "[\"650155d684ae59bb236ce3fa\",\"655c602995ca5efa5c8a0d5f\",\"65487cdf84ae4dde4f6d7fd9\"]";
+        List<String> strings = JsonUtils.parseJsonToArrayObj(json, String.class);
+        System.out.println(strings);
     }
+
+    @Test
+    public void array() {
+        String json = "{\"d\":[\"5b514dc421acdd3860d29fd1\"],\"e\":2000}";
+        Map map = JsonUtils.parseJsonToObj(json, Map.class);
+        Object o = map.get("d");
+        if (o instanceof List) {
+            List<String> streamIds = (List<String>) o;
+            System.out.println();
+
+        }
+    }
+
 }
