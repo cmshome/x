@@ -2,6 +2,7 @@ package com.lxk.jdk.collection;
 
 import com.google.common.collect.Lists;
 import com.lxk.tool.util.CollectionUtil;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -15,18 +16,25 @@ import java.util.List;
  */
 public class ListTest {
 
-    /**
-     * ConcurrentModificationException 异常的三种常见情况
-     */
-    private static void concurrentModificationException() {
+    private List<String> list;
 
+    @Before
+    public void init() {
+        list = Lists.newArrayList("0", "1", "2", "3", "4", "5", "6");
     }
 
     @Test
     public void contain() {
-        List<String> list = Lists.newArrayList("0", "1", "2", "3", "4", "5", "6");
         boolean contains = list.contains("1");
         System.out.println(contains);
+    }
+
+
+    @Test
+    public void remove() {
+        System.out.println(list);
+        String remove = list.remove(0);
+        System.out.println(list);
     }
 
     /**
@@ -34,7 +42,6 @@ public class ListTest {
      */
     @Test
     public void subListTest() {
-        List<String> list = Lists.newArrayList("0", "1", "2", "3", "4", "5", "6");
         System.out.println(list.toString());
         List<String> subList = list.subList(0, 5);
         System.out.println(subList.toString());
@@ -46,7 +53,6 @@ public class ListTest {
      */
     @Test
     public void list2Array() {
-        List<String> list = Lists.newArrayList("a", "b", "c", "d", "e");
         String[] array = list.toArray(new String[0]);
         System.out.println(Arrays.toString(array));
     }
