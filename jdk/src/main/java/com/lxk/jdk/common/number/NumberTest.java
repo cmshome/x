@@ -1,10 +1,12 @@
 package com.lxk.jdk.common.number;
 
+import com.google.common.collect.Maps;
 import com.lxk.tool.util.StackTraceCollectUtil;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -25,7 +27,8 @@ public class NumberTest {
 
 
         BigDecimal b1 = new BigDecimal("1.11");
-        BigDecimal b2 = new BigDecimal("1.11");;
+        BigDecimal b2 = new BigDecimal("1.11");
+        ;
         double v = b1.subtract(b2).doubleValue();
         System.out.println(v >= 0);
 
@@ -40,4 +43,64 @@ public class NumberTest {
             System.out.println(s);
         }
     }
+
+
+    @Test
+    public void getNumber() {
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("a", 100);
+        map.put("b", 200L);
+        map.put("c", null);
+        map.put("d", null);
+
+        Long a = getLong(map, "c");
+        System.out.println(a);
+
+    }
+
+
+    public Long getLong(Map<String, Object> map, String key) {
+        try {
+            Object o = map.get(key);
+            if (o instanceof Long) {
+                return (Long) o;
+            }
+            return Long.parseLong(o.toString());
+        } catch (Exception ignored) {
+            return 0L;
+        }
+    }
+
+    public Integer getInteger_(Map<String, Object> map, String key) {
+        try {
+            Object o = map.get(key);
+            return Integer.parseInt(o.toString());
+        } catch (Exception ignored) {
+            return 0;
+        }
+    }
+
+    public Integer getInteger(Map<String, Object> map, String key) {
+        try {
+            Object o = map.get(key);
+            if (o instanceof Integer) {
+                return (Integer) o;
+            }
+            return Integer.parseInt(o.toString());
+        } catch (Exception ignored) {
+            return 0;
+        }
+    }
+
+    @Test
+    public void cost() {
+        String key = "a";
+        Map<String, Object> map = Maps.newHashMap();
+        map.put(key, 100);
+        while (true) {
+            getInteger(map, key);
+            getInteger_(map, key);
+        }
+    }
+
 }

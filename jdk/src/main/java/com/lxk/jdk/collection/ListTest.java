@@ -33,8 +33,11 @@ public class ListTest {
     @Test
     public void remove() {
         System.out.println(list);
-        String remove = list.remove(0);
-        System.out.println(list);
+        StringBuilder remove = new StringBuilder(list.remove(0));
+        for (String s : list) {
+            remove.append(s);
+        }
+        System.out.println(remove);
     }
 
     /**
