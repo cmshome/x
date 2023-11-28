@@ -103,7 +103,7 @@ public final class JsonUtils {
     /**
      * fastjson在转换 "@type"为key的json的时候出异常
      */
-    private static <T> T fastjsonCast(String json, Class<T> c) {
+    public static <T> T fastjsonCast(String json, Class<T> c) {
         try {
             JSONObject jsonObject = JSON.parseObject(json);
             return JSON.toJavaObject(jsonObject, c);
@@ -116,7 +116,7 @@ public final class JsonUtils {
     /**
      * gson 转json 为object
      */
-    private static <T> T gsonCast(String json, Class<T> c) {
+    public static <T> T gsonCast(String json, Class<T> c) {
         try {
             return GSON.fromJson(json, c);
         } catch (Exception e) {
@@ -128,7 +128,7 @@ public final class JsonUtils {
     /**
      * jackson 转json 为object
      */
-    private static <T> T jacksonCast(String json, Class<T> c) {
+    public static <T> T jacksonCast(String json, Class<T> c) {
         try {
             return OBJECT_MAPPER.readValue(json, c);
         } catch (Exception e) {
@@ -137,7 +137,7 @@ public final class JsonUtils {
         return null;
     }
 
-    private static <T> List<T> fastjsonCastArray(String json, Class<T> c) {
+    public static <T> List<T> fastjsonCastArray(String json, Class<T> c) {
         try {
             return JSON.parseArray(json, c);
         } catch (Exception e) {
@@ -146,7 +146,7 @@ public final class JsonUtils {
         return null;
     }
 
-    private static <T> List<T> jacksonCastArray(String json, Class<T> c) {
+    public static <T> List<T> jacksonCastArray(String json, Class<T> c) {
         try {
             return OBJECT_MAPPER.readValue(json, OBJECT_MAPPER.getTypeFactory().constructParametricType(List.class, c));
         } catch (Exception e) {

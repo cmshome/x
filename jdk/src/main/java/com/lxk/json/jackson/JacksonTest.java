@@ -92,4 +92,34 @@ public class JacksonTest {
         });
     }
 
+    /**
+     * 自动转换之后，数据类型，有些会呗改成 BigDecimal，不是我想的double或者float。
+     */
+    @Test
+    public void json2map() {
+        String json = "{\n" +
+                "    \"a\":0,\n" +
+                "    \"b\":15,\n" +
+                "    \"c\":15,\n" +
+                "    \"dd\":3324.33,\n" +
+                "    \"e\":0,\n" +
+                "    \"f\":0,\n" +
+                "    \"g\":1\n" +
+                "}";
+
+        /*
+            "a" -> {Integer@1304} 0
+            "b" -> {Integer@1321} 15
+            "c" -> {Integer@1321} 15
+            "dd" -> {Double@1324} 3324.33
+            "e" -> {Integer@1304} 0
+            "f" -> {Integer@1304} 0
+            "g" -> {Integer@1328} 1
+         */
+
+        //自动转换之后，数据类型，有些会呗改成 BigDecimal，不是我想的double或者float。
+        Map map = JsonUtils.jacksonCast(json, Map.class);
+        Object a = map.get("a");
+        System.out.println(a);
+    }
 }
