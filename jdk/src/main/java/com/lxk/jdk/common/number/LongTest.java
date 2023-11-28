@@ -11,6 +11,28 @@ import java.util.concurrent.TimeUnit;
  */
 public class LongTest {
 
+
+    @Test
+    public void long2Double() {
+        long s = 123456789L;
+        double a = (double) s;
+        System.out.println(a);
+        long max = Long.MAX_VALUE;
+        double d = (double) max;
+
+        System.out.println(d);
+        System.out.println(new BigDecimal(d).toPlainString());
+        System.out.println(Long.MAX_VALUE);
+
+        long l = Double.doubleToLongBits(max);
+        System.out.println(l);
+        int i = 100;
+        double aa = (double) i;
+        System.out.println(aa);
+
+        System.out.println(1 + 1 + 2 * 3 + "");
+    }
+
     /**
      * 无符号64个1 unsigned long 数字
      */

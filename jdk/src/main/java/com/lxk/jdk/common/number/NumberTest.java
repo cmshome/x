@@ -92,6 +92,9 @@ public class NumberTest {
         }
     }
 
+    /**
+     * 在做类型转换的时候，先判断一下类型，而不是直接toString再parse
+     */
     @Test
     public void cost() {
         String key = "a";
@@ -102,5 +105,20 @@ public class NumberTest {
             getInteger_(map, key);
         }
     }
+
+
+    @Test
+    public void cast() {
+        Long a = 100L;
+        if (a instanceof Long){
+            double a1 = a;
+            System.out.println(a1);
+        }
+
+        double s = (double) a;
+        System.out.println(s);
+    }
+
+
 
 }
