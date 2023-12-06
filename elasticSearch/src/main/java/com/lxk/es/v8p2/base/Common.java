@@ -55,6 +55,9 @@ public class Common {
         String path = "/Users/fang/Downloads/test/a.csv";
 
         List<String> list = FileIOUtil.readFileByLine(path, false);
+        if (list.isEmpty()) {
+            return;
+        }
         String[] split = list.get(0).split(",");
         indexName = split[0];
         String user = split[1];

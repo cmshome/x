@@ -1,9 +1,11 @@
 package com.lxk.jdk.common.number;
 
+import com.google.common.collect.Maps;
 import com.lxk.tool.util.TimeUtils;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -13,19 +15,43 @@ public class LongTest {
 
 
     @Test
+    public void cast() {
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("a", 100);
+        map.put("b", 200L);
+        Double a = getDouble(map, "b");
+        System.out.println(a);
+    }
+
+    public Double getDouble(Map<String, Object> map, String key) {
+        try {
+            Object o = map.get(key);
+            if (o instanceof Long) {
+                // unbox 一下，就能转了
+                long l = (long) o;
+                return (double) l;
+            }
+            return Double.parseDouble(o.toString());
+        } catch (Exception ignored) {
+            return 0.;
+        }
+    }
+
+    @Test
     public void long2Double() {
         long s = 123456789L;
         double a = (double) s;
         System.out.println(a);
+
         long max = Long.MAX_VALUE;
         double d = (double) max;
 
-        System.out.println(d);
-        System.out.println(new BigDecimal(d).toPlainString());
-        System.out.println(Long.MAX_VALUE);
+        System.out.println("double Long Max " + d);
+        System.out.println("double Long Max toPlainString " + new BigDecimal(d).toPlainString());
+        System.out.println("Long.MAX_VALUE " + Long.MAX_VALUE);
 
         long l = Double.doubleToLongBits(max);
-        System.out.println(l);
+        System.out.println("Double.doubleToLongBits(max) " + l);
         int i = 100;
         double aa = (double) i;
         System.out.println(aa);
