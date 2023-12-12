@@ -28,7 +28,7 @@ public class FileTest {
     }
 
     @Test
-    public void test(){
+    public void test() {
         String configDataFilePath = "";
         File file = new File(configDataFilePath);
         String[] fileArray = file.list();
@@ -123,7 +123,7 @@ public class FileTest {
     @Test
     public void ref() throws InterruptedException {
         String path = "/Users/fang/Downloads/test";
-        while (true){
+        while (true) {
             Set<File> files = FileIOUtil.fileUnderPath(path);
             files.forEach(file -> {
                 System.out.println(file.getAbsolutePath());
