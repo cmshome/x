@@ -18,6 +18,21 @@ import java.util.List;
 public class StringCommonTest {
 
     /**
+     * 计算字符串的大小
+     * byte就是字节，最小的单位了。
+     * kb就是千字节。
+     * 1B = 8bit
+     * 1KB = 1024B
+     * 1MB = 1024KB
+     * ...
+     */
+    @Test
+    public void size() {
+        String a= "abc";
+        System.out.println(a.getBytes().length);
+    }
+
+    /**
      * 正则表达式 {1,} :出现一次或者多次 意义同 +
      */
     @Test
