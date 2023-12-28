@@ -20,12 +20,6 @@ import java.util.concurrent.TimeUnit;
  * @author lxk on 2017/5/16
  */
 public class FileTest {
-    public static void main(String[] args) {
-        //testFileIsExists();
-        //testRenameFile();
-        testIsDir();
-
-    }
 
     @Test
     public void test() {
@@ -41,7 +35,8 @@ public class FileTest {
      * 测试一个给定字符串，是不是目录。
      * 问题：windows里面是d:形式，但是linux里面直接是/root/sd什么的。这就不科学啦。
      */
-    private static void testIsDir() {
+    @Test
+    public void testIsDir() {
         String path = "/1";
         File file;
         try {
@@ -51,14 +46,13 @@ public class FileTest {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-
     }
 
     /**
      * 重命名一个文件：将原来的文件直接修改
      */
-    private static void testRenameFile() {
+    @Test
+    public void testRenameFile() {
         String filePath = "D:/test/我是.conf";
         try {
             File src = new File(filePath);
@@ -87,7 +81,8 @@ public class FileTest {
     /**
      * 一个目录要是不存在，则创建目录，然后写文件。
      */
-    private static void testFileIsExists() {
+    @Test
+    public void testFileIsExists() {
         String path = "D:/lxk/conf/es-source.properties";
         File file = new File(path);
         System.out.println(file.getParentFile());
@@ -134,7 +129,6 @@ public class FileTest {
             });
             TimeUnit.SECONDS.sleep(10);
         }
-
     }
 
 
