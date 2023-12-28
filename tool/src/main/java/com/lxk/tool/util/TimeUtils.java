@@ -12,6 +12,8 @@ import java.util.Date;
  */
 public final class TimeUtils {
     private static final DateTimeFormatter DATE_TIME_FORMATTER_SSS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER_SSS_SSS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSSSSS");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER_SSS_SSS_SSS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSSSSSSSS");
     private static final DateTimeFormatter DATE_TIME_FORMATTER_SSS_ = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -200,6 +202,14 @@ public final class TimeUtils {
      */
     public static String formatMs(LocalDateTime localDateTime) {
         return DATE_TIME_FORMATTER_SSS.format(localDateTime);
+    }
+
+    public static String formatUs(LocalDateTime localDateTime) {
+        return DATE_TIME_FORMATTER_SSS_SSS.format(localDateTime);
+    }
+
+    public static String formatNs(LocalDateTime localDateTime) {
+        return DATE_TIME_FORMATTER_SSS_SSS_SSS.format(localDateTime);
     }
 
     /**
