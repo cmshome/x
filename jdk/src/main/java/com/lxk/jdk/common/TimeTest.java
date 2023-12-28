@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -125,5 +126,12 @@ public class TimeTest {
 
     }
 
+    @Test
+    public void fileLineSeparator() {
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(TimeUtils.formatUs(now));
+        System.out.println(TimeUtils.formatNs(now));
+        System.out.println(now.getNano());
+    }
 
 }
