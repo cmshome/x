@@ -5,6 +5,7 @@ import com.lxk.tool.util.TimeUtils;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -173,6 +174,23 @@ public class LongTest {
             System.out.println(l + "  " + TimeUtils.formatS(l));
             TimeUnit.SECONDS.sleep(1);
         }
+    }
+
+    @Test
+    public void nanosecond() {
+        // 原始值：     9223372036854775807
+        // es中的最大值：9223372036854776000
+        long maxValue = Long.MAX_VALUE;
+        System.out.println(maxValue);
+        long na = 1703320042083237750L;
+        System.out.println(na);
+        System.out.println(maxValue - na);
+
+        Instant instant = Instant.ofEpochSecond(1703320042L, 83237750L);
+        System.out.println(instant);
+        System.out.println(instant.getEpochSecond());
+        System.out.println(instant.getNano());
+        System.out.println(instant.getEpochSecond() * 1_000_000_000 + instant.getNano());
     }
 
 }

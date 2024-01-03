@@ -246,4 +246,19 @@ public class DoubleTest {
     }
 
 
+    @Test
+    public void tooLong() {
+        String s = "1703839978.123456789";
+        double v = Double.parseDouble(s);
+        System.out.println(v);
+
+        BigDecimal bigDecimal = new BigDecimal(s);
+        System.out.println(bigDecimal.toPlainString());
+
+        s = "1703320042083237.750";
+
+        v = Double.parseDouble(s);
+        System.out.println(v);
+    }
+
 }
