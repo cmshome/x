@@ -261,4 +261,13 @@ public class DoubleTest {
         System.out.println(v);
     }
 
+    @Test
+    public void toLong2String() {
+        Long aaa = 1703320042123456789L;
+        String s1 = aaa + "";
+        String q = s1.substring(0, 10);
+        String w = s1.substring(10);
+        System.out.println(q + "." + w);
+    }
+
 }
