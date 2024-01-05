@@ -270,4 +270,20 @@ public class DoubleTest {
         System.out.println(q + "." + w);
     }
 
+    /**
+     * 在Windows中
+     * \r：表示回车，回到当前行的行首，而不会换到下一行，如果接着输出的话，本行以前的内容会被逐一覆盖（光标在该行的头部）
+     * \r\n：表示换行，换到当前位置的下一行（光标在下一行的头部）
+     * 在Unix/Linux系统中
+     * \n：表示换行
+     * 在Mac中
+     * \r：表示换行
+     */
+    @Test
+    public void lineBreak() {
+        System.out.println("111\r\n222");
+        System.out.println("333\n444");
+        System.out.println("555\r666");
+    }
+
 }
