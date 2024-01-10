@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * 时间相关的测试
@@ -25,7 +26,7 @@ public class TimeTest {
     @Test
     public void getIntegerMinute() {
         long now = 1551945564L;
-        long yes = now/60 * 60;
+        long yes = now / 60 * 60;
         System.out.println(now);
         System.out.println(yes);
         System.out.println(yes + 60);
@@ -133,5 +134,24 @@ public class TimeTest {
         System.out.println(TimeUtils.formatNs(now));
         System.out.println(now.getNano());
     }
+
+    @Test
+    public void random() {
+        int span = 15;
+        long a = TimeUtils.nowS() / span * span;
+        String format = TimeUtils.formatS(a);
+        System.out.println(format);
+        int max = 6;
+        for (int i = 0; i < max; i++) {
+            int s = new Random().nextInt(span);
+            int ms = new Random().nextInt(1000);
+            long nowS = a + s;
+            long nowMs = nowS * 1000 + ms;
+            int ns = ms * 1000000+ new Random().nextInt(1000000);
+            LocalDateTime localDateTime = TimeUtils.ms2LocalDateTime(nowMs).withNano(ns);
+            System.out.println(TimeUtils.formatS(nowS) + "   " + TimeUtils.formatMs(nowMs) + "   " + TimeUtils.formatNs(localDateTime));
+        }
+    }
+
 
 }
