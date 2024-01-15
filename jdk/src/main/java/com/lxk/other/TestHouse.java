@@ -4,24 +4,14 @@ import com.google.common.collect.Lists;
 import com.lxk.tool.util.DoubleUtil;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 /**
  * @author LiXuekai on 2023/8/16
  */
 public class TestHouse {
-
-    @Test
-    public void interest() {
-        int total = 295500;
-        int year = 25;
-        int day = year * 365;
-        Double divide = DoubleUtil.divide((double) total, (double) day);
-        System.out.println("day:" + divide);
-
-        divide = DoubleUtil.divide((double) total, (double) year);
-        System.out.println("year:" + divide);
-    }
 
 
     @Test
@@ -39,7 +29,7 @@ public class TestHouse {
     }
 
     /**
-     * 计算得房率
+     *
      */
     private void compute(String s, String total) {
         Double sum = 0.0D;
@@ -69,7 +59,7 @@ public class TestHouse {
     @Test
     public void door() {
         int a = 800;
-        System.out.println(a*2 + 886);
+        System.out.println(a * 2 + 886);
     }
 
     @Test
@@ -91,6 +81,44 @@ public class TestHouse {
         Double week = DoubleUtil.mul(oneDay, 4.0);
         System.out.println("each week in every month：" + week);
         System.out.println(DoubleUtil.sub(month, week));
+    }
+
+    @Test
+    public void interest() {
+        int total = 295500;
+        int year = 25;
+        int day = year * 365;
+        Double divide = DoubleUtil.divide((double) total, (double) day);
+        System.out.println("day:" + divide);
+
+        divide = DoubleUtil.divide((double) total, (double) year);
+        System.out.println("year:" + divide);
+    }
+
+    @Test
+    public void sum() {
+        List<Double> list1 = Lists.newArrayList();
+        List<Double> list2 = Lists.newArrayList();
+        double x = 6.54;
+        double y = 2066.67;
+        double s = 1963.33;
+        for (int i = 0; i < 25 * 12; i++) {
+            double value = new BigDecimal(s - (i * x)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            list1.add(value);
+            list2.add(new BigDecimal(value + y).setScale(2, RoundingMode.HALF_UP).doubleValue());
+        }
+        list1.forEach(d -> System.out.print(d + ", "));
+        System.out.println();
+
+        list2.forEach(d -> System.out.print(d + ", "));
+        System.out.println();
+
+        double sum1 = list1.stream().mapToDouble(a -> a).sum();
+        System.out.println(sum1);
+
+        double sum2 = list2.stream().mapToDouble(a -> a).sum();
+        System.out.println(sum2);
+
     }
 
 
