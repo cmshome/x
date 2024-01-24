@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * String字符串测试
@@ -442,6 +443,12 @@ public class StringCommonTest {
         list.add("2");
         list.add("3");
         integer = 9999;
+    }
+
+    @Test
+    public void eq() {
+        boolean b = Objects.equals(null, null);
+        System.out.println(b);
     }
 
 }
