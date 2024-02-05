@@ -129,4 +129,12 @@ public class ArraysTest {
         student.setCar(car);
         return student;
     }
+
+    @Test
+    public void array() {
+        long[] a = new long[]{1,2};
+        for (long l : a) {
+            System.out.println(l);
+        }
+    }
 }
