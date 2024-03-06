@@ -193,4 +193,14 @@ public class LongTest {
         System.out.println(instant.getEpochSecond() * 1_000_000_000 + instant.getNano());
     }
 
+    /**
+     * 经常说的 一万 X 一万，结果是一亿
+     */
+    @Test
+    public void mm() {
+        long s = 10000* 10000;
+        BigDecimal bigDecimal = new BigDecimal(s);
+        System.out.println(bigDecimal.toPlainString());
+    }
+
 }
