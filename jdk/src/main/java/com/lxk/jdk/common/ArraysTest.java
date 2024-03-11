@@ -137,4 +137,13 @@ public class ArraysTest {
             System.out.println(l);
         }
     }
+
+    /**
+     * 当get超过list的size，就异常。
+     */
+    @Test
+    public void indexOutOfBounds() {
+        List<String> list = Lists.newArrayList("1","2","3");
+        System.out.println(list.get(3));
+    }
 }

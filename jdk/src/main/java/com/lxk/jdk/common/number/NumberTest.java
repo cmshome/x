@@ -117,6 +117,12 @@ public class NumberTest {
 
         double s = (double) a;
         System.out.println(s);
+
+
+        // 这种000开头的字符串也能正常解析成数字
+        String ad="0000400";
+        double v = Double.parseDouble(ad);
+        System.out.println(v);
     }
 
 
