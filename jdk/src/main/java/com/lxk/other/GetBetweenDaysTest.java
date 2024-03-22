@@ -84,6 +84,8 @@ public class GetBetweenDaysTest {
     public void newBatteryDay() {
         from = LocalDate.of(2021, 4, 9);
         System.out.println("mac换键盘&电池多久： " + TimeUtils.between(from, to));
+        from = LocalDate.of(2024, 3, 22);
+        System.out.println("mac又换新电池多久： " + TimeUtils.between(from, to));
     }
 
     @Test
