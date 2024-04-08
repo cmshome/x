@@ -54,6 +54,10 @@ public class GetBetweenDaysTest {
         from = LocalDate.of(2021, 4, 24);
         System.out.println("sql's daughter 多大了： " + TimeUtils.between(from, to) + " 啦。");
         System.out.println("sql's daughter 多大了： " + TimeUtils.betweenDay(from, to) + " 啦。");
+
+        from = LocalDate.of(2024, 4, 1);
+        System.out.println("狗子 son 多大了： " + TimeUtils.between(from, to) + " 啦。");
+        System.out.println("狗子 son 多大了： " + TimeUtils.betweenDay(from, to) + " 啦。");
     }
 
     @Test
