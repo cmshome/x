@@ -28,6 +28,9 @@ public class MapTest {
         map.put("b.b", "yy");
         map.put("c.c", "yy");
 
+        map.remove("a");
+        map.remove("b");
+        map.remove("c");
         Map<String, String> map2 = Maps.newHashMap();
         for (String key : map.keySet()) {
             map2.put(key.replace(".", "_"), map.get(key));

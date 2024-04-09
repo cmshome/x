@@ -29,7 +29,7 @@ public class StringCommonTest {
      */
     @Test
     public void size() {
-        String a= "abc";
+        String a = "abc";
         System.out.println(a.getBytes().length);
     }
 
@@ -52,10 +52,10 @@ public class StringCommonTest {
      * replace方法，如果arg1不存在，那么原始值是不会被修改的。
      */
     @Test
-    public void replaceTest(){
+    public void replaceTest() {
         String s = "*a.amount";
-        System.out.println(s.replace("lxk",""));
-        System.out.println(s.replace("*",""));
+        System.out.println(s.replace("lxk", ""));
+        System.out.println(s.replace("*", ""));
     }
 
     /**
@@ -64,16 +64,22 @@ public class StringCommonTest {
     @Test
     public void replaceTest2() {
         String s = "a.b.c.d.e.f";
-        System.out.println(s.replace(".","_"));
+        System.out.println(s.replace(".", "_"));
     }
 
     @Test
-    public void subStringTest(){
+    public void subStringTest() {
         String s = "12345678qwweqwrqqtqtqt";
         System.out.println(s.substring(8));
+
+
+        s = "2406:5840:1fe1:1::40";
+        int i = s.lastIndexOf(":");
+        System.out.println(s.substring(0, i + 1));
     }
+
     @Test
-    public void lengthTest(){
+    public void lengthTest() {
         String ss = "我是一个小学生";
         System.out.println(ss.length());
         byte[] bytes = ss.getBytes(StandardCharsets.UTF_8);
