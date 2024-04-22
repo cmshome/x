@@ -126,9 +126,7 @@ public class TestHouse {
     public void ns() {
         int asphalt = 298;
         int superMarioWonder = 241;
-        // 手柄
         int gamepad = 122;
-        // 壳、贴膜
         int shell = 70;
         int vip = 39;
         int ns = 1745;
