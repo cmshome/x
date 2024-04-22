@@ -39,5 +39,12 @@ public class TestTimeUtil {
         System.out.println(TimeUtils.formatS(localTime));
     }
 
+    @Test
+    public void zero() {
+        String s = TimeUtils.formatS(0);
+        System.out.println(s);
+        s = TimeUtils.formatMs(0);
+        System.out.println(s);
+    }
 
 }
