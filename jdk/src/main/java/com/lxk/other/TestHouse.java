@@ -122,4 +122,21 @@ public class TestHouse {
     }
 
 
+    @Test
+    public void ns() {
+        int asphalt = 298;
+        int superMarioWonder = 241;
+        // 手柄
+        int gamepad = 122;
+        // 壳、贴膜
+        int shell = 70;
+        int vip = 39;
+        int ns = 1745;
+        int amiibo = 23;
+        int kabi = 236;
+        int kingTear = 239;
+        int party = 238;
+        System.out.println(asphalt + superMarioWonder + gamepad + shell + vip + ns + amiibo + kabi + kingTear + party);
+    }
+
 }
