@@ -47,4 +47,15 @@ public class TestTimeUtil {
         System.out.println(s);
     }
 
+    @Test
+    public void format() {
+        String s = TimeUtils.formatS(1713904680);
+        System.out.println(s);
+
+        s = TimeUtils.formatS(1714009860);
+        System.out.println(s);
+
+
+    }
+
 }
