@@ -126,5 +126,13 @@ public class NumberTest {
     }
 
 
+    @Test
+    public void sd() {
+        int x=20000;
+        float y=20000.0F;
+        System.out.println(x == y);
+
+    }
+
 
 }
