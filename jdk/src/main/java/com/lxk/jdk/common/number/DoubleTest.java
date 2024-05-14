@@ -286,4 +286,35 @@ public class DoubleTest {
         System.out.println("555\r666");
     }
 
+
+    @Test
+    public void ad() {
+        double sub = DoubleUtil.divide(193000.0, 240669.0);
+        // 0.8 ms
+        System.out.println(sub);
+
+        sub = DoubleUtil.divide(189000.0, 243606.0);
+        // 0.78 ms
+        System.out.println(sub);
+
+        sub = DoubleUtil.divide(565000.0, 953788.0);
+        // 0.59 ms
+        System.out.println(sub);
+
+
+        sub = DoubleUtil.divide(287000.0, 208571.0);
+        // 1.38 ms
+        System.out.println(sub);
+
+        sub = DoubleUtil.divide(2836000.0, 3047454.0);
+        // 0.91 ms
+        System.out.println(sub);
+
+
+        sub = DoubleUtil.divide(415000.0, 792849.0);
+        // 0.91 ms
+        System.out.println(sub);
+
+
+    }
 }
