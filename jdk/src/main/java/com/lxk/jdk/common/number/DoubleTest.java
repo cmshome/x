@@ -287,6 +287,9 @@ public class DoubleTest {
     }
 
 
+    /**
+     * double test
+     */
     @Test
     public void ad() {
         double sub = DoubleUtil.divide(193000.0, 240669.0);
@@ -313,6 +316,10 @@ public class DoubleTest {
 
         sub = DoubleUtil.divide(415000.0, 792849.0);
         // 0.91 ms
+        System.out.println(sub);
+
+        sub = DoubleUtil.divide(370000.0, 801071.0);
+        // 0.46 ms
         System.out.println(sub);
 
 
