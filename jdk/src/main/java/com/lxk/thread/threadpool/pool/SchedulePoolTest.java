@@ -3,6 +3,7 @@ package com.lxk.thread.threadpool.pool;
 import com.google.common.collect.Lists;
 import com.lxk.tool.monitor.ScheduleUtil;
 import com.lxk.tool.monitor.model.MonitorThread;
+import com.lxk.tool.util.TimeUtils;
 import org.junit.Test;
 
 import java.util.List;
@@ -59,5 +60,28 @@ public class SchedulePoolTest {
         }
     }
 
+
+    /**
+     * schedule任务在整15秒的时间点开始运行
+     */
+    @Test
+    public void delay() throws InterruptedException {
+        long l = TimeUtils.nowS();
+        System.out.println(l);
+        long delay = 15 - l % 15;
+        System.out.println(delay);
+
+        ScheduleUtil.scheduleAt(
+                ()->{
+                    String now = TimeUtils.now();
+                    System.out.println(now);
+                },
+                delay,
+                15,
+                TimeUnit.SECONDS
+        );
+
+        TimeUnit.MINUTES.sleep(5);
+    }
 
 }
