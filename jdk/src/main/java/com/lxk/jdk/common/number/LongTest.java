@@ -203,4 +203,10 @@ public class LongTest {
         System.out.println(bigDecimal.toPlainString());
     }
 
+    @Test
+    public void max() {
+        long l = Long.MAX_VALUE / 60L / 24L / 365L;
+        System.out.println(l);
+    }
+
 }
