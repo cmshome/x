@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 关于for循环的测试
@@ -19,8 +20,8 @@ public class ForTest {
 
     @Test
     public void f() {
-        List<String> es = Lists.newArrayList("1","2","3","4","5","6","7","8","9","0");
-        List<String> summary = Lists.newArrayList("a","b","c","d");
+        List<String> es = Lists.newArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
+        List<String> summary = Lists.newArrayList("a", "b", "c", "d");
         int a = es.size() * summary.size();
         List<List<String>> all = Lists.newArrayList();
         for (int i = 0; i < a; i++) {
@@ -33,11 +34,12 @@ public class ForTest {
         all.forEach(strings -> System.out.println(strings.toString()));
         System.out.println(all.size());
     }
+
     /**
      * 测试下for each写法中的循环体，是否是只执行一次。测试结果，是的。
      */
     @Test
-    public void forTest(){
+    public void forTest() {
         for (String s : getList()) {
             System.out.println(s);
         }
@@ -45,7 +47,7 @@ public class ForTest {
 
     private ArrayList<String> getList() {
         System.out.println("get list run...");
-        return Lists.newArrayList("1","2","3","4");
+        return Lists.newArrayList("1", "2", "3", "4");
     }
 
     /**
@@ -108,6 +110,7 @@ public class ForTest {
             sb.append(s);
         }
     }
+
     private static void testForI(List<String> arrayList) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < SIZE; i++) {
@@ -150,5 +153,28 @@ public class ForTest {
             forIAfter();
             forIBefore();
         }
+    }
+
+    @Test
+    public void ddd() throws InterruptedException {
+        List<String> list = Lists.newArrayList();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        list.add("4");
+        list.add("5");
+        list.add("6");
+        list.add("7");
+        list.add("8");
+        int size = list.size();
+
+        int index = 0;
+        while (list.get(index) != null) {
+            index++;
+            index %= size;
+            System.out.println("run ... . . . . .index=" + index);
+            TimeUnit.SECONDS.sleep(1);
+        }
+        TimeUnit.MINUTES.sleep(6);
     }
 }
