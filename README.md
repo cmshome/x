@@ -1,4 +1,4 @@
-# 请叫我大师兄 Java Note Project!
+# 请叫我大师兄 Java Note Project
 
 ## 项目结构目录
 * [Bean](#bean)

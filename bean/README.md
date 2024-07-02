@@ -1,4 +1,4 @@
-# 请叫我大师兄 Bean Project ![:kiss:][lips]
+# 请叫我大师兄 Bean Project 
 
 ## 目录
 * [Introduction](#简要说明)

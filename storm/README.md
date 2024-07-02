@@ -1,4 +1,4 @@
-# 请叫我大师兄 Storm & Kafka ![:kiss:][lips]
+# 请叫我大师兄 Storm & Kafka 
 
 ## 目录
 * [Introduction](#简要说明)

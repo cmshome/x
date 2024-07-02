@@ -1,4 +1,4 @@
-# 请叫我大师兄 Tool Project ![:kiss:][lips]
+# 请叫我大师兄 Tool Project 
 
 ## 目录
 * [Introduction](#简要说明)

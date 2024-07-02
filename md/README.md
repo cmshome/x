@@ -1,4 +1,4 @@
-# 请叫我大师兄 MD语法学习 Project ![:kiss:][lips]
+# 请叫我大师兄 MD语法学习 Project 
 
 ## 目录
 * [Introduction](#简要说明)

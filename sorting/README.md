@@ -1,4 +1,4 @@
-# 请叫我大师兄 经典排序算法 Project ![:kiss:][lips]
+# 请叫我大师兄 经典排序算法 Project 
 
 ## 目录
 * [Introduction](#简要说明)

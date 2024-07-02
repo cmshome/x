@@ -1,4 +1,4 @@
-# 请叫我大师兄 Elastic Search 相关的测试学习 Project ![:kiss:][lips]
+# 请叫我大师兄 Elastic Search 相关的测试学习 Project 
 
 ## 目录
 * [Introduction](#简要说明)

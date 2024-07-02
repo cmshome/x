@@ -1,4 +1,4 @@
-# 请叫我大师兄 Design Pattern ![:kiss:][lips]
+# 请叫我大师兄 Design Pattern 
 
 ## 目录
 * [Introduction](#简要说明)
