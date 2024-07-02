@@ -51,6 +51,17 @@ public class LocalDateTest {
         System.out.println(localDate.format(sf));
     }
 
+    @Test
+    public void s2() {
+        ZoneId zoneId = ZoneOffset.systemDefault();
+        LocalDateTime localDateTime1 = LocalDateTime.ofInstant(Instant.ofEpochSecond(1719849600), zoneId);
+        LocalDateTime localDateTime2 = LocalDateTime.ofInstant(Instant.ofEpochSecond(1719849601), zoneId);
+        LocalDate localDate1 = localDateTime1.toLocalDate();
+        LocalDate localDate2 = localDateTime2.toLocalDate();
+        System.out.println(localDate1.compareTo(localDate2));
+
+    }
+
 
     @Test
     public void toEpochDay() {
