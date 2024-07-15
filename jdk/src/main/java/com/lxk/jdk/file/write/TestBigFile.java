@@ -2,6 +2,7 @@ package com.lxk.jdk.file.write;
 
 import com.lxk.tool.util.FileIOUtil;
 import com.lxk.tool.util.JsonUtils;
+import com.lxk.tool.util.StackTraceCollectUtil;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,6 +20,7 @@ public class TestBigFile {
     private Map<String, Object> map;
     private final Charset charset = StandardCharsets.UTF_8;
     private final String fileName = "/Users/fang/Downloads/x.txt";
+    private final String dirName = "/Users/fang/Downloads/infos";
 
 
     @Before
@@ -32,7 +34,7 @@ public class TestBigFile {
         long start = 1577808000000L;
         int i = 0;
         while (i < 100000000) {
-            map.put("timestamp", start + i);
+            map.put("timestamp", start + i + "");
             String json = JsonUtils.parseObjToJson(map) + "\r\n";
             FileIOUtil.appendFile(fileName, json, charset);
             i++;
@@ -42,14 +44,23 @@ public class TestBigFile {
 
     @Test
     public void readByLine() {
+        long interval = 60 * 1000;
+        FileIOUtil.mkdirIfNotExist(dirName);
         try (Scanner scanner = new Scanner(new File(fileName), StandardCharsets.UTF_8.name())) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 Map json = JsonUtils.parseJsonToObj(line, Map.class);
-                System.out.println(json.get("timestamp"));
+                if (json == null) {
+                    continue;
+                }
+                String s = (String) json.get("timestamp");
+                long time = Long.parseLong(s);
+                long l = time / interval * interval;
+                String temp = dirName + "/" + l + ".json";
+                FileIOUtil.appendFile(temp, line + "\r\n", charset);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(StackTraceCollectUtil.collectStackTrace(e));
         }
     }
 }
