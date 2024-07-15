@@ -21,6 +21,7 @@ public class TestBigFile {
     private final Charset charset = StandardCharsets.UTF_8;
     private final String fileName = "/Users/fang/Downloads/x.txt";
     private final String dirName = "/Users/fang/Downloads/infos";
+    private final String timeField = "Timestamp";
 
 
     @Before
@@ -34,7 +35,7 @@ public class TestBigFile {
         long start = 1577808000000L;
         int i = 0;
         while (i < 100000000) {
-            map.put("timestamp", start + i + "");
+            map.put(timeField, start + i + "");
             String json = JsonUtils.parseObjToJson(map) + "\r\n";
             FileIOUtil.appendFile(fileName, json, charset);
             i++;
@@ -53,7 +54,7 @@ public class TestBigFile {
                 if (json == null) {
                     continue;
                 }
-                String s = (String) json.get("timestamp");
+                String s = (String) json.get(timeField);
                 long time = Long.parseLong(s);
                 long l = time / interval * interval;
                 String temp = dirName + "/" + l + ".json";
