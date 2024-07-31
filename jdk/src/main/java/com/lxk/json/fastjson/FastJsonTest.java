@@ -82,6 +82,7 @@ public class FastJsonTest {
 
     /**
      * json中key是 @type 的，fastjson会解析异常。这个对象的map里面的可以是 @type导致的异常。
+     * fastjson 升级之后，这个问题不报错了
      */
     @Test
     public void parseArray() {
