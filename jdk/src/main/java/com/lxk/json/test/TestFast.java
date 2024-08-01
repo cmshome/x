@@ -1,6 +1,7 @@
 package com.lxk.json.test;
 
 import com.google.common.collect.Lists;
+import com.lxk.tool.util.FileIOUtil;
 import com.lxk.tool.util.JsonUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,13 +15,15 @@ import java.util.Map;
  */
 public class TestFast {
 
-    private final List<String> list = Lists.newArrayList();
-    private final int max = 10000000;
+    private List<String> list = Lists.newArrayList();
+    private final int max = 10;
 
     @Before
     public void init() {
-        list.add("{\"dubbo_reg\":true,\"dubbo_2way\":true,\"dubbo_event\":false,\"dubbo_status\":0,\"dubbo_id\":92319085,\"dubbo_version\":\"2.0.2\",\"dubbo_service_name\":\"com.pactera.servicecenter.cif.microservice.CifsignQry\",\"dubbo_service_version\":\"1.0.0\",\"dubbo_method_name\":\"$invoke\",\"dubbo2_reg\":true,\"dubbo_22way\":true,\"dubbo_2event\":false,\"dubbo_s2tatus\":0,\"dubbo_2d\":92319085,\"dubbo_v2ersion\":\"2.0.2\",\"dubbo_se2rvice_name\":\"com.pactera.servicecenter.cif.microservice.CifsignQry\",\"dubbo_se2rvice_version\":\"1.0.0\",\"dubbo_method2_name\":\"$invoke\",\"transSeqNo\":\"1681904618967049048939\"}");
-        list.add("{\"dubbo_req\":false,\"dubbo_2way\":false,\"dubbo_status\":20,\"dubbo_id\":92319085,\"RC\":\"00000000\",\"message\":\"交易成功\"}");
+        // 10万行json字符串，每行的value都不一样
+        String path = "/Users/fang/Downloads/x.txt";
+        list = FileIOUtil.readFileByLine(path, false);
+        System.out.println("list size = " + list.size());
     }
 
     /**
@@ -40,14 +43,14 @@ public class TestFast {
     }
 
     /**
-     * fastJson 执行耗时 :      17.594 秒
-     * jackson 执行耗时 :       25.565 秒
-     * gson 执行耗时 :          29.741 秒
+     * fastJson 执行耗时 : 3.056 秒
+     * jackson 执行耗时 : 3.732 秒
+     * gson 执行耗时 : 3.845 秒
      */
     @Test
     public void fastByRunTime() {
-        jackson();
         fastJson();
+        jackson();
         gson();
     }
 
