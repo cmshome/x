@@ -104,6 +104,7 @@ public class FastJsonTest {
         String json = "{\n" +
                 "    \"a\":0,\n" +
                 "    \"b\":15,\n" +
+                "    \"bb\":15.,\n" +
                 "    \"c\":15,\n" +
                 "    \"dd\":3324.33,\n" +
                 "    \"e\":0,\n" +
