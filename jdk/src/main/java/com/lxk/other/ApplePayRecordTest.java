@@ -25,7 +25,7 @@ public class ApplePayRecordTest {
         //int sum = records.stream().map(ApplePayRecord::getAmount).reduce(0, Integer::sum);
 
         System.out.println();
-        System.out.println("消费了：" + sum + "¥ ");
+        System.out.println("消费了：" + sum + " ¥ ");
     }
 
 
