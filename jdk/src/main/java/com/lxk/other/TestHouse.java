@@ -73,8 +73,8 @@ public class TestHouse {
     }
 
     @Test
-    public void cupboard() {
-        System.out.println(1900);
+    public void cupboardBookTableBed() {
+        System.out.println(6800);
     }
 
     @Test
