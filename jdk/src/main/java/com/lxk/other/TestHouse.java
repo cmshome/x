@@ -69,7 +69,12 @@ public class TestHouse {
 
     @Test
     public void sofa() {
-        System.out.println();
+        System.out.println(1900);
+    }
+
+    @Test
+    public void cupboard() {
+        System.out.println(1900);
     }
 
     @Test
@@ -119,22 +124,6 @@ public class TestHouse {
         double sum2 = list2.stream().mapToDouble(a -> a).sum();
         System.out.println(sum2);
 
-    }
-
-
-    @Test
-    public void ns() {
-        int asphalt = 298;
-        int superMarioWonder = 241;
-        int gamepad = 122;
-        int shell = 70;
-        int vip = 39;
-        int ns = 1745;
-        int amiibo = 23;
-        int kabi = 236;
-        int kingTear = 239;
-        int party = 238;
-        System.out.println(asphalt + superMarioWonder + gamepad + shell + vip + ns + amiibo + kabi + kingTear + party);
     }
 
 }
