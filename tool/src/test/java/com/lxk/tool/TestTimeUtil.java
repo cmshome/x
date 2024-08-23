@@ -54,8 +54,14 @@ public class TestTimeUtil {
 
         s = TimeUtils.formatS(1714009860);
         System.out.println(s);
+    }
 
-
+    @Test
+    public void sameDay() {
+        LocalDateTime a = LocalDateTime.now();
+        LocalDateTime b = LocalDateTime.now();
+        boolean sameDay = TimeUtils.sameDay(a, b);
+        System.out.println(sameDay);
     }
 
 }

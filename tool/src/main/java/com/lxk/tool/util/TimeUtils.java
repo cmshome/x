@@ -413,4 +413,19 @@ public final class TimeUtils {
         return (System.currentTimeMillis() - nowMs) / 1000f;
     }
 
+    /**
+     * 判断俩日期是否是同一天
+     */
+    public static boolean sameDay(LocalDateTime a, LocalDateTime b) {
+        if (a.getYear() != b.getYear()) {
+            return false;
+        }
+        if (a.getMonth() != b.getMonth()) {
+            return false;
+        }
+        if (a.getDayOfMonth() != b.getDayOfMonth()) {
+            return false;
+        }
+        return true;
+    }
 }
