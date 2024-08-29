@@ -58,7 +58,7 @@ public class TestTimeUtil {
 
     @Test
     public void sameDay() {
-        LocalDateTime a = LocalDateTime.now();
+        LocalDateTime a = LocalDateTime.of(2024, 8, 29, 10, 12);
         LocalDateTime b = LocalDateTime.now();
         boolean sameDay = TimeUtils.sameDay(a, b);
         System.out.println(sameDay);
