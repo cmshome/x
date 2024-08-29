@@ -58,7 +58,8 @@ public class TestTimeUtil {
 
     @Test
     public void sameDay() {
-        LocalDateTime a = LocalDateTime.of(2024, 8, 29, 10, 12);
+        // 时间戳，是从1970年1月1日（UTC/GMT的午夜）开始所经过的秒数（不考虑闰秒），用于表示一个时间点
+        LocalDateTime a = LocalDateTime.of(1970, 1, 1, 10, 12);
         LocalDateTime b = LocalDateTime.now();
         boolean sameDay = TimeUtils.sameDay(a, b);
         System.out.println(sameDay);
