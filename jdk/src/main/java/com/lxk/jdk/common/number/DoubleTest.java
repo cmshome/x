@@ -324,4 +324,17 @@ public class DoubleTest {
 
 
     }
+
+
+    @Test
+    public void cut() {
+        double sub = DoubleUtil.sub(1725009446.395D, 1725009446.390D);
+        // 这个结果是准确的 5.0
+        System.out.println(sub * 1000);
+        // 这个减法的结果是 4.999876022338867
+        Double latency = (1725009446.395D - 1725009446.390D) * 1000;
+        System.out.println(latency);
+        // 最终结果就约等于 4 了。
+        System.out.println(latency.longValue());
+    }
 }
