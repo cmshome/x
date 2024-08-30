@@ -326,6 +326,9 @@ public class DoubleTest {
     }
 
 
+    /**
+     * double 减法 还是不能直接减，得用工具类来减。
+     */
     @Test
     public void cut() {
         double sub = DoubleUtil.sub(1725009446.395D, 1725009446.390D);
