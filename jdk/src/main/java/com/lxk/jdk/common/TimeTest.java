@@ -7,6 +7,8 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
@@ -147,11 +149,49 @@ public class TimeTest {
             int ms = new Random().nextInt(1000);
             long nowS = a + s;
             long nowMs = nowS * 1000 + ms;
-            int ns = ms * 1000000+ new Random().nextInt(1000000);
+            int ns = ms * 1000000 + new Random().nextInt(1000000);
             LocalDateTime localDateTime = TimeUtils.ms2LocalDateTime(nowMs).withNano(ns);
             System.out.println(TimeUtils.formatS(nowS) + "   " + TimeUtils.formatMs(nowMs) + "   " + TimeUtils.formatNs(localDateTime));
         }
     }
 
 
+    /**
+     * jprofiler 时间占比
+     * instant          12.5
+     * sys              13.1
+     * localDate        19.5
+     * localDateTime    20.9
+     * calendar         33.6
+     */
+    @Test
+    public void fast() {
+        while (true) {
+            instant();
+            localDateTime();
+            localDate();
+            calendar();
+            sys();
+        }
+    }
+
+    private void sys() {
+        long millis = System.currentTimeMillis();
+    }
+
+    private void calendar() {
+        Date date = Calendar.getInstance().getTime();
+    }
+
+    private void localDate() {
+        LocalDate localDate = LocalDate.now();
+    }
+
+    private void localDateTime() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+    }
+
+    private void instant() {
+        Instant instant = Instant.now();
+    }
 }
