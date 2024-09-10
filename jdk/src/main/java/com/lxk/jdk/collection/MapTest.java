@@ -1,11 +1,13 @@
 package com.lxk.jdk.collection;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.lxk.tool.util.CollectionUtil;
 import com.lxk.tool.util.JsonUtils;
 import org.junit.Test;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -149,4 +151,25 @@ public class MapTest {
         System.out.println(first.orElse("-1"));
     }
 
+
+    /**
+     * 把map拆成n个
+     */
+    @Test
+    public void splitMap() {
+        Map<String, String> statMap = CollectionUtil.getMap(16);
+        List<List<String>> result = Lists.newArrayList();
+        List<String> list = Lists.newArrayList();
+        for (String value : statMap.values()) {
+            list.add(value);
+            if (list.size() % 10 == 0) {
+                result.add(list);
+                list = Lists.newArrayList();
+            }
+        }
+        if (list.size() > 0){
+            result.add(list);
+        }
+        System.out.println(result);
+    }
 }
