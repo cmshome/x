@@ -98,6 +98,12 @@ public class GetBetweenDaysTest {
         System.out.println("stay at work ： " + TimeUtils.between(from, to));
     }
 
+    @Test
+    public void ns() {
+        from = LocalDate.of(2023, 11, 29);
+        System.out.println("SWITCH-O-LED ： " + TimeUtils.between(from, to));
+    }
+
     /**
      * 测试这个util方法OK不
      */
