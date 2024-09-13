@@ -217,7 +217,7 @@ public class LocalDateTimeTest {
 
     @Test
     public void dual() {
-        String s="11-10 20:00:00";
+        String s = "11-10 20:00:00";
         int year = LocalDateTime.now().getYear();
         System.out.println(year);
         s = year + "-" + s;
@@ -239,6 +239,17 @@ public class LocalDateTimeTest {
         }
         long s = TimeUtils.toS(parse);
         System.out.println(s);
+    }
+
+    @Test
+    public void range() {
+        LocalDateTime start = LocalDateTime.of(2024, 9, 1, 0, 0, 0);
+        LocalDateTime end = start.plusMonths(1);
+        while (start.compareTo(end) < 0) {
+            LocalDateTime to = start.plusHours(1);
+            System.out.println(TimeUtils.format(start) + "   " + TimeUtils.format(to));
+            start = to;
+        }
     }
 
 
