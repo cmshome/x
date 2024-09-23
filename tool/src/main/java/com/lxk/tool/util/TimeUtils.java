@@ -34,7 +34,6 @@ public final class TimeUtils {
     public static final int SECOND_IN_DAY = 60 * 60 * 24;
 
 
-
     /**
      * turn 字符串 to LocalDateTime
      *
@@ -158,7 +157,7 @@ public final class TimeUtils {
      * 格式化时间戳
      *
      * @param s 秒
-     * @return 格式化后的时间
+     * @return yyyy-MM-dd HH:mm:ss
      */
     public static String formatS(long s) {
         try {
@@ -183,7 +182,7 @@ public final class TimeUtils {
      * 格式化时间戳
      *
      * @param ms 毫秒
-     * @return 格式化后的时间
+     * @return yyyy-MM-dd HH:mm:ss:SSS
      */
     public static String formatMs(long ms) {
         try {
@@ -204,10 +203,16 @@ public final class TimeUtils {
         return DATE_TIME_FORMATTER_SSS.format(localDateTime);
     }
 
+    /**
+     * @return yyyy-MM-dd HH:mm:ss:SSSSSS
+     */
     public static String formatUs(LocalDateTime localDateTime) {
         return DATE_TIME_FORMATTER_SSS_SSS.format(localDateTime);
     }
 
+    /**
+     * @return yyyy-MM-dd HH:mm:ss:SSSSSSSSS
+     */
     public static String formatNs(LocalDateTime localDateTime) {
         return DATE_TIME_FORMATTER_SSS_SSS_SSS.format(localDateTime);
     }
