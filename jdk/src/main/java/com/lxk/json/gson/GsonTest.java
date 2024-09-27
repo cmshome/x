@@ -23,7 +23,7 @@ public class GsonTest {
                 "\"s.os\":\"....#\",\n" +
                 "\"s.os\":\"....#\",\n" +
                 "\"ssass\":\"\",\n" +
-                "\"lxk\":123467987654345\n" +
+                "\"lxk\":123467983337654345\n" +
                 "}";
         //map 或者 hash map 都失败com.google.gson.JsonSyntaxException: duplicate key: s.os
         Map jsonObj;
