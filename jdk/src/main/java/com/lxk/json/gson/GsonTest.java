@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * gson隐藏的问题
+ * 1，转对象后，整数被改成小数点了
+ * 2，json中key重复，【会异常】
+ *
  * @author LiXuekai on 2019/12/31
  */
 public class GsonTest {
