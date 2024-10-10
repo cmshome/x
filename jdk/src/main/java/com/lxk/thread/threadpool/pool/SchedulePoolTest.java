@@ -84,4 +84,15 @@ public class SchedulePoolTest {
         TimeUnit.MINUTES.sleep(5);
     }
 
+    /**
+     * 取整：必须的先除法，再乘法才行。
+     */
+    @Test
+    public void abc() {
+        int timeDelay = 600;
+        long l = TimeUtils.nowS();
+        long to = l / timeDelay * timeDelay;
+        System.out.println(TimeUtils.formatS(to));
+    }
+
 }
