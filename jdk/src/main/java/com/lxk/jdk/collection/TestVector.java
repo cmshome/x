@@ -1,25 +1,22 @@
 package com.lxk.jdk.collection;
 
 import com.google.common.collect.Lists;
+import com.lxk.tool.util.FixedThreadPool;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author LiXuekai on 2024/10/25
  */
 public class TestVector {
-    private ExecutorService pool;
 
     @Before
     public void init() {
-        pool = Executors.newFixedThreadPool(12);
     }
 
 
@@ -35,8 +32,8 @@ public class TestVector {
 
         Writer writer = new Writer(list);
         Reader reader = new Reader(list);
-        pool.submit(writer);
-        pool.submit(reader);
+        FixedThreadPool.submitTask(writer);
+        FixedThreadPool.submitTask(reader);
         TimeUnit.MINUTES.sleep(10);
     }
 
