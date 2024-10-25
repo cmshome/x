@@ -307,6 +307,15 @@ public final class TimeUtils {
     }
 
     /**
+     * 自动获取当前月是多少天
+     */
+    public static long monthDay() {
+        LocalDateTime start = TimeUtils.monthStart();
+        LocalDateTime end = start.plusMonths(1);
+        return betweenDay(start.toLocalDate(), end.toLocalDate());
+    }
+
+    /**
      * 置传入时间为整0点时间戳秒
      *
      * @param localDateTime LocalDateTime

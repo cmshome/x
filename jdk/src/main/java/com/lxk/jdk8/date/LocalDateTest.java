@@ -1,5 +1,6 @@
 package com.lxk.jdk8.date;
 
+import com.lxk.tool.util.TimeUtils;
 import org.junit.Test;
 
 import java.time.*;
@@ -169,5 +170,12 @@ public class LocalDateTest {
         //对日期进行加减 plus minus
         System.out.println("当前日期plus一天：" + today.plusDays(1));
         System.out.println("当前日期minus一天：" + today.minusDays(1));
+    }
+
+
+    @Test
+    public void monthDay() {
+        long l = TimeUtils.monthDay();
+        System.out.println(l);
     }
 }
