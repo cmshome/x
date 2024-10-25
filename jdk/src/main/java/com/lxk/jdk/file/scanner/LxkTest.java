@@ -131,7 +131,7 @@ public class LxkTest {
     }
 
     private void find() {
-        String file = "/Users/fang/Downloads/data/x.flows";
+        String file = "/Users/fang/Downloads/data/x.xxx";
         try (Scanner scanner = new Scanner(new File(file), StandardCharsets.UTF_8.name())) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
@@ -166,7 +166,7 @@ public class LxkTest {
 
     private void load() {
         String file = "/Users/fang/Downloads/data/new_es_2.json";
-        File x = new File("/Users/fang/Downloads/data/x.flows");
+        File x = new File("/Users/fang/Downloads/data/x.xxx");
         FileWriter fw = null;
         try (Scanner scanner = new Scanner(new File(file), StandardCharsets.UTF_8.name())) {
             fw = new FileWriter(x, true);

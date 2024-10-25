@@ -81,7 +81,7 @@
 | df -h                                                                                      |查看整个系统的存储使用情况|
 | free -g                                                                                    |查看系统的内存使用情况|
 | egrep -i '(free)' zxc*                                                                     |在当前目录下搜素括号内的内容，后面是跟着文件名称|
-| for i in {1..10}; do cat *.flows >> /home/test/lx3k.flows; done                            |一个简单到脚本for循环复制一个文件|
+| for i in {1..10}; do cat *.xxx >> /home/test/lx3k.xxx; done                                |一个简单到脚本for循环复制一个文件|
 | date -s 11/03/2019 <br>date -s 10:33:00                                                    |修改服务器时间|
 | date -d "2020-11-23 10:44:00" +%s                                                          |把日期转时间戳|
 | date -d @1606099440                                                                        |时间戳转日期|
