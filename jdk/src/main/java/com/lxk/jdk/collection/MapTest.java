@@ -172,4 +172,18 @@ public class MapTest {
         }
         System.out.println(result);
     }
+
+    /**
+     * key 在，value = null fastjson序列化后，null value的key就没了
+     */
+    @Test
+    public void nullValue() {
+        Map<String, String> map = Maps.newHashMap();
+        String a = map.put("a", null);
+        // {a=null}
+        System.out.println(map);
+        // {}
+        System.out.println(JsonUtils.parseObjToJson(map));
+
+    }
 }
