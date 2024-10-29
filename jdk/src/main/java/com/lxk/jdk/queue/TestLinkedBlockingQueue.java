@@ -23,8 +23,8 @@ public class TestLinkedBlockingQueue {
         LinkedBlockingQueue<String> queue = Queues.newLinkedBlockingQueue(10000);
         Writer writer = new Writer(queue);
         Reader reader = new Reader(queue);
-        FixedThreadPool.submitTask(reader);
         FixedThreadPool.submitTask(writer);
+        FixedThreadPool.submitTask(reader);
         TimeUnit.MINUTES.sleep(10);
     }
 
@@ -59,6 +59,7 @@ public class TestLinkedBlockingQueue {
                     throw new RuntimeException(e);
                 }
             }
+            System.out.println("Writer run over.");
         }
     }
 
@@ -81,7 +82,7 @@ public class TestLinkedBlockingQueue {
         @Override
         public void run() {
             System.out.println("Reader run.");
-            while (true) {
+            while (queue.size() > 0) {
                 try {
                     TimeUnit.SECONDS.sleep(2);
                     // take方法队列为空，阻塞等待。
@@ -91,6 +92,7 @@ public class TestLinkedBlockingQueue {
                     System.out.println(e.getMessage());
                 }
             }
+            System.out.println("Reader run over.");
         }
     }
 }
