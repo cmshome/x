@@ -6,6 +6,7 @@ import com.alibaba.fastjson.parser.Feature;
 import com.alibaba.fastjson.parser.ParserConfig;
 import com.lxk.json.model.Cup;
 import com.lxk.tool.util.JsonUtils;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -15,6 +16,13 @@ import java.util.Map;
  * @author LiXuekai on 2019/12/31
  */
 public class FastJsonTest {
+
+    @Before
+    public void init(){
+        // 关闭 BigDecimal 使用 double  fastjson缺省反序列化带小数点的数值类型为 BigDecimal； 整数，默认为Integer
+        JSON.DEFAULT_PARSER_FEATURE &= ~Feature.UseBigDecimal.getMask();
+    }
+
     /**
      * json中key重复，【不会异常】
      */
@@ -95,7 +103,7 @@ public class FastJsonTest {
 
 
     /**
-     * 自动转换之后，数据类型，有些会呗改成 BigDecimal，不是我想的double或者float。
+     * 自动转换之后，数据类型，有些会被改成 BigDecimal，不是我想的double或者float。
      * 原因：
      * fastjson缺省反序列化带小数点的数值类型为 BigDecimal； 整数，默认为Integer
      */
@@ -103,7 +111,7 @@ public class FastJsonTest {
     public void json2map() {
         String json = "{\n" +
                 "    \"a\":0,\n" +
-                "    \"b\":15,\n" +
+                "    \"b\":15000000,\n" +
                 "    \"bb\":15.,\n" +
                 "    \"c\":15,\n" +
                 "    \"dd\":3324.33,\n" +
@@ -112,8 +120,6 @@ public class FastJsonTest {
                 "    \"g\":1\n" +
                 "}";
 
-        // 关闭 BigDecimal 使用 double
-        JSON.DEFAULT_PARSER_FEATURE &= ~Feature.UseBigDecimal.getMask();
         /*
             "dd" -> {BigDecimal@1195} "3324.33"
             "a" -> {Integer@1181} 0
@@ -126,7 +132,7 @@ public class FastJsonTest {
 
         //自动转换之后，数据类型，有些会呗改成 BigDecimal，不是我想的double或者float。
         Map map = JsonUtils.fastjsonCast(json, Map.class);
-        Object a = map.get("a");
+        Object a = map.get("b");
         System.out.println(a);
     }
 }
