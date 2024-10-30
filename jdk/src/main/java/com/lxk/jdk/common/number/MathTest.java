@@ -94,5 +94,11 @@ public class MathTest {
         System.out.println("aa:" + b);
     }
 
+    @Test
+    public void add() {
+        int a = 10;
+        a += 10 - 2;
+        System.out.println(a);
+    }
 
 }
