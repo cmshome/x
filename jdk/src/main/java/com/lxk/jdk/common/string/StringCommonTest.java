@@ -455,6 +455,13 @@ public class StringCommonTest {
     public void eq() {
         boolean b = Objects.equals(null, null);
         System.out.println(b);
+        String a= "1234567";
+        String sa = sa(a);
+        System.out.println(sa == a);
+    }
+
+    private String sa(String a) {
+        return a + "";
     }
 
 }
