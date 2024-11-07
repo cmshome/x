@@ -6,10 +6,7 @@ import com.lxk.tool.util.CollectionUtil;
 import com.lxk.tool.util.JsonUtils;
 import org.junit.Test;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * map test
@@ -167,7 +164,7 @@ public class MapTest {
                 list = Lists.newArrayList();
             }
         }
-        if (list.size() > 0){
+        if (list.size() > 0) {
             result.add(list);
         }
         System.out.println(result);
