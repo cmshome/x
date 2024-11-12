@@ -111,11 +111,11 @@ public class FastJsonTest {
     public void json2map() {
         String json = "{\n" +
                 "    \"a\":0,\n" +
-                "    \"b\":15000000,\n" +
+                "    \"b\":2236322850,\n" +
                 "    \"bb\":15.,\n" +
-                "    \"c\":15,\n" +
+                "    \"c\":2147483647,\n" +
                 "    \"dd\":3324.33,\n" +
-                "    \"e\":0,\n" +
+                "    \"e\":2147483647000,\n" +
                 "    \"f\":0,\n" +
                 "    \"g\":1\n" +
                 "}";
@@ -130,7 +130,7 @@ public class FastJsonTest {
             "g" -> {Integer@1203} 1
          */
 
-        //自动转换之后，数据类型，有些会呗改成 BigDecimal，不是我想的double或者float。
+        //自动转换之后，小数类型的值会被改成 BigDecimal，不是我想的double或者float。
         Map map = JsonUtils.fastjsonCast(json, Map.class);
         Object a = map.get("b");
         System.out.println(a);
