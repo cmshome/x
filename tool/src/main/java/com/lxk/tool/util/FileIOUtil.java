@@ -51,6 +51,25 @@ public final class FileIOUtil {
     }
 
     /**
+     * 删除目录以及子文件
+     */
+    public static boolean deleteFile(File file) {
+        if (!file.exists()) {
+            return true;
+        }
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files == null) {
+                return true;
+            }
+            for (File f : files) {
+                deleteFile(f);
+            }
+        }
+        return file.delete();
+    }
+
+    /**
      * 获取目录下的所有文件名称集合
      *
      * @param path 路径

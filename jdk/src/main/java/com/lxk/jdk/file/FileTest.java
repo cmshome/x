@@ -154,5 +154,19 @@ public class FileTest {
         return tempDataList.get(i);
     }
 
+    @Test
+    public void delete() {
+        String dir = "/Users/fang/Downloads/test/fail";
+        File file = new File(dir);
+        File[] files = file.listFiles();
+        if (files == null) {
+            return;
+        }
+        for (File one : files) {
+            String name = one.getName();
+            System.out.println(name);
+            FileIOUtil.deleteFile(one);
+        }
+    }
 
 }
