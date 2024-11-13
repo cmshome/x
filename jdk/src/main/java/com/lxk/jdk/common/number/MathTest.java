@@ -96,8 +96,8 @@ public class MathTest {
 
     @Test
     public void add() {
-        int a = 10;
-        a += 10 - 2;
+        int a = 2;
+        a += 10 * 2;
         System.out.println(a);
     }
 
