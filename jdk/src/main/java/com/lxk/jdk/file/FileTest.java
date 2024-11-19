@@ -169,4 +169,12 @@ public class FileTest {
         }
     }
 
+    @Test
+    public void dirSize() {
+        String dir = "/Users/fang/Downloads/dist";
+        long length = FileIOUtil.getDirFileSize(new File(dir));
+        String fileSize = FileIOUtil.getFileSize(length);
+        System.out.println(fileSize);
+    }
+
 }

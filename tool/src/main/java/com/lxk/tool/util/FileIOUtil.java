@@ -226,6 +226,28 @@ public final class FileIOUtil {
     }
 
     /**
+     * return 单位(B)
+     */
+    public static long getDirFileSize(File file) {
+        long fileSize = 0L;
+        //判断文件是否存在
+        if (!file.exists()) {
+            return fileSize;
+        }
+        if (file.isDirectory()) {
+            File[] children = file.listFiles();
+            if (children != null) {
+                for (File f : children) {
+                    fileSize += getDirFileSize(f);
+                }
+            }
+        } else {
+            fileSize = file.length();
+        }
+        return fileSize;
+    }
+
+    /**
      * 获取文件大小
      *
      * @param file file
@@ -236,6 +258,10 @@ public final class FileIOUtil {
             return null;
         }
         long length = file.length();
+        return getFileSize(length);
+    }
+
+    public static String getFileSize(long length) {
         if (length < kB) {
             return length + " B";
         } else if (length < MB) {
