@@ -13,4 +13,13 @@ dependencies {
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     compile group: 'commons-codec', name: 'commons-codec', version: '1.9'
 
+    // https://mvnrepository.com/artifact/com.alibaba/druid
+    implementation group: 'com.alibaba', name: 'druid', version: '1.2.23'
+
+    // https://mvnrepository.com/artifact/org.apache.shardingsphere/shardingsphere-sql-parser-mysql
+    implementation group: 'org.apache.shardingsphere', name: 'shardingsphere-sql-parser-mysql', version: '5.3.2'
+// https://mvnrepository.com/artifact/org.apache.shardingsphere/shardingsphere-sql-parser-engine
+    implementation group: 'org.apache.shardingsphere', name: 'shardingsphere-sql-parser-engine', version: '5.3.2'
+
+
 }
