@@ -1,6 +1,5 @@
 package com.lxk.druid;
 
-import com.alibaba.druid.filter.stat.MergeStatFilter;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatement;
@@ -41,49 +40,14 @@ public class TestDruid {
     }
 
     @Test
-    public void zero() {
-        MySqlStatementParser parser = new MySqlStatementParser(sql);
-        List<SQLStatement> list = parser.parseStatementList();
-        for (SQLStatement statement : list) {
-            System.out.println(statement);
-        }
-    }
-
-    @Test
-    public void a() {
-        List<SQLStatement> statementList = SQLUtils.parseStatements(sql, JdbcConstants.MYSQL);
-        for (SQLStatement sqlStatement : statementList) {
-            System.out.println(sqlStatement.toParameterizedString());
-            System.out.println();
-        }
-    }
-
-    @Test
-    public void b() {
-        MergeStatFilter merge = new MergeStatFilter();
-        String s = merge.mergeSql(sql, JdbcConstants.MYSQL);
-        System.out.println(s);
-    }
-
-
-    @Test
-    public void merge() {
-        MergeStatFilter merge = new MergeStatFilter();
-        int sum = 100000;
-        long a = System.currentTimeMillis();
-        while (sum > 0) {
-            merge.mergeSql(sql, JdbcConstants.MYSQL);
-            sum--;
-        }
-        System.out.println("merge 长1句 执行耗时 : " + (System.currentTimeMillis() - a) / 1000f + " 秒 ");
-    }
-
-    @Test
     public void cast() {
-        int sum = 100000;
+        int sum = 10;
         long a = System.currentTimeMillis();
         while (sum > 0) {
-            SQLUtils.parseStatements(sql, JdbcConstants.MYSQL);
+            List<SQLStatement> list = SQLUtils.parseStatements(sql, JdbcConstants.MYSQL);
+            for (SQLStatement sqlStatement : list) {
+                System.out.println(sqlStatement.hashCode());
+            }
             sum--;
         }
         System.out.println("cast 长1句 执行耗时 : " + (System.currentTimeMillis() - a) / 1000f + " 秒 ");
