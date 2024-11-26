@@ -13,6 +13,7 @@ import com.alibaba.druid.sql.parser.SQLExprParser;
 import com.alibaba.druid.sql.parser.SQLParserUtils;
 import com.alibaba.druid.util.JdbcConstants;
 import com.alibaba.druid.util.JdbcUtils;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,4 +95,23 @@ public class TestDruid {
 
 
     }
+
+    /**
+     * sql语句个个不一样，执行时间还是快的一匹，100w，3秒。
+     */
+    @Test
+    public void eachNotSame() {
+        int max = 100_0000;
+        sql = "SELECT id FROM user WHERE status = ";
+        List<String> list = Lists.newArrayListWithExpectedSize(max);
+        for (int i = 0; i <max; i++) {
+            list.add(sql+ i + ";");
+        }
+        long a = System.currentTimeMillis();
+        for (String s : list) {
+            SQLUtils.parseStatements(s, JdbcConstants.MYSQL);
+        }
+        System.out.println("执行耗时 : " + (System.currentTimeMillis() - a) / 1000f + " 秒 ");
+    }
+
 }
