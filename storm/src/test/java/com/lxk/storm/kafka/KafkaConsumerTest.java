@@ -25,7 +25,7 @@ public class KafkaConsumerTest {
     @Test
     public void raw() {
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(KafkaConfig.consumerConf());
-        consumer.subscribe(Lists.newArrayList("lxk"));
+        consumer.subscribe(Lists.newArrayList("metric"));
         try {
             while (true) {
                 // 100 是超时时间，毫秒级别。
@@ -38,7 +38,7 @@ public class KafkaConsumerTest {
                     String topic = record.topic();
                     long offset = record.offset();
                     String value = record.value();
-                    System.out.println(value);
+                    System.out.println(value + record.timestamp());
                 }
             }
         } catch (Exception e) {
