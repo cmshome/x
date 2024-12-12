@@ -16,6 +16,19 @@ public class LongTest {
 
 
     @Test
+    public void parse() {
+        long rawKafkaTimeString = TimeUtils.nowMs();
+
+        //  -1.0 下面的转换就异常了！！！
+        long rawKafkaTime = Long.parseLong(new BigDecimal(rawKafkaTimeString).toPlainString());
+
+        System.out.println(rawKafkaTime);
+        double v = Double.parseDouble(new BigDecimal(rawKafkaTimeString).toPlainString());
+        System.out.println(((Double)v).longValue());
+    }
+
+
+    @Test
     public void cast() {
         Map<String, Object> map = Maps.newHashMap();
         map.put("a", 100);
