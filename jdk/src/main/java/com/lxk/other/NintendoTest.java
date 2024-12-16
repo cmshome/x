@@ -48,7 +48,7 @@ public class NintendoTest {
         list.add(new SwitchParts("Amiibo", LocalDate.of(2023, 12, 30), 23));
         list.add(new SwitchParts("保护壳", LocalDate.of(2023, 12, 1), 25));
         list.add(new SwitchParts("贴膜", LocalDate.of(2023, 12, 1), 19));
-        list.add(new SwitchParts("手柄", LocalDate.of(2023, 12, 1), 123));
+        list.add(new SwitchParts("非原装手柄", LocalDate.of(2023, 12, 1), 123));
         list.add(new SwitchParts("VIP", LocalDate.of(2023, 12, 1), 39));
         list.add(new SwitchParts("package", LocalDate.of(2023, 11, 30), 26));
         list.add(new SwitchParts("SWITCH-O-LED", LocalDate.of(2023, 11, 29), 1746));
