@@ -16,6 +16,12 @@ import java.util.Locale;
  * @author LiXuekai on 2021/12/30
  */
 public class Sort<T> {
+    /**
+     * 注意：
+     * 这个排序的底层实现是线程互斥的（synchronized），高并发情况下极度影响性能。
+     * 排序的方法不应该放在service里面，不然会被无端的调用多次，即使不需要排序，但是还是会调用这个service方法。
+     * 排序的逻辑最好放在controller里面，只针对接口返回结果进行操作。
+     */
     Collator COLLATOR = Collator.getInstance(Locale.CHINA);
 
     /**
