@@ -16,7 +16,9 @@ public class TimeFormatTest {
         String s = "2025-01-02T03:17:43.353Z";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         LocalDateTime parse = LocalDateTime.parse(s, formatter);
-        long l = TimeUtils.toS(parse);
+        long l = TimeUtils.toMs(parse);
+        System.out.println(l);
+        l = TimeUtils.toS(parse);
         System.out.println(l);
     }
 }
