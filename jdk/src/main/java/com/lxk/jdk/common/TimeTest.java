@@ -22,6 +22,24 @@ import java.util.Random;
  */
 public class TimeTest {
 
+
+    /**
+     * 1736327329
+     */
+    @Test
+    public void timeUnixNano() {
+        // 纳秒
+        String s = "1736318760592209989";
+        long l = Long.parseLong(s);
+        System.out.println(l);
+        long l1 = l / 1000_000L;
+        System.out.println(l1);
+        System.out.println(TimeUtils.formatMs(l1));
+
+        String ms = s.substring(0, 13);
+        System.out.println(ms);
+    }
+
     /**
      * 对给的秒数取整分
      */
