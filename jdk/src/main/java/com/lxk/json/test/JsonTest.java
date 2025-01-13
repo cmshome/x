@@ -24,11 +24,11 @@ public class JsonTest {
         //System.out.println(map1);
 
         // 对应的嵌套层是数组
-        String map2 = valueByKyeFromMap(map, "array.b.c");
+        String map2 = valueByKeyFromMap(map, "array.b.c");
         System.out.println(map2);
     }
 
-    private String valueByKyeFromMap(Map<String, Object> map, String key) {
+    private String valueByKeyFromMap(Map<String, Object> map, String key) {
         int index = key.indexOf(".");
         if (index > 0) {
             String parentKey = key.substring(0, index);
@@ -39,13 +39,13 @@ public class JsonTest {
             }
             try {
                 Map<String, Object> parentMap = (Map<String, Object>) o;
-                return valueByKyeFromMap(parentMap, childKey);
+                return valueByKeyFromMap(parentMap, childKey);
             } catch (Exception ignored) {
 
             }
             try {
                 List<Map<String, Object>> mapList = (List<Map<String, Object>>) o;
-                return valueByKyeFromList(mapList, childKey);
+                return valueByKeyFromList(mapList, childKey);
 
             } catch (Exception ignored) {
 
@@ -59,9 +59,9 @@ public class JsonTest {
         return null;
     }
 
-    private String valueByKyeFromList(List<Map<String, Object>> mapList, String key) {
+    private String valueByKeyFromList(List<Map<String, Object>> mapList, String key) {
         for (Map<String, Object> map : mapList) {
-            String value = valueByKyeFromMap(map, key);
+            String value = valueByKeyFromMap(map, key);
             if (!Strings.isNullOrEmpty(value)) {
                 return value;
             }
