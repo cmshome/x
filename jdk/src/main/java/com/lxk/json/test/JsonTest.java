@@ -1,5 +1,6 @@
 package com.lxk.json.test;
 
+import com.google.common.base.Strings;
 import com.lxk.tool.util.JsonUtils;
 import org.junit.Test;
 
@@ -12,6 +13,61 @@ import java.util.Map;
  * @author LiXuekai on 2021/5/12
  */
 public class JsonTest {
+
+
+    @Test
+    public void getValueByKey() {
+        String s = "{\"a\":{\"b\":{\"c\":\"value\"}},\"array\":[{\"a\":\"a\"},{\"b\":{\"c\":\"value\"}},{\"c\":\"a\"}]}";
+        Map<String, Object> map = (Map<String, Object>) JsonUtils.parseJsonToObj(s, Map.class);
+        // 对应的嵌套层是map
+        //String map1 = valueByKyeFromMap(map, "a.b.c");
+        //System.out.println(map1);
+
+        // 对应的嵌套层是数组
+        String map2 = valueByKyeFromMap(map, "array.b.c");
+        System.out.println(map2);
+    }
+
+    private String valueByKyeFromMap(Map<String, Object> map, String key) {
+        int index = key.indexOf(".");
+        if (index > 0) {
+            String parentKey = key.substring(0, index);
+            String childKey = key.substring(index + 1);
+            Object o = map.get(parentKey);
+            if (o == null) {
+                return null;
+            }
+            try {
+                Map<String, Object> parentMap = (Map<String, Object>) o;
+                return valueByKyeFromMap(parentMap, childKey);
+            } catch (Exception ignored) {
+
+            }
+            try {
+                List<Map<String, Object>> mapList = (List<Map<String, Object>>) o;
+                return valueByKyeFromList(mapList, childKey);
+
+            } catch (Exception ignored) {
+
+            }
+        } else {
+            Object o = map.get(key);
+            if (o != null) {
+                return o.toString();
+            }
+        }
+        return null;
+    }
+
+    private String valueByKyeFromList(List<Map<String, Object>> mapList, String key) {
+        for (Map<String, Object> map : mapList) {
+            String value = valueByKyeFromMap(map, key);
+            if (!Strings.isNullOrEmpty(value)) {
+                return value;
+            }
+        }
+        return null;
+    }
 
     @Test
     public void testNull() {
