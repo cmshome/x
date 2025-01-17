@@ -455,13 +455,24 @@ public class StringCommonTest {
     public void eq() {
         boolean b = Objects.equals(null, null);
         System.out.println(b);
-        String a= "1234567";
+        String a = "1234567";
         String sa = sa(a);
         System.out.println(sa == a);
     }
 
     private String sa(String a) {
         return a + "";
+    }
+
+
+    @Test
+    public void empty() {
+        String s = "     ";
+        boolean empty = s.isEmpty();
+        System.out.println(empty);
+        s = s.trim();
+        empty = s.isEmpty();
+        System.out.println(empty);
     }
 
 }
