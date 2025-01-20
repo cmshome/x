@@ -69,13 +69,8 @@ public class StringCommonTest {
 
     @Test
     public void subStringTest() {
-        String s = "12345678qwweqwrqqtqtqt";
-        System.out.println(s.substring(8));
-
-
-        s = "2406:5840:1fe1:1::40";
-        int i = s.lastIndexOf(":");
-        System.out.println(s.substring(0, i + 1));
+        String s = "ab";
+        System.out.println(s.substring(0,2));
     }
 
     @Test
@@ -199,8 +194,9 @@ public class StringCommonTest {
      */
     @Test
     public void testTrim() {
-        String s = "     123     ";
-        System.out.println(s.trim());
+        String s = "          ";
+        String trim = s.trim();
+        System.out.println(trim);
         System.out.println(s);
     }
 
