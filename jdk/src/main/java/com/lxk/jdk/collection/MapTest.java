@@ -16,6 +16,25 @@ import java.util.*;
 public class MapTest {
 
 
+    @Test
+    public void forChange() {
+        Map<String, String> map = Maps.newHashMap();
+        map.put("s.s", "yy");
+        map.put("a.a", "yy");
+        map.put("b.b", "yy");
+        map.put("c.c", "yy");
+
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            if ("s.s".equals(key)){
+                map.put(key, "dddd");
+            }
+        }
+        System.out.println(map);
+    }
+
+
     /**
      * 测试 replace 点
      */
