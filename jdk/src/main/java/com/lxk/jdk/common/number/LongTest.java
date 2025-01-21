@@ -1,6 +1,5 @@
 package com.lxk.jdk.common.number;
 
-import com.google.common.collect.Maps;
 import com.lxk.tool.util.TimeUtils;
 import org.junit.Test;
 
@@ -30,11 +29,10 @@ public class LongTest {
 
     @Test
     public void cast() {
-        Map<String, Object> map = Maps.newHashMap();
-        map.put("a", 100);
-        map.put("b", 200L);
-        Double a = getDouble(map, "b");
-        System.out.println(a);
+        long longValue = new BigDecimal("0.a").longValue();
+        System.out.println(longValue);
+        long l = Long.parseLong("0.00".trim());
+        System.out.println(l);
     }
 
     public Double getDouble(Map<String, Object> map, String key) {
