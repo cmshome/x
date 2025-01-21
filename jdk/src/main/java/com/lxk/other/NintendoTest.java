@@ -23,6 +23,7 @@ public class NintendoTest {
 
     private List<SwitchParts> game() {
         List<SwitchParts> list = Lists.newArrayList();
+        list.add(new SwitchParts("超级马里奥-3D时间", LocalDate.of(2025, 1, 4), 208));
         list.add(new SwitchParts("超级马里奥-奥德赛", LocalDate.of(2024, 11, 20), 225));
         list.add(new SwitchParts("女神异闻录5 皇家版 P5R", LocalDate.of(2024, 10, 22), 211));
         list.add(new SwitchParts("塞尔达无双-灾厄启示录", LocalDate.of(2024, 10, 22), 242));
@@ -41,6 +42,10 @@ public class NintendoTest {
 
     private List<SwitchParts> hardware() {
         List<SwitchParts> list = Lists.newArrayList();
+        list.add(new SwitchParts("手柄收纳盒-2", LocalDate.of(2025, 1, 12), 13));
+        list.add(new SwitchParts("手柄收纳盒-1", LocalDate.of(2025, 1, 9), 7));
+        list.add(new SwitchParts("手柄角套", LocalDate.of(2025, 1, 8), 14));
+        list.add(new SwitchParts("爱国者-内存卡-64G", LocalDate.of(2025, 1, 8), 18));
         list.add(new SwitchParts("底座原装充电器", LocalDate.of(2024, 12, 15), 69));
         list.add(new SwitchParts("底座盒透明保护罩", LocalDate.of(2024, 10, 28), 10));
         list.add(new SwitchParts("Switch NS PRO 手柄 塞尔达传说-王国之泪 全新", LocalDate.of(2024, 8, 29), 316));
