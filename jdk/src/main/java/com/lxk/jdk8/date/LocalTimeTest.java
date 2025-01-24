@@ -56,4 +56,13 @@ public class LocalTimeTest {
         System.out.println("当前时间：清空纳秒--" + now.withNano(0));
         System.out.println("当前时间：挨个清零--" + now.withHour(0).withMinute(0).withSecond(0).withNano(0));
     }
+
+
+    @Test
+    public void time() {
+        String s="18:00";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime parse = LocalTime.parse(s, formatter);
+        System.out.println(parse);
+    }
 }
