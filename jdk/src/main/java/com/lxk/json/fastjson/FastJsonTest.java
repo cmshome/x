@@ -18,7 +18,7 @@ import java.util.Map;
 public class FastJsonTest {
 
     @Before
-    public void init(){
+    public void init() {
         // 关闭 BigDecimal 使用 double  fastjson缺省反序列化带小数点的数值类型为 BigDecimal； 整数，默认为Integer
         JSON.DEFAULT_PARSER_FEATURE &= ~Feature.UseBigDecimal.getMask();
     }
@@ -134,5 +134,24 @@ public class FastJsonTest {
         Map map = JsonUtils.fastjsonCast(json, Map.class);
         Object a = map.get("b");
         System.out.println(a);
+    }
+
+
+    @Test
+    public void compress() {
+        String json = "{\n" +
+                "    \"a\": \"a\",\n" +
+                "    \"d\": \"d\",\n" +
+                "    \"e\": \"e\",\n" +
+                "               \"f\": \"f\"\n" +
+                "}";
+
+        Map map = JsonUtils.parseJsonToObj(json, Map.class);
+        String s = JsonUtils.parseObjToJson(map);
+        System.out.println(s);
+
+
+        String compressedJson = json.replaceAll("\\s+", "");
+        System.out.println(compressedJson);
     }
 }
