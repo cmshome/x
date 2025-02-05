@@ -23,7 +23,7 @@ public class LongTest {
 
         System.out.println(rawKafkaTime);
         double v = Double.parseDouble(new BigDecimal(rawKafkaTimeString).toPlainString());
-        System.out.println(((Double)v).longValue());
+        System.out.println(((Double) v).longValue());
     }
 
 
@@ -209,7 +209,7 @@ public class LongTest {
      */
     @Test
     public void mm() {
-        long s = 10000* 10000;
+        long s = 10000 * 10000;
         BigDecimal bigDecimal = new BigDecimal(s);
         System.out.println(bigDecimal.toPlainString());
     }
@@ -222,14 +222,11 @@ public class LongTest {
 
     @Test
     public void cast2() {
-        try {
-            String s = "   ";
-            long l = new BigDecimal(s).longValue();
-            double v = new BigDecimal(s).doubleValue();
-            System.out.println(l == v);
-        } catch (Exception e){
-            System.out.println();
-        }
+        String s = "  0.00 ";
+        s = s.trim();
+        long l = new BigDecimal(s).longValue();
+        double v = new BigDecimal(s).doubleValue();
+        System.out.println(l == v);
 
     }
 
