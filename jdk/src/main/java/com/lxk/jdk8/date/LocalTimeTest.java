@@ -60,7 +60,7 @@ public class LocalTimeTest {
 
     @Test
     public void time() {
-        String s="18:00";
+        String s = "18:00";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime parse = LocalTime.parse(s, formatter);
         System.out.println(parse);
