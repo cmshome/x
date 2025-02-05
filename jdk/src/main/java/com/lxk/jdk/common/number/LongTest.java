@@ -220,4 +220,17 @@ public class LongTest {
         System.out.println(l);
     }
 
+    @Test
+    public void cast2() {
+        try {
+            String s = "   ";
+            long l = new BigDecimal(s).longValue();
+            double v = new BigDecimal(s).doubleValue();
+            System.out.println(l == v);
+        } catch (Exception e){
+            System.out.println();
+        }
+
+    }
+
 }
