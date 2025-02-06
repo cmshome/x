@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -30,6 +31,20 @@ public class TestBigFile {
         map = JsonUtils.parseJsonToObj(s, Map.class);
     }
 
+    /**
+     * 读一行100万个a的文件，能读出来，下面程序正常执行。
+     */
+    @Test
+    public void load() {
+        List<String> list = FileIOUtil.readFileByLine(fileName, false);
+        System.out.println(list.size());
+        String s = list.get(0);
+        System.out.println(s.length());
+    }
+
+    /**
+     * 一行写100万个a，是1M大小的文件。
+     */
     @Test
     public void writeBig() throws IOException {
         long start = 1577808000000L;
