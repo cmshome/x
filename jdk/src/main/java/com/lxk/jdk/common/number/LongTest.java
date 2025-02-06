@@ -1,5 +1,6 @@
 package com.lxk.jdk.common.number;
 
+import com.google.common.base.Strings;
 import com.lxk.tool.util.TimeUtils;
 import org.junit.Test;
 
@@ -216,7 +217,8 @@ public class LongTest {
 
     @Test
     public void max() {
-        long l = Long.MAX_VALUE / 60L / 24L / 365L;
+        long l = Long.MAX_VALUE / 60L / 60L / 24L / 365L;
+        // 292471208677 年
         System.out.println(l);
     }
 
@@ -230,12 +232,43 @@ public class LongTest {
         System.out.println(l == v);
         // 99999999999999
         System.out.println(l);
-        // 9.999999999999998E13
+        // 9.999999999999998E13  精度丢失
         System.out.println(v);
         // 99999999999999.9900
         System.out.println(new BigDecimal(s).toPlainString());
-        // 99999999999999.98
+        // 99999999999999.98  精度丢失
         System.out.println(BigDecimal.valueOf(v));
+    }
+
+
+    @Test
+    public void cast3() {
+        String s = "0.08";
+        String s1 = castLong(s);
+        System.out.println(s1);
+    }
+
+    private String castLong(Object value) {
+        // value是null的不处理
+        if (value == null) {
+            return null;
+        }
+        String trim = value.toString().trim();
+        // value是空的不处理
+        if (Strings.isNullOrEmpty(trim)) {
+            return null;
+        }
+        // 不是0开头的不处理
+        if (!trim.startsWith("0")) {
+            return null;
+        }
+        long l = new BigDecimal(trim).longValue();
+        double d = new BigDecimal(trim).doubleValue();
+        if (d == l) {
+            return l + "";
+        } else {
+            return d + "";
+        }
     }
 
 }
