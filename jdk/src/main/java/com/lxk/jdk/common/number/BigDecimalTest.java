@@ -15,6 +15,7 @@ public class BigDecimalTest {
         double num = 11.3456723;
         System.out.println("数字构造器" + new BigDecimal(Double.valueOf(num)));
         System.out.println("字符构造器" + new BigDecimal(Double.valueOf(num).toString()));
+        // 结果会丢失精度
         System.out.println(BigDecimal.valueOf(num));
     }
 

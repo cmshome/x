@@ -222,12 +222,20 @@ public class LongTest {
 
     @Test
     public void cast2() {
-        String s = "  0.00 ";
+        String s = "  99999999999999.9900 ";
         s = s.trim();
         long l = new BigDecimal(s).longValue();
         double v = new BigDecimal(s).doubleValue();
+        // false
         System.out.println(l == v);
-
+        // 99999999999999
+        System.out.println(l);
+        // 9.999999999999998E13
+        System.out.println(v);
+        // 99999999999999.9900
+        System.out.println(new BigDecimal(s).toPlainString());
+        // 99999999999999.98
+        System.out.println(BigDecimal.valueOf(v));
     }
 
 }
