@@ -10,6 +10,15 @@ import java.util.List;
  * @author LiXuekai on 2020/8/17
  */
 public class BigDecimalTest {
+
+
+    @Test
+    public void ca() {
+        String num = "0.4321";
+        double d = new BigDecimal(num).doubleValue();
+        System.out.println(d);
+    }
+
     @Test
     public void test() {
         double num = 11.3456723;
