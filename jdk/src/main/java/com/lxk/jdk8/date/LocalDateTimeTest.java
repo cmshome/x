@@ -253,4 +253,37 @@ public class LocalDateTimeTest {
     }
 
 
+    @Test
+    public void cast() {
+        // 带时区的 格式化
+        String s = "2025-02-12T01:45:19.624Z";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        LocalDateTime localDateTime = LocalDateTime.parse(s, formatter);
+
+        System.out.println(localDateTime);
+
+        // Z是UTC时间，是0时区的，
+        long epochMilli = localDateTime.toInstant(ZoneOffset.ofTotalSeconds(8 * 60 * 60)).toEpochMilli();
+        // 1739295919624 2025-02-12 01:45:19
+        System.out.println(epochMilli);
+
+        epochMilli = localDateTime.toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli();
+        // 1739324719624 2025-02-12 09:45:19
+        System.out.println(epochMilli);
+
+        // 直接这么弄，出来的毫秒，就是当前北京时间
+        Instant instant = Instant.parse(s);
+        // 2025-02-12T01:45:19.624Z
+        System.out.println(instant);
+
+        // 1739324719624 2025-02-12 09:45:19
+        System.out.println(instant.toEpochMilli());
+
+        // 2025-02-12T01:45:19.624Z   -> 2025-02-12 09:45:19
+        LocalDateTime time = TimeUtils.ms2LocalDateTime(instant.toEpochMilli());
+        // 2025-02-12 09:45:19
+        System.out.println(TimeUtils.format(time));
+    }
+
+
 }
