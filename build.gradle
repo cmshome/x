@@ -30,7 +30,7 @@ ext {
     junitVersion = '4.13.2'
     log4jVersion = '2.8.2'
 
-    fastjsonVersion = '2.0.52'
+    fastjsonVersion = '2.0.55'
     gsonVersion = '2.9.0'
     jacksonVersion = '2.13.3'
 }
