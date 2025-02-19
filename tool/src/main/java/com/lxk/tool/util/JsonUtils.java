@@ -1,8 +1,8 @@
 package com.lxk.tool.util;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.JSONWriter;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
@@ -89,14 +89,14 @@ public final class JsonUtils {
      * 输出格式化的json字符串
      */
     public static <T> String parseObjToFormatJson(T object) {
-        return JSON.toJSONString(object, JSONWriter.Feature.PrettyFormat);
+        return JSON.toJSONString(object, SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.PrettyFormat);
     }
 
     /**
      * 不格式化Json数据
      */
     public static <T> String parseObjToNoFormatJson(T object) {
-        return JSON.toJSONString(object);
+        return JSON.toJSONString(object, SerializerFeature.DisableCircularReferenceDetect);
     }
 
 

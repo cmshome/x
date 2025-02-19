@@ -5,6 +5,7 @@ package com.lxk.doc.tree;
  */
 
 import com.google.common.base.Function;
+import com.sun.istack.internal.NotNull;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -86,6 +87,7 @@ public class DirectoryTreeV1 {
      * @param file the file
      * @return the list
      */
+    @NotNull
     List<File> fetchFiles(File file) {
         final File[] files = file.listFiles(this.fileFilter);
         return files == null ? Collections.emptyList() : Arrays.asList(files);
