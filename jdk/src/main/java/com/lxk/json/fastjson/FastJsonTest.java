@@ -1,9 +1,7 @@
 package com.lxk.json.fastjson;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.parser.Feature;
-import com.alibaba.fastjson.parser.ParserConfig;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.lxk.json.model.Cup;
 import com.lxk.tool.util.JsonUtils;
 import org.junit.Before;
@@ -20,7 +18,6 @@ public class FastJsonTest {
     @Before
     public void init() {
         // 关闭 BigDecimal 使用 double  fastjson缺省反序列化带小数点的数值类型为 BigDecimal； 整数，默认为Integer
-        JSON.DEFAULT_PARSER_FEATURE &= ~Feature.UseBigDecimal.getMask();
     }
 
     /**
@@ -75,7 +72,6 @@ public class FastJsonTest {
     public void t() {
         String s = "";
         Map map = JsonUtils.parseJsonToObj(s, Map.class);
-        ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
         System.out.println(map.size());
     }
 
