@@ -70,7 +70,7 @@ public class StringCommonTest {
     @Test
     public void subStringTest() {
         String s = "ab";
-        System.out.println(s.substring(0,2));
+        System.out.println(s.substring(0, 2));
     }
 
     @Test
@@ -470,5 +470,15 @@ public class StringCommonTest {
         empty = s.isEmpty();
         System.out.println(empty);
     }
+
+    @Test
+    public void trim() {
+        String a = "   cdd   ";
+        // 去掉前后空格
+        System.out.println(a.trim());
+        // 去掉后面的空格
+        System.out.println(a.replaceAll("\\s+$", ""));
+    }
+
 
 }
