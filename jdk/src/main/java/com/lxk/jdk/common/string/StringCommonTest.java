@@ -480,5 +480,18 @@ public class StringCommonTest {
         System.out.println(a.replaceAll("\\s+$", ""));
     }
 
+    @Test
+    public void trimNull() {
+        Object value = 1000;
+        System.out.println(value);
+        if (value instanceof String) {
+            String s = value.toString();
+            String replace = s.replaceAll("\\s+$", "");
+            System.out.println(replace);
+        } else {
+            System.out.println("null");
+        }
+    }
+
 
 }
