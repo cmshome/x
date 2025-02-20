@@ -90,7 +90,7 @@ public class StringCommonTest {
 
                     .build();
 
-    private static String adapterQueryString(String queryString) {
+    private String adapterQueryString(String queryString) {
         if (Strings.isNullOrEmpty(queryString)) {
             return queryString;
         }
@@ -214,7 +214,7 @@ public class StringCommonTest {
         System.out.println(str);
     }
 
-    private static boolean isNotNullOrEmpty(int d, String... arg) {
+    private boolean isNotNullOrEmpty(int d, String... arg) {
         System.out.println(d);
         for (String s : arg) {
             if (Strings.isNullOrEmpty(s)) {
@@ -224,7 +224,7 @@ public class StringCommonTest {
         return true;
     }
 
-    public static String concatString(String... strings) {
+    public String concatString(String... strings) {
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < strings.length; i++) {
             str.append(strings[i]);
@@ -438,7 +438,7 @@ public class StringCommonTest {
     /**
      * 测试字符串和集合在函数之间的传值问题,解决值传递和地址传递的疑惑.
      */
-    private static void testTransmitValue(String transmitValue, String transmitValueNew, List<String> list, Integer integer) {
+    private void testTransmitValue(String transmitValue, String transmitValueNew, List<String> list, Integer integer) {
         transmitValue += "修改的痕迹";
         transmitValueNew += "assss修改的痕迹";
         list.add("1");
