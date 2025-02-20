@@ -482,15 +482,22 @@ public class StringCommonTest {
 
     @Test
     public void trimNull() {
-        Object value = 1000;
+        Object value = "   a d ";
         System.out.println(value);
-        if (value instanceof String) {
-            String s = value.toString();
-            String replace = s.replaceAll("\\s+$", "");
-            System.out.println(replace);
-        } else {
-            System.out.println("null");
+        Object o = trimEnd(value);
+        System.out.println(o);
+    }
+
+    private Object trimEnd(Object value) {
+        try {
+            if (value instanceof String) {
+                String s = value.toString();
+                return s.replaceAll("\\s+$", "");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+        return value;
     }
 
 
