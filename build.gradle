@@ -25,14 +25,14 @@ allprojects {
 
 ext {
     vertxVersion = '3.3.2'
-    guavaVersion = '31.1-jre'
+    guavaVersion = '33.4.0-jre'
     lombokVersion = '1.18.8'
     junitVersion = '4.13.2'
     log4jVersion = '2.8.2'
 
     fastjsonVersion = '2.0.55'
-    gsonVersion = '2.9.0'
-    jacksonVersion = '2.13.3'
+    gsonVersion = '2.12.1'
+    jacksonVersion = '2.18.2'
 }
 
 
