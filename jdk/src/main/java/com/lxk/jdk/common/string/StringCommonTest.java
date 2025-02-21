@@ -482,7 +482,7 @@ public class StringCommonTest {
 
     @Test
     public void trimNull() {
-        Object value = "   a d ";
+        Object value = "        汉字 d    ";
         System.out.println(value);
         Object o = trimEnd(value);
         System.out.println(o);
