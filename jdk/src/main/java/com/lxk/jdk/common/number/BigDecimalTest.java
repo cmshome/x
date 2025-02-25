@@ -16,6 +16,7 @@ public class BigDecimalTest {
         System.out.println(removeZero("143356097.10000"));
         System.out.println(removeZero("0.0"));
         System.out.println(removeZero("0."));
+        System.out.println(removeZero("0000000000123"));
         System.out.println(removeZero("0.01000"));
         System.out.println(removeZero("000000.01000"));
         System.out.println(removeZero("000300.01000"));
