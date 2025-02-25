@@ -472,20 +472,19 @@ public class StringCommonTest {
     }
 
     @Test
-    public void trim() {
-        String a = "   cdd   ";
-        // 去掉前后空格
-        System.out.println(a.trim());
-        // 去掉后面的空格
-        System.out.println(a.replaceAll("\\s+$", ""));
+    public void trimNull() {
+        showTrimEnd("?.o.Q!a?    ");
+        showTrimEnd("    ");
+        showTrimEnd("   a d ");
+        showTrimEnd("     123     ");
+        showTrimEnd(null);
+        showTrimEnd("   cdd   ");
     }
 
-    @Test
-    public void trimNull() {
-        Object value = "?.o.Q!a?    ";
-        System.out.println(value);
+    private void showTrimEnd(Object value) {
+        System.out.println("改之前：|" + value + "|");
         Object o = trimEnd(value);
-        System.out.println(o);
+        System.out.println("改之后：|" + o + "|");
     }
 
     private Object trimEnd(Object value) {
