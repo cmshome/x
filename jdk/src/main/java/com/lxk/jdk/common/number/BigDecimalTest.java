@@ -11,6 +11,22 @@ import java.util.List;
  */
 public class BigDecimalTest {
 
+    @Test
+    public void zero() {
+        System.out.println(removeZero("143356097.10000"));
+        System.out.println(removeZero("0.0"));
+        System.out.println(removeZero("0."));
+        System.out.println(removeZero("0.01000"));
+        System.out.println(removeZero("000000.01000"));
+        System.out.println(removeZero("000300.01000"));
+    }
+
+    /**
+     * 去掉多余的0
+     */
+    private String removeZero(String s) {
+        return new BigDecimal(s).stripTrailingZeros().toPlainString();
+    }
 
     @Test
     public void ca() {
