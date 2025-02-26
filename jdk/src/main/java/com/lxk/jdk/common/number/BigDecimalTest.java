@@ -23,7 +23,8 @@ public class BigDecimalTest {
     }
 
     /**
-     * 去掉多余的0
+     * 1，自动去掉多余的0
+     * 2，输出正常数字，不是科学计数法的格式
      */
     private String removeZero(String s) {
         return new BigDecimal(s).stripTrailingZeros().toPlainString();
@@ -36,13 +37,32 @@ public class BigDecimalTest {
         System.out.println(d);
     }
 
+    /**
+     * 解析异常的情况
+     */
+    @Test
+    public void exception() {
+        String s = "   1000.000";
+        try {
+            String s1 = new BigDecimal(s).toPlainString();
+            System.out.println(s1);
+        } catch (Throwable e) {
+            // java.lang.NumberFormatException
+            System.out.println(e);
+        }
+    }
+
     @Test
     public void test() {
         double num = 11.3456723;
-        System.out.println("数字构造器" + new BigDecimal(Double.valueOf(num)));
-        System.out.println("字符构造器" + new BigDecimal(Double.valueOf(num).toString()));
-        // 结果会丢失精度
+        // 11.3456723
+        System.out.println(num);
+        // 11.3456723
         System.out.println(BigDecimal.valueOf(num));
+        // 数字构造器:11.345672300000000376485331798903644084930419921875
+        System.out.println("数字构造器:" + new BigDecimal(Double.valueOf(num)));
+        // 字符构造器:11.3456723
+        System.out.println("字符构造器:" + new BigDecimal(Double.valueOf(num).toString()));
     }
 
     @Test
