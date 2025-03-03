@@ -346,7 +346,7 @@ public class DoubleTest {
      */
     @Test
     public void divide() {
-        Double divide = DoubleUtil.divide(98d, 100d);
+        Double divide = DoubleUtil.divide(0d, 100d);
         System.out.println(divide);
     }
 
