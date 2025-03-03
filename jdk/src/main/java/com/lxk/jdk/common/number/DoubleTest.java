@@ -340,4 +340,14 @@ public class DoubleTest {
         // 最终结果就约等于 4 了。
         System.out.println(latency.longValue());
     }
+
+    /**
+     * 测试除法，保留2位小数
+     */
+    @Test
+    public void divide() {
+        Double divide = DoubleUtil.divide(98d, 100d);
+        System.out.println(divide);
+    }
+
 }
