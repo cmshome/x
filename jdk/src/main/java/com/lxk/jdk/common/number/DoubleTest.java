@@ -346,7 +346,10 @@ public class DoubleTest {
      */
     @Test
     public void divide() {
+
+        // 100d, 98d, 0d
         Double divide = DoubleUtil.divide(0d, 100d);
+        // 1.0, 0.98, 0.0
         System.out.println(divide);
     }
 
