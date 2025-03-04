@@ -13,7 +13,9 @@ import java.util.concurrent.TimeUnit;
 public class TestCache {
 
     private LoadingCache<String, String> cache = CacheBuilder.newBuilder()
-            .expireAfterAccess(2, TimeUnit.SECONDS)
+            // 当缓存条目数接近 maximumSize 时，Guava Cache 会主动淘汰低使用频率的条目，而非严格等待达到上限‌
+            .maximumSize(1000)
+            .expireAfterAccess(2, TimeUnit.HOURS)
             .build(new CacheLoader<String, String>() {
                 @Override
                 public String load(String key) throws Exception {
@@ -22,16 +24,19 @@ public class TestCache {
             });
 
     private String loadByKye(String key) {
-        System.out.println("load by key");
+        System.out.println("load by key " + key);
         return key;
     }
 
     @Test
     public void cache() throws Exception {
-        while (true){
-            System.out.println(cache.get("a"));
-            TimeUnit.SECONDS.sleep(1);
+        long a = System.currentTimeMillis();
+        for (int i = 0; i < 1000; i++) {
+            cache.get(""+i);
+            // 实际上 size不会到1000
+            System.out.println(cache.size());
         }
+        System.out.println("执行耗时 : " + (System.currentTimeMillis() - a) / 1000f + " 秒 ");
 
     }
 }
