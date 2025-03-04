@@ -19,5 +19,6 @@ public class ImmutableListTest {
         //此常量list不能add,remove,不然会抛异常的。
         //ConstantList.CONSTANT_LIST.add("sss");
         //ConstantList.CONSTANT_LIST.remove(string);
+        System.out.println();
     }
 }
