@@ -13,8 +13,17 @@ import java.util.concurrent.TimeUnit;
 public class TestCache {
 
     private LoadingCache<String, String> cache = CacheBuilder.newBuilder()
+
             // 当缓存条目数接近 maximumSize 时，Guava Cache 会主动淘汰低使用频率的条目，而非严格等待达到上限‌
             .maximumSize(1000)
+
+            /*
+             * 权重计算更精准控制内存消耗‌
+             * 同一缓存实例中 maximumWeight 与 maximumSize 不可共存，否则启动时报错‌
+             */
+            //.maximumWeight(1000)
+            //.weigher((k, v) -> k.toString().length())
+
             .expireAfterAccess(2, TimeUnit.HOURS)
             .build(new CacheLoader<String, String>() {
                 @Override
@@ -32,7 +41,7 @@ public class TestCache {
     public void cache() throws Exception {
         long a = System.currentTimeMillis();
         for (int i = 0; i < 1000; i++) {
-            cache.get(""+i);
+            cache.get("" + i);
             // 实际上 size不会到1000
             System.out.println(cache.size());
         }
