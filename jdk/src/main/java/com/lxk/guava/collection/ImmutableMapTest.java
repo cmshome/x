@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -48,4 +49,20 @@ public class ImmutableMapTest {
 
         MAP.forEach((key, value) -> System.out.println("key：" + key + " value：" + value));
     }
+
+    @Test
+    public void initMap() {
+        ImmutableMap<String, String> of = ImmutableMap.of("1", "1", "2", "2");
+
+        // 不可变集合，不让写操作，只能读
+        //of.put("3","3");
+        //of.remove("3","3");
+
+        HashMap<String, String> map = Maps.newHashMap();
+        map.putAll(of);
+        map.remove("1");
+        map.remove("2");
+        System.out.println(map.size());
+    }
+
 }
