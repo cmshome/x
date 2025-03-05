@@ -18,7 +18,7 @@ public class HashMultisetTest {
 
     @Test
     public void abc() {
-        HashMultiset<String> hashMultiset = HashMultiset.create(Lists.newArrayList("0","1","2","3","4"));
+        HashMultiset<String> hashMultiset = HashMultiset.create(Lists.newArrayList("0", "1", "2", "3", "4"));
         hashMultiset.add("0");
         hashMultiset.add("1");
         hashMultiset.add("1");

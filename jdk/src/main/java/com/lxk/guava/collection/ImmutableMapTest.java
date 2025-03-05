@@ -9,6 +9,7 @@ import java.util.Map;
 /**
  * guava ImmutableMap 测试实例
  * <p>
+ *
  * @author lxk on 2016/11/14
  */
 public class ImmutableMapTest {
@@ -31,10 +32,11 @@ public class ImmutableMapTest {
 
     /**
      * 这个最多支持5对，不能再多啦。
+     * 后期又扩展了，竟然支持10对了。
      */
-    ImmutableMap<String,String> MAP = ImmutableMap.of("key1", "value1", "key2", "value2");
+    ImmutableMap<String, String> MAP = ImmutableMap.of("key1", "value1", "key2", "value2");
 
-    ImmutableMap<String,String> MAP_ = ImmutableMap.copyOf(Maps.newHashMap());
+    ImmutableMap<String, String> MAP_ = ImmutableMap.copyOf(Maps.newHashMap());
 
     /**
      * 测试 guava ImmutableMap
@@ -44,6 +46,6 @@ public class ImmutableMapTest {
         Integer keyValue = 30;
         System.out.println("keyValue = " + keyValue + "的提示语是：" + INTEGER_STRING_MAP.get(keyValue));
 
-        MAP.forEach((key,value) -> System.out.println("key：" + key + " value：" + value));
+        MAP.forEach((key, value) -> System.out.println("key：" + key + " value：" + value));
     }
 }
