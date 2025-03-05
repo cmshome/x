@@ -18,18 +18,18 @@ public class ImmutableListTest {
      */
     List<String> CONSTANT_LIST =
             new ImmutableList.Builder<String>()
-                    .add("平均值")
-                    .add("总值")
-                    .add("最大值")
-                    .add("最小值")
+                    .add("a")
+                    .add("d")
+                    .add("f")
+                    .add("g")
                     .build();
 
     /*
      * 推荐使用上面的写法，样式好看，且好维护，也就是说，你现在要删除或者添加一条，直接添加一行就好。常量整体也看着条理清晰。
      */
-    //List<String> CONSTANT_LIST = ImmutableList.of("平均值","总值","最大值","最小值");
+    //List<String> CONSTANT_LIST = ImmutableList.of("a","d","f","g");
 
-    //List<String> CONSTANT_LIST = ImmutableList.copyOf(Lists.newArrayList("平均值","总值","最大值","最小值"));
+    //List<String> CONSTANT_LIST = ImmutableList.copyOf(Lists.newArrayList("a","d","f","g"));
 
 
     @Test
