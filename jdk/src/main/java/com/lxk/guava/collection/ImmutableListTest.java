@@ -1,6 +1,9 @@
 package com.lxk.guava.collection;
 
+import com.google.common.collect.ImmutableList;
 import org.junit.Test;
+
+import java.util.List;
 
 /**
  * guava ImmutableMap 测试实例
@@ -9,16 +12,35 @@ import org.junit.Test;
  */
 public class ImmutableListTest {
 
+    /**
+     * 有时候，我们可能需要在代码里面使用一个包含许多常量的list
+     * 不可变集合。。。
+     */
+    List<String> CONSTANT_LIST =
+            new ImmutableList.Builder<String>()
+                    .add("平均值")
+                    .add("总值")
+                    .add("最大值")
+                    .add("最小值")
+                    .build();
+
+    /*
+     * 推荐使用上面的写法，样式好看，且好维护，也就是说，你现在要删除或者添加一条，直接添加一行就好。常量整体也看着条理清晰。
+     */
+    //List<String> CONSTANT_LIST = ImmutableList.of("平均值","总值","最大值","最小值");
+
+    //List<String> CONSTANT_LIST = ImmutableList.copyOf(Lists.newArrayList("平均值","总值","最大值","最小值"));
+
 
     @Test
     public void abc() {
         String string = "最大值";
-        if (ConstantList.CONSTANT_LIST.contains(string)) {
+        if (CONSTANT_LIST.contains(string)) {
             System.out.println("常量list集合包含此 String");
         }
         //此常量list不能add,remove,不然会抛异常的。
-        //ConstantList.CONSTANT_LIST.add("sss");
-        //ConstantList.CONSTANT_LIST.remove(string);
+        //CONSTANT_LIST.add("sss");
+        //CONSTANT_LIST.remove(string);
         System.out.println();
     }
 }
