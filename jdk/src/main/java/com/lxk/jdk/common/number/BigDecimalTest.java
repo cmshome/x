@@ -32,28 +32,6 @@ public class BigDecimalTest {
     }
 
     @Test
-    public void ca() {
-        String num = "0.4321";
-        double d = new BigDecimal(num).doubleValue();
-        System.out.println(d);
-    }
-
-    /**
-     * 解析异常的情况
-     */
-    @Test
-    public void exception() {
-        String s = "   1000.000";
-        try {
-            String s1 = new BigDecimal(s).toPlainString();
-            System.out.println(s1);
-        } catch (Throwable e) {
-            // java.lang.NumberFormatException
-            System.out.println(e);
-        }
-    }
-
-    @Test
     public void test() {
         double num = 11.3456723;
         // 11.3456723
