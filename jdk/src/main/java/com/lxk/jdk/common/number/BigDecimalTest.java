@@ -15,6 +15,7 @@ public class BigDecimalTest {
     public void zero() {
         System.out.println(removeZero("143356097.10000"));
         System.out.println(removeZero("0.0"));
+        System.out.println(removeZero("     0.0    "));
         System.out.println(removeZero("0."));
         System.out.println(removeZero("0000000000123"));
         System.out.println(removeZero("0.01000"));
@@ -27,7 +28,7 @@ public class BigDecimalTest {
      * 2，输出正常数字，不是科学计数法的格式
      */
     private String removeZero(String s) {
-        return new BigDecimal(s).stripTrailingZeros().toPlainString();
+        return new BigDecimal(s.trim()).stripTrailingZeros().toPlainString();
     }
 
     @Test
