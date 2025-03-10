@@ -12,10 +12,10 @@ import java.util.regex.Pattern;
  * 密码	            /^[a-z0-9_-]{6,18}$/
  * 十六进制值	        /^#?([a-f0-9]{6}|[a-f0-9]{3})$/
  * 电子邮箱	        /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
- *                  /^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$/
+ * /^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$/
  * URL	            /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
  * IP 地址	        /((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)/
- *                  /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
+ * /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
  * HTML 标签	        /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/
  * 删除代码\\注释	    (?<!http:|\S)//.*$
  * Unicode编码中的汉字范围	/^[\u2E80-\u9FFF]+$/
@@ -73,6 +73,18 @@ public class RegexTest {
 
     }
 
+    @Test
+    public void match() {
+        // 当前位置后第一个字符非 a，且连续匹配两个单词字符
+        match("ad", "(?!a)\\w{2}|(ab)");
+    }
+
+    private void match(String text, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
+        System.out.println(matcher.find());
+    }
+
 
     /**
      * 字符串中带有 \r\n\t，这个正则表达式就执行不成功了。
@@ -113,7 +125,7 @@ public class RegexTest {
      */
     @Test
     public void chinese2() {
-        String s= ".?!,;:()[]<>";
+        String s = ".?!,;:()[]<>";
         Pattern p = Pattern.compile("\u3002|\uff1f|\uff01|\uff0c|\u3001|\uff1b|\uff1a|\u201c|\u201d|\u2018|\u2019|\uff08|\uff09|\u300a|\u300b|\u3010|\u3011|\u007e");
         Matcher m = p.matcher(s);
         if (m.find()) {
