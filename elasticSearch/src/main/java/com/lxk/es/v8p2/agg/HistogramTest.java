@@ -1,10 +1,8 @@
 package com.lxk.es.v8p2.agg;
 
-import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
 import co.elastic.clients.elasticsearch._types.aggregations.AggregationBuilders;
 import co.elastic.clients.elasticsearch._types.aggregations.HistogramAggregation;
-import co.elastic.clients.elasticsearch._types.aggregations.HistogramOrder;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
@@ -44,34 +42,34 @@ public class HistogramTest extends Common {
         showHisBucket(response);
     }
 
-    @Test
-    public void histogram() throws IOException {
-        HistogramOrder key = HistogramOrder.of(b -> b.key(SortOrder.Desc));
-        HistogramOrder count = HistogramOrder.of(b -> b.count(SortOrder.Desc));
-
-        SearchResponse<Product> response = client.search(b -> b
-                        .index(getIndexName())
-                        .size(0)
-                        .query(QueryUtil.termQuery("type", "test"))
-                        .trackTotalHits(QueryUtil.trackHits(true))
-                        .aggregations(AGG, a -> a
-                                .histogram(h -> h
-                                        .field("age")
-                                        .interval(1000.0)
-                                                .order(count)
-                                        //.extendedBounds(eb -> eb.min(1000.0).max(10000.0))
-                                        //.offset(1000.0)
-                                )
-                                //.aggregations(SUB_AGG_1, AggregationBuilders.stats().field("age").build()._toAggregation())
-                                //.aggregations(SUB_AGG_2, AggregationBuilders.valueCount().field("age").build()._toAggregation())
-
-                        ),
-                Product.class
-        );
-
-        showHisBucket(response);
-
-    }
+    //@Test
+    //public void histogram() throws IOException {
+    //    HistogramOrder key = HistogramOrder.of(b -> b.key(SortOrder.Desc));
+    //    HistogramOrder count = HistogramOrder.of(b -> b.count(SortOrder.Desc));
+    //
+    //    SearchResponse<Product> response = client.search(b -> b
+    //                    .index(getIndexName())
+    //                    .size(0)
+    //                    .query(QueryUtil.termQuery("type", "test"))
+    //                    .trackTotalHits(QueryUtil.trackHits(true))
+    //                    .aggregations(AGG, a -> a
+    //                            .histogram(h -> h
+    //                                    .field("age")
+    //                                    .interval(1000.0)
+    //                                            .order(count)
+    //                                    //.extendedBounds(eb -> eb.min(1000.0).max(10000.0))
+    //                                    //.offset(1000.0)
+    //                            )
+    //                            //.aggregations(SUB_AGG_1, AggregationBuilders.stats().field("age").build()._toAggregation())
+    //                            //.aggregations(SUB_AGG_2, AggregationBuilders.valueCount().field("age").build()._toAggregation())
+    //
+    //                    ),
+    //            Product.class
+    //    );
+    //
+    //    showHisBucket(response);
+    //
+    //}
 
     @Test
     public void sub() throws IOException {

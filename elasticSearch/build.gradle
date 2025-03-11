@@ -4,7 +4,7 @@ version '1.0-SNAPSHOT'
 dependencies {
     compile project(':tool')
 
-    implementation group: 'co.elastic.clients', name: 'elasticsearch-java', version: '8.2.3'
+    implementation group: 'co.elastic.clients', name: 'elasticsearch-java', version: '7.17.28'
     // es 8.2 的官网推荐加上这个依赖，说是有些框架需要。
     implementation 'jakarta.json:jakarta.json-api:2.0.1'
 

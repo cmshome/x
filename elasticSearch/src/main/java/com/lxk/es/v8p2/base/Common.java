@@ -21,7 +21,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.lxk.es.v8p2.model.Product;
 import com.lxk.es.v8p2.util.QueryUtil;
-import com.lxk.tool.util.FileIOUtil;
 import jakarta.json.JsonValue;
 import lombok.Getter;
 import org.apache.http.HttpHost;
@@ -51,18 +50,11 @@ public class Common {
      */
     @Before
     public void getTransportClient() {
-        String path = "/Users/fang/Downloads/test/a.csv";
-
-        List<String> list = FileIOUtil.readFileByLine(path, false);
-        if (list.isEmpty()) {
-            return;
-        }
-        String[] split = list.get(0).split(",");
-        indexName = split[0];
-        String user = split[1];
-        String pwd = split[2];
-        String ip = split[3];
-        Integer port = Integer.parseInt(split[4]);
+        indexName = "product";
+        String user = "elastic";
+        String pwd = "elasticsearch";
+        String ip = "192.168.1.198";
+        int port = 9200;
 
         System.out.println("ip:port = " + ip + ":" + port);
         System.out.println("user:pwd = " + user + ":" + pwd );
