@@ -8,7 +8,7 @@
 
   
 # gc器
-![Java-gc收集器概览](../imgs/me/Java-gc收集器概览图.jpeg)   
+![Java-gc收集器概览](../../imgs/me/Java-gc收集器概览图.jpeg)   
 
 |--    |Serial |ParNew|Parallel Scavenge|Parallel Old     |Serial old     |CMS      |G1          |
 |:-----|:---   |:----- |:-----          |:-----           |:-----         |:-----   |:-----      |
