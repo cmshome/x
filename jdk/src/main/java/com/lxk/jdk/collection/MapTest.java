@@ -16,6 +16,14 @@ import java.util.*;
 public class MapTest {
 
 
+    /**
+     * 在Java中，使用for循环遍历Map时，可以安全地修改现有键的值
+     * 1. ‌修改值而不改变结构
+     * 2. ‌避免结构变化
+     * 3. ‌使用迭代器显式删除
+     * 推荐方式‌：
+     * 优先使用entrySet遍历，并通过Map.Entry.setValue()修改值，代码更直观且高效。
+     */
     @Test
     public void forChange() {
         Map<String, String> map = Maps.newHashMap();
@@ -27,8 +35,8 @@ public class MapTest {
         for (Map.Entry<String, String> entry : map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            if ("s.s".equals(key)){
-                map.put(key, "dddd");
+            if ("s.s".equals(key)) {
+                entry.setValue("ddddddd");
             }
         }
         System.out.println(map);
