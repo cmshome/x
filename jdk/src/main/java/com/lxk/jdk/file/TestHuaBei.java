@@ -59,4 +59,9 @@ public class TestHuaBei {
     public void four() {
         List<Number> list = Lists.newArrayList();
     }
+
+    @Test
+    public void car() {
+        System.out.println(1679.99 * 2);
+    }
 }
