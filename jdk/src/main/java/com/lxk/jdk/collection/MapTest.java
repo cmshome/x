@@ -26,17 +26,21 @@ public class MapTest {
      */
     @Test
     public void forChange() {
-        Map<String, String> map = Maps.newHashMap();
+        Map<String, Object> map = Maps.newHashMap();
         map.put("s.s", "yy");
-        map.put("a.a", "yy");
-        map.put("b.b", "yy");
-        map.put("c.c", "yy");
+        map.put("a.a", "  yy  ");
+        map.put("b.b", "  yy");
+        map.put("c.c", "yy  ");
+        map.put("d", null);
+        map.put("dd", "   ");
 
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            if ("s.s".equals(key)) {
-                entry.setValue("ddddddd");
+
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            Object value = entry.getValue();
+            if (value instanceof String){
+                String s = (String) value;
+                String trim = s.trim();
+                entry.setValue(trim);
             }
         }
         System.out.println(map);
