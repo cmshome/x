@@ -7,6 +7,7 @@ import com.lxk.tool.util.JsonUtils;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * map test
@@ -15,6 +16,44 @@ import java.util.*;
  */
 public class MapTest {
 
+
+    @Test
+    public void sortByValue1() {
+        Map<String, Integer> map = getNumberMap();
+        List<String> sortKey = map.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey).collect(Collectors.toList());
+
+        Collections.reverse(sortKey);
+        System.out.println(sortKey);
+    }
+
+    @Test
+    public void sortByValue2() {
+        Map<String, Integer> map = getNumberMap();
+        Map<String, Integer> sortedMap = map.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+        System.out.println(sortedMap.keySet());
+    }
+
+    private Map<String, Integer> getNumberMap() {
+        Map<String, Integer> map = Maps.newHashMap();
+        map.put("a", 1);
+        map.put("b", 10);
+        map.put("c", 11);
+        map.put("dz", 101);
+        map.put("dd", 111);
+        map.put("e", 1111);
+        map.put("af", 11111);
+        map.put("ag", 111111);
+        return map;
+    }
 
     /**
      * 在Java中，使用for循环遍历Map时，可以安全地修改现有键的值
@@ -37,7 +76,7 @@ public class MapTest {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             Object value = entry.getValue();
-            if (value instanceof String){
+            if (value instanceof String) {
                 String s = (String) value;
                 String trim = s.trim();
                 entry.setValue(trim);
