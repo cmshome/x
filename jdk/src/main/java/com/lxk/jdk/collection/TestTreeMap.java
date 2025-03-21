@@ -34,4 +34,17 @@ public class TestTreeMap {
 
         System.out.println(tree);
     }
+
+    @Test
+    public void sort() {
+        Map<String, Object> treeMap = Maps.newTreeMap();
+        treeMap.put("b", 100);
+        treeMap.put("a", null);
+        treeMap.put("TT", 12);
+        treeMap.put("d", "    ");
+        treeMap.put("c", "200");
+
+        System.out.println(treeMap.keySet());
+
+    }
 }
