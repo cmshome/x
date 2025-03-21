@@ -27,4 +27,19 @@ public class TreeSetTest {
         //[1, 2, 3, 4, 5, 6, 7]
         System.out.println(set.toString());
     }
+
+    @Test
+    public void string() {
+        TreeSet<String> set = Sets.newTreeSet();
+        set.add("TT");
+        set.add("gg");
+        set.add("aa");
+        set.add("ff");
+        set.add("bbb");
+        set.add("cc");
+        set.add("d");
+        set.add("e");
+        // [TT, aa, bbb, cc, d, e, ff, gg]
+        System.out.println(set);
+    }
 }
