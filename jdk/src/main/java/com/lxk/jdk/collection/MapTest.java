@@ -17,14 +17,19 @@ import java.util.stream.Collectors;
 public class MapTest {
 
 
+    /**
+     * comparingByValue()：按 Value 排序（默认升序）。
+     * thenComparing(comparingByKey())：Value 相同时，按 Key 字母顺序排序。
+     * Value 降序‌：使用 comparingByValue(Comparator.reverseOrder())。
+     * Key 降序‌：使用 comparingByKey(Comparator.reverseOrder())。
+     */
     @Test
     public void sortByValue1() {
         Map<String, Integer> map = getNumberMap();
         List<String> sortKey = map.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey).collect(Collectors.toList());
-
-        Collections.reverse(sortKey);
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
         System.out.println(sortKey);
     }
 
@@ -32,21 +37,26 @@ public class MapTest {
     public void sortByValue2() {
         Map<String, Integer> map = getNumberMap();
         Map<String, Integer> sortedMap = map.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue())
+                .sorted(Map.Entry.<String, Integer>comparingByValue(Comparator.reverseOrder())
+                        .thenComparing(Map.Entry.comparingByKey()))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (e1, e2) -> e1,
                         LinkedHashMap::new
                 ));
-        System.out.println(sortedMap.keySet());
+        System.out.println(sortedMap);
     }
 
     private Map<String, Integer> getNumberMap() {
         Map<String, Integer> map = Maps.newHashMap();
-        map.put("a", 1);
+        map.put("z", 1);
+        map.put("az", 1);
         map.put("b", 10);
+        map.put("y", 10);
         map.put("c", 11);
+        map.put("x", 11);
+        map.put("w", 101);
         map.put("dz", 101);
         map.put("dd", 111);
         map.put("e", 1111);
