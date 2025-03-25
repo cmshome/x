@@ -18,6 +18,15 @@ import java.util.List;
  */
 public class NumberFormatTest {
 
+    @Test
+    public void format1() {
+        Double value = 79.9787;
+        DecimalFormat format = new DecimalFormat("#0.00");
+        String s = format.format(value);
+        double v = new BigDecimal(s).doubleValue();
+        System.out.println(v);
+    }
+
     /**
      * 获得8位数的长度值 将msg的字节长度转成8位数
      */
@@ -180,7 +189,6 @@ public class NumberFormatTest {
         System.out.println(new DecimalFormat("0.000000").format(new BigDecimal("987654321100.0023")));
 
     }
-
 
 
 }
