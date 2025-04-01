@@ -3,7 +3,9 @@ package com.lxk.jdk.collection;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.lxk.tool.util.CollectionUtil;
+import com.lxk.tool.util.FileIOUtil;
 import com.lxk.tool.util.JsonUtils;
+import javafx.util.Pair;
 import org.junit.Test;
 
 import java.util.*;
@@ -146,6 +148,14 @@ public class MapTest {
         System.out.println(map.toString());
     }
 
+    @Test
+    public void removeNullKey() {
+        Map<String, String> map = Maps.newHashMap();
+        String put = map.put("ss", "yy");
+        String remove = map.remove(null);
+        System.out.println(remove);
+    }
+
     /**
      * ConcurrentHashMap 这个就不报异常了。。。
      */
@@ -262,5 +272,31 @@ public class MapTest {
         // {}
         System.out.println(JsonUtils.parseObjToJson(map));
 
+    }
+
+    @Test
+    public void xxx() {
+        List<String> list = FileIOUtil.readFileByLine("/Users/fang/Documents/big.json", false);
+        StringBuilder json = new StringBuilder();
+        for (String s : list) {
+            json.append(s);
+        }
+        Map<String, String> map =(Map<String, String>) JsonUtils.parseJsonToObj(json.toString(), Map.class);
+        System.out.println(map.size());
+        List<Pair<String, String>> pairs = Lists.newArrayList();
+        Iterator<String> iterator = map.keySet().iterator();
+        while (iterator.hasNext()){
+            String key = iterator.next();
+            String value = map.get(key);
+            if (key.contains("arrayTranList")){
+                Pair<String, String> pair = new Pair<>(key, value);
+                pairs.add(pair);
+                iterator.remove();
+            }
+        }
+        Map<String, Object> result = Maps.newHashMap();
+        result.putAll(map);
+        result.put("big", pairs);
+        System.out.println(JsonUtils.parseObjToJson(result));
     }
 }
