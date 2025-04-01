@@ -294,6 +294,7 @@ public class MapTest {
                 iterator.remove();
             }
         }
+        System.out.println(map.size());
         Map<String, Object> result = Maps.newHashMap();
         result.putAll(map);
         result.put("big", pairs);
