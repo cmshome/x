@@ -15,7 +15,7 @@ public class RandomTest {
     @Test
     public void show() {
         // a1743559144622java.util.Random@5fdef03a
-        String s ="a"+ System.currentTimeMillis() + new Random(10000).nextInt();
+        String s ="ads"+ System.currentTimeMillis() + new Random(10000).nextInt();
         // a1743559318585-498702880
         System.out.println(s);
         // 5592
