@@ -156,4 +156,15 @@ public class RegexTest {
         System.out.println(s.contains("."));
     }
 
+
+    /**
+     * 正则表达式匹配括号的测试
+     */
+    @Test
+    public void matchKey() {
+        Pattern compile = Pattern.compile("\\(aaa");// 匹配 "("
+        Matcher matcher = compile.matcher("(aaa");
+        // true
+        System.out.println(matcher.find());
+    }
 }
