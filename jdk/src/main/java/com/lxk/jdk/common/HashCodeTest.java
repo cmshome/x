@@ -31,4 +31,18 @@ public class HashCodeTest {
         System.out.println(Objects.hash(new StringBuilder().toString()));
 
     }
+
+    /**
+     * jdk8 和jdk17 结果一致
+     */
+    @Test
+    public void hash() {
+        String hash = getHash("cfp-dpl-apiup(cfp-uat8)");
+        System.out.println(hash);
+    }
+
+    public static String getHash(String text) {
+        return "hash_" + Objects.hash(text);
+    }
+
 }
