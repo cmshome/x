@@ -500,6 +500,8 @@ public class StringCommonTest {
     }
 
     /**
+     * Byte数组中的单个值的理解‌
+     * Byte数组‌由连续的字节（8位二进制数）构成，每个元素（单个字节）的取值范围为 0~255（十进制）‌，对应二进制 00000000~11111111‌。
      * 1，GB2312/GBK/Big5 编码汉字固定占用 2 个字节
      * 2，UTF-8 编码（Unicode）汉字通常占用 3 个字节‌，但某些特殊汉字可能占用 4 字节‌
      * 在未指定编码的题目中，默认以 2 个字节‌ 为标准答案，因其符合 GB2312/GBK 等中文编码规范的传统应用场景‌
@@ -518,5 +520,34 @@ public class StringCommonTest {
         System.out.println(Arrays.toString(bytes));
     }
 
+    /**
+     * 异或加密与解密过程详解
+     * 异或加密基于异或运算的 ‌可逆性‌ 特性：
+     * 核心规则‌：a ^ b ^ b = a（两次异或同一密钥可还原原始数据）‌
+     * 对称加密‌：加密与解密使用相同密钥，属于对称加密算法‌
+     */
+    @Test
+    public void or() {
+        byte[] plaintext = "Hello World!".getBytes(StandardCharsets.UTF_8);
+        byte[] key = "secret".getBytes(StandardCharsets.UTF_8);
+        byte[] encrypt = encrypt(plaintext, key);
+        System.out.println(encrypt.length);
+        System.out.println(new String(encrypt));
+
+        byte[] deEncrypt = encrypt(encrypt, key);
+        System.out.println(deEncrypt.length);
+        System.out.println(new String(deEncrypt));
+    }
+
+    private byte[] encrypt(byte[] data, byte[] key) {
+        if (data == null || data.length == 0 || key.length == 0) {
+            return data;
+        }
+        byte[] result = new byte[data.length];
+        for (int i = 0; i < data.length; i++) {
+            result[i] = (byte) (data[i] ^ key[i % key.length] ^ (i & 0xFF));
+        }
+        return result;
+    }
 
 }
