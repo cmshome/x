@@ -531,11 +531,15 @@ public class StringCommonTest {
         byte[] plaintext = "Hello World!".getBytes(StandardCharsets.UTF_8);
         byte[] key = "secret".getBytes(StandardCharsets.UTF_8);
         byte[] encrypt = encrypt(plaintext, key);
+        // 12
         System.out.println(encrypt.length);
+        // 不能直接读的字符串
         System.out.println(new String(encrypt));
 
         byte[] deEncrypt = encrypt(encrypt, key);
+        // 12
         System.out.println(deEncrypt.length);
+        // 原始值
         System.out.println(new String(deEncrypt));
     }
 
