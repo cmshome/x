@@ -506,7 +506,7 @@ public class StringCommonTest {
      */
     @Test
     public void showByte() {
-        // [72, 105]
+        // [72, 105] 每个字符对应 ASCII 码值（如 H=72, e=101 等）
         showByte("Hi");
 
         // [-28, -67, -96]   一个汉字，在utf-8下竟然是占3个字节的
