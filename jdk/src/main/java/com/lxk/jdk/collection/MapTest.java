@@ -288,7 +288,7 @@ public class MapTest {
         while (iterator.hasNext()){
             String key = iterator.next();
             String value = map.get(key);
-            if (key.contains("arrayTranList")){
+            if (key.contains("ddd")){
                 Pair<String, String> pair = new Pair<>(key, value);
                 pairs.add(pair);
                 iterator.remove();

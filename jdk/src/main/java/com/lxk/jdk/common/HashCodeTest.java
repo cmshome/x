@@ -37,7 +37,7 @@ public class HashCodeTest {
      */
     @Test
     public void hash() {
-        String hash = getHash("cfp-dpl-apiup(cfp-uat8)");
+        String hash = getHash("ddd");
         System.out.println(hash);
     }
 
