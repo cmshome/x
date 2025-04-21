@@ -499,11 +499,17 @@ public class StringCommonTest {
         return value;
     }
 
+    /**
+     * 1，GB2312/GBK/Big5 编码汉字固定占用 2 个字节
+     * 2，UTF-8 编码（Unicode）汉字通常占用 3 个字节‌，但某些特殊汉字可能占用 4 字节‌
+     * 在未指定编码的题目中，默认以 2 个字节‌ 为标准答案，因其符合 GB2312/GBK 等中文编码规范的传统应用场景‌
+     */
     @Test
     public void showByte() {
         // [72, 105]
         showByte("Hi");
-        // [-28, -67, -96]
+
+        // [-28, -67, -96]   一个汉字，在utf-8下竟然是占3个字节的
         showByte("你");
     }
 
