@@ -499,5 +499,18 @@ public class StringCommonTest {
         return value;
     }
 
+    @Test
+    public void showByte() {
+        // [72, 105]
+        showByte("Hi");
+        // [-28, -67, -96]
+        showByte("你");
+    }
+
+    private void showByte(String s) {
+        byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
+        System.out.println(Arrays.toString(bytes));
+    }
+
 
 }
