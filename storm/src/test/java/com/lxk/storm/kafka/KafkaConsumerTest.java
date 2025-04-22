@@ -3,13 +3,16 @@ package com.lxk.storm.kafka;
 import com.google.common.collect.Lists;
 import com.lxk.storm.kafka.config.KafkaConfig;
 import com.lxk.tool.util.JsonUtils;
+import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
+import org.apache.kafka.common.config.SslConfigs;
 import org.junit.Test;
 
 import java.time.Duration;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -22,10 +25,29 @@ import java.util.stream.Collectors;
 public class KafkaConsumerTest {
 
 
+    private Properties sslConfig() {
+        String keystoreLocation = "/Users/fang/Documents/ssl/kafka.server.keystore.jks";
+        String truststoreLocation = "/Users/fang/Documents/ssl/kafka.server.truststore.jks";
+        Properties props = new Properties();
+        props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL");
+        //props.put(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, keystoreLocation);
+        //props.put(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG, "kafka1234567");
+        //props.put(SslConfigs.SSL_KEY_PASSWORD_CONFIG, "kafka1234567");
+        props.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, truststoreLocation);
+        props.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, "kafka1234567");
+        props.put(SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG, "");
+        return props;
+    }
+
     @Test
     public void raw() {
-        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(KafkaConfig.consumerConf());
-        consumer.subscribe(Lists.newArrayList("metric"));
+        Properties properties = KafkaConfig.consumerConf();
+        Properties sslConfig = sslConfig();
+        properties.putAll(sslConfig);
+
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
+
+        consumer.subscribe(Lists.newArrayList("lxk"));
         try {
             while (true) {
                 // 100 是超时时间，毫秒级别。
@@ -38,7 +60,7 @@ public class KafkaConsumerTest {
                     String topic = record.topic();
                     long offset = record.offset();
                     String value = record.value();
-                    System.out.println(value + record.timestamp());
+                    System.out.println("key=" + key + " value=" + value + " timestamp=" + record.timestamp());
                 }
             }
         } catch (Exception e) {
@@ -47,8 +69,6 @@ public class KafkaConsumerTest {
             consumer.close();
         }
     }
-
-
 
 
     @Test
@@ -68,7 +88,7 @@ public class KafkaConsumerTest {
                     String topic = record.topic();
                     long offset = record.offset();
                     String value = record.value();
-                    System.out.println(key + "    "   +  value);
+                    System.out.println(key + "    " + value);
                 }
             }
         } catch (Exception e) {
@@ -82,7 +102,7 @@ public class KafkaConsumerTest {
     /**
      * 同时启动15个线程，每个线程都启动一个consumer去消费kafka的相同topic，看分区情况。
      * topic一共有15个分区，启动18个线程，18个消费者去消费。
-     *
+     * <p>
      * 分区情况：Thread-3  [1]
      * 分区情况：Thread-16  [12]
      * 分区情况：Thread-13  [2]
@@ -106,7 +126,7 @@ public class KafkaConsumerTest {
     public void assignment() throws InterruptedException {
         for (int i = 0; i < 18; i++) {
             int finalIndex = i;
-            new Thread(()->{
+            new Thread(() -> {
                 System.out.println(finalIndex + " this run................");
                 consumer();
             }).start();
@@ -123,9 +143,9 @@ public class KafkaConsumerTest {
 
         Set<TopicPartition> assignment = consumer.assignment();
         Set<Integer> set = assignment.stream().map(TopicPartition::partition).collect(Collectors.toSet());
-        System.out.println("分区情况：" + name  + "  "+ JsonUtils.parseObjToJson(set));
+        System.out.println("分区情况：" + name + "  " + JsonUtils.parseObjToJson(set));
 
-        while (true){
+        while (true) {
             // 这个方法得一直不停的poll才行，得 while true 一下，
             consumer.poll(100);
         }
