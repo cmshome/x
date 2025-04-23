@@ -25,6 +25,40 @@ public class FastJsonTest {
     }
 
     /**
+     * 自动转换之后，数据类型，有些会被改成 BigDecimal，不是我想的double或者float。
+     * 原因：
+     * fastjson缺省反序列化带小数点的数值类型为 BigDecimal； 整数，默认为Integer
+     */
+    @Test
+    public void json2map() {
+        String json = "{\n" +
+                "    \"a\":0,\n" +
+                "    \"b\":2236322850,\n" +
+                "    \"bb\":15.,\n" +
+                "    \"c\":2147483647,\n" +
+                "    \"dd\":3324.33,\n" +
+                "    \"e\":2147483647000,\n" +
+                "    \"f\":0,\n" +
+                "    \"g\":1\n" +
+                "}";
+
+        /*
+            "dd" -> {BigDecimal@1195} "3324.33"
+            "a" -> {Integer@1181} 0
+            "bb" -> {Integer@1198} 15
+            "c" -> {Integer@1198} 15
+            "e" -> {Integer@1181} 0
+            "f" -> {Integer@1181} 0
+            "g" -> {Integer@1203} 1
+         */
+
+        //自动转换之后，小数类型的值会被改成 BigDecimal，不是我想的double或者float。
+        Map map = JsonUtils.fastjsonCast(json, Map.class);
+        Object a = map.get("b");
+        System.out.println(a);
+    }
+
+    /**
      * json中key重复，【不会异常】
      */
     @Test
@@ -100,42 +134,6 @@ public class FastJsonTest {
             System.out.println(cup.toString());
         });
     }
-
-
-    /**
-     * 自动转换之后，数据类型，有些会被改成 BigDecimal，不是我想的double或者float。
-     * 原因：
-     * fastjson缺省反序列化带小数点的数值类型为 BigDecimal； 整数，默认为Integer
-     */
-    @Test
-    public void json2map() {
-        String json = "{\n" +
-                "    \"a\":0,\n" +
-                "    \"b\":2236322850,\n" +
-                "    \"bb\":15.,\n" +
-                "    \"c\":2147483647,\n" +
-                "    \"dd\":3324.33,\n" +
-                "    \"e\":2147483647000,\n" +
-                "    \"f\":0,\n" +
-                "    \"g\":1\n" +
-                "}";
-
-        /*
-            "dd" -> {BigDecimal@1195} "3324.33"
-            "a" -> {Integer@1181} 0
-            "bb" -> {Integer@1198} 15
-            "c" -> {Integer@1198} 15
-            "e" -> {Integer@1181} 0
-            "f" -> {Integer@1181} 0
-            "g" -> {Integer@1203} 1
-         */
-
-        //自动转换之后，小数类型的值会被改成 BigDecimal，不是我想的double或者float。
-        Map map = JsonUtils.fastjsonCast(json, Map.class);
-        Object a = map.get("b");
-        System.out.println(a);
-    }
-
 
     @Test
     public void compress() {
