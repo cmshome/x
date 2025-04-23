@@ -19,8 +19,9 @@ public class FastJsonTest {
     @Before
     public void init() {
         // 全局禁用浮点数和双精度数的 BigDecimal 解析
-        JSON.config(JSONReader.Feature.UseBigDecimalForFloats, false);
-        JSON.config(JSONReader.Feature.UseBigDecimalForDoubles, false);
+        JSON.config(JSONReader.Feature.UseBigDecimalForFloats, false);  // 将 JSON 中的浮点数解析为 BigDecimal（针对 float）
+        JSON.config(JSONReader.Feature.UseBigDecimalForDoubles, false); // 将 JSON 中的浮点数解析为 BigDecimal（针对 double）
+        JSON.config(JSONReader.Feature.UseDoubleForDecimals, true);     // 强制使用 Double 类型替代 BigDecimal 需结合前两者关闭
     }
 
     /**
