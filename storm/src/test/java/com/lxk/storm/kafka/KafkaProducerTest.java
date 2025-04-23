@@ -108,7 +108,6 @@ public class KafkaProducerTest {
         props.put(SslConfigs.SSL_KEY_PASSWORD_CONFIG, "kafka1234567");
         props.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG,truststoreLocation);
         props.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, "kafka1234567");
-        props.put(SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG, "");
         return props;
     }
 
