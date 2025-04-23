@@ -18,8 +18,9 @@ public class FastJsonTest {
 
     @Before
     public void init() {
-        // 关闭 BigDecimal 使用 double  fastjson缺省反序列化带小数点的数值类型为 BigDecimal； 整数，默认为Integer
-        JSON.config(JSONReader.Feature.UseBigDecimalForDoubles);
+        // 全局禁用浮点数和双精度数的 BigDecimal 解析
+        JSON.config(JSONReader.Feature.UseBigDecimalForFloats, false);
+        JSON.config(JSONReader.Feature.UseBigDecimalForDoubles, false);
     }
 
     /**
