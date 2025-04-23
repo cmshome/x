@@ -23,6 +23,7 @@ public class NintendoTest {
 
     private List<SwitchParts> game() {
         List<SwitchParts> list = Lists.newArrayList();
+        list.add(new SwitchParts("switch 点卡充值", LocalDate.of(2025, 4, 3), 89));
         list.add(new SwitchParts("超级马里奥-3D世界", LocalDate.of(2025, 1, 4), 208));
         list.add(new SwitchParts("超级马里奥-奥德赛", LocalDate.of(2024, 11, 20), 225));
         list.add(new SwitchParts("女神异闻录5 皇家版 P5R", LocalDate.of(2024, 10, 22), 211));
