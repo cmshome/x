@@ -1,6 +1,6 @@
 package com.lxk.jvm.memory.model.running;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.lxk.jvm.memory.inteface.OutOfMemory;
 import com.lxk.jvm.memory.model.MetaSpace;
 import lombok.Data;

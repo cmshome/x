@@ -11,7 +11,7 @@ dependencies {
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
     compile group: 'com.google.guava', name: 'guava', version: "${guavaVersion}"
     compile 'org.projectlombok:lombok:1.18.14'
-    compile group: 'com.alibaba', name: 'fastjson', version: "${fastjsonVersion}"
+    compile group: 'com.alibaba.fastjson2', name: 'fastjson2', version: "${fastjsonVersion}"
 
 
     compile group: 'dom4j', name: 'dom4j', version: '1.6.1'
