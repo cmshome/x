@@ -8,6 +8,7 @@ import com.lxk.tool.util.JsonUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,6 +57,20 @@ public class FastJsonTest {
         Map map = JsonUtils.fastjsonCast(json, Map.class);
         Object a = map.get("b");
         System.out.println(a);
+    }
+
+    /**
+     * 这种的fastjson1/2 的输出结果的key都没有引号
+     */
+    @Test
+    public void intKey() {
+        Map<Integer, String> map = new HashMap<>();
+        map.put(1, "管理员");
+        map.put(2, "普通用户");
+        //String json = JSON.toJSONString(map, JSONWriter.Feature.WriteNonStringKeyAsString);
+        String json = JSON.toJSONString(map);
+        // 输出 {1:"管理员",2:"普通用户"}（键无引号）
+        System.out.println(json);
     }
 
     /**
