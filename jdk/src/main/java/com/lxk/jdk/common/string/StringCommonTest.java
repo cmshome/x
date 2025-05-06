@@ -18,6 +18,14 @@ import java.util.Objects;
  */
 public class StringCommonTest {
 
+    @Test
+    public void show() {
+        boolean a = false;
+        boolean b = false;
+        System.out.println(a&b);
+        System.out.println(a&&b);
+    }
+
     /**
      * 计算字符串的大小
      * byte就是字节，最小的单位了。
