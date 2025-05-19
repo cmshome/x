@@ -41,8 +41,8 @@ public class KafkaConsumerTest {
     @Test
     public void raw() {
         Properties properties = KafkaConfig.consumerConf();
-        Properties sslConfig = sslConfig();
-        properties.putAll(sslConfig);
+        //Properties sslConfig = sslConfig();
+        //properties.putAll(sslConfig);
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
 
@@ -54,12 +54,13 @@ public class KafkaConsumerTest {
                 Set<TopicPartition> assignment = consumer.assignment();
 
                 for (ConsumerRecord<String, String> record : records) {
-                    String key = record.key();
-                    int partition = record.partition();
                     String topic = record.topic();
+                    int partition = record.partition();
                     long offset = record.offset();
+                    long timestamp = record.timestamp();
+                    String key = record.key();
                     String value = record.value();
-                    System.out.println("key=" + key + " value=" + value + " timestamp=" + record.timestamp());
+                    System.out.println("topic=" + topic + " partition=" + partition + " offset=" + offset + " timestamp=" + timestamp + " key=" + key + " value=" + value);
                 }
             }
         } catch (Exception e) {
