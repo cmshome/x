@@ -79,7 +79,7 @@ public class KafkaConsumerTest {
         try {
             while (true) {
                 // 100 是超时时间，毫秒级别。
-                ConsumerRecords<String, String> records = consumer.poll(30000);
+                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(3000));
                 Set<TopicPartition> assignment = consumer.assignment();
 
                 for (ConsumerRecord<String, String> record : records) {
@@ -147,7 +147,7 @@ public class KafkaConsumerTest {
 
         while (true) {
             // 这个方法得一直不停的poll才行，得 while true 一下，
-            consumer.poll(100);
+            consumer.poll(Duration.ofMillis(100));
         }
     }
 

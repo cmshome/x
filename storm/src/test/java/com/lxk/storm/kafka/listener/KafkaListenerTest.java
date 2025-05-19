@@ -12,6 +12,7 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.Test;
 
+import java.time.Duration;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -119,7 +120,7 @@ public class KafkaListenerTest {
         //MonitorService.getMonitorExecutor().scheduleAtFixedRate(task, 0, 1, TimeUnit.SECONDS);
 
         while (true) {
-            ConsumerRecords<String, String> records = consumer.poll(100);
+            ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
             Set<String> recordInfoSet = Sets.newHashSet();
             records.forEach(record -> {
                 String s = record.partition() + "";
