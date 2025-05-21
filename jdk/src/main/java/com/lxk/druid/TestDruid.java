@@ -37,12 +37,12 @@ public class TestDruid {
 
     @Before
     public void init() {
-        //sql = "SELECT column_name FROM table1 WHERE column_name = (SELECT column_name2 FROM table2 WHERE condition);";
+        sql = "SELECT column_name \r\n\t FROM table1 WHERE column_name = (SELECT column_name2 FROM table2 WHERE condition);";
         //sql = "SELECT a.column_name1, b.column_name2 FROM (SELECT column_name1 FROM table1 WHERE condition1) AS a JOIN (SELECT column_name2 FROM table2 WHERE condition2) AS b ON a.column_name1 = b.column_name2;";
         //sql = "SELECT (SELECT column_name FROM table2 WHERE table2.column_name = table1.column_name) AS column_name_alias FROM table1;";
         //sql = "select * from (select * from temp) a;";
         //sql = "SHOW DATABASES ;";
-        sql = "ALTER TABLE m ADD FOREIGN KEY (id) REFERENCES n(id);    # 自动生成键名m_ibfk_1";
+        //sql = "ALTER TABLE m ADD FOREIGN KEY (id) REFERENCES n(id);    # 自动生成键名m_ibfk_1";
         //sql = "ALTER TABLE n RENAME m;";
         //sql = "DROP TABLE IF EXISTS m;";
         //sql = "CREATE TABLE n(id INT, name VARCHAR(10));";
@@ -61,26 +61,41 @@ public class TestDruid {
         for (SQLStatement statement : statements) {
             Class<? extends SQLStatement> aClass = statement.getClass();
             System.out.println(aClass);
-            //String type = getOperationType(statement);
-            //System.out.println(type);
+            String type = getOperationType(statement);
+            System.out.println(type);
         }
     }
 
+    /**
+     * 获取sql语句的操作类型
+     */
     private static String getOperationType(SQLStatement statement) {
         if (statement instanceof com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock) {
-            return "SELECT";
-        } else if (statement instanceof com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlInsertStatement) {
-            return "INSERT";
-        } else if (statement instanceof com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlDeleteStatement) {
-            return "DELETE";
+            return "select";
+        } else if (statement instanceof com.alibaba.druid.sql.ast.statement.SQLSelectStatement) {
+            return "select";
         } else if (statement instanceof com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlUpdateStatement) {
-            return "UPDATE";
+            return "update";
+        } else if (statement instanceof com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlDeleteStatement) {
+            return "delete";
+        } else if (statement instanceof com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlInsertStatement) {
+            return "insert";
         } else if (statement instanceof com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlCreateTableStatement) {
-            return "CREATE TABLE";
-        } else if (statement instanceof com.alibaba.druid.sql.ast.statement.SQLDropTableStatement){
+            return "createTable";
+        } else if (statement instanceof com.alibaba.druid.sql.ast.statement.SQLDropTableStatement) {
             return "dropTable";
-        }else {
-            return "UNKNOWN";
+        } else if (statement instanceof com.alibaba.druid.sql.ast.statement.SQLDropUserStatement) {
+            return "dropUser";
+        } else if (statement instanceof com.alibaba.druid.sql.ast.statement.SQLDropIndexStatement) {
+            return "dropIndex";
+        } else if (statement instanceof com.alibaba.druid.sql.ast.statement.SQLAlterTableStatement) {
+            return "alterTable";
+        } else if (statement instanceof com.alibaba.druid.sql.ast.statement.SQLCreateViewStatement) {
+            return "createView";
+        } else if (statement instanceof com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlCreateUserStatement) {
+            return "createUser";
+        } else {
+            return "others";
         }
     }
 
