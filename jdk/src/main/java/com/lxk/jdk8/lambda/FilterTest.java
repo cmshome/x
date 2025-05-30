@@ -98,4 +98,30 @@ public class FilterTest {
 
         System.out.println("处理后结果: " + resultMap);
     }
+
+
+    /**
+     * 先过滤再计算，减少不必要的计算
+     * 移除了中间SimpleEntry对象的创建
+     * 显式传递原TreeMap的比较器
+     * 更简洁的lambda表达式
+     */
+    @Test
+    public void better() {
+        TreeMap<String, Integer> originalMap = new TreeMap<>();
+        originalMap.put("A", 5);
+        originalMap.put("B", 3);
+        originalMap.put("C", 8);
+        originalMap.put("D", 1);
+
+        TreeMap<String, Integer> resultMap = originalMap.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() > 1)  // 先过滤减少后续操作
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> entry.getValue() - 1,  // 直接计算新值
+                        (oldValue, newValue) -> oldValue,
+                        () -> new TreeMap<>(originalMap.comparator())  // 保持原比较器
+                ));
+    }
 }
