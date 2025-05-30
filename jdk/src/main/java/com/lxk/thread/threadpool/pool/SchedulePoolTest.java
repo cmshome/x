@@ -6,6 +6,8 @@ import com.lxk.tool.monitor.model.MonitorThread;
 import com.lxk.tool.util.TimeUtils;
 import org.junit.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -72,7 +74,7 @@ public class SchedulePoolTest {
         System.out.println(delay);
 
         ScheduleUtil.scheduleAt(
-                ()->{
+                () -> {
                     String now = TimeUtils.now();
                     System.out.println(now);
                 },
@@ -93,6 +95,30 @@ public class SchedulePoolTest {
         long l = TimeUtils.nowS();
         long to = l / timeDelay * timeDelay;
         System.out.println(TimeUtils.formatS(to));
+    }
+
+
+    /**
+     * 控制定时任务的运行时间
+     */
+    @Test
+    public void when() throws InterruptedException {
+        // 24小时周期
+        long period = 24 * 60 * 60;
+        LocalDateTime now = LocalDateTime.now().withHour(23).withMinute(58);
+        LocalDateTime end = now.plusDays(1).withHour(0).withMinute(0).withSecond(0);
+        System.out.println(TimeUtils.format(now));
+        System.out.println(TimeUtils.format(end));
+        long initialDelay = Math.abs(Duration.between(end, now).getSeconds());
+        System.out.println(initialDelay);
+        ScheduleUtil.scheduleWith(() -> {
+            try {
+                System.out.println("run...");
+            } catch (Throwable throwable) {
+            }
+        }, initialDelay, period, TimeUnit.SECONDS);
+
+        TimeUnit.MINUTES.sleep(10);
     }
 
 }
