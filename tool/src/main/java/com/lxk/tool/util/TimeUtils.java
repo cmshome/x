@@ -336,6 +336,13 @@ public final class TimeUtils {
     }
 
     /**
+     * 计算两个时间点之间间隔的秒数
+     */
+    public static long betweenSecond(LocalDateTime start, LocalDateTime end) {
+        return Duration.between(start, end).getSeconds();
+    }
+
+    /**
      * 计算两个时间点之间的天数
      *
      * @return 2个时间间隔的天数

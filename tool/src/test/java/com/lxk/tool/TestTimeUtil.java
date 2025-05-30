@@ -65,4 +65,12 @@ public class TestTimeUtil {
         System.out.println(sameDay);
     }
 
+    @Test
+    public void betweenSecond() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime end = now.plusMinutes(1);
+        long l = TimeUtils.betweenSecond(now, end);
+        System.out.println(l);
+    }
+
 }
