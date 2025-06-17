@@ -21,6 +21,13 @@ public class GetBetweenDaysTest {
     }
 
     @Test
+    public void king() {
+        // 中午1点一2点
+        from = LocalDate.of(1990, 8, 17);
+        System.out.println("king ： " + TimeUtils.between(from, to) + " 啦。");
+    }
+
+    @Test
     public void license() {
         from = LocalDate.of(2019, 9, 6);
         System.out.println("get drive license ： " + TimeUtils.between(from, to) + " 啦。");
